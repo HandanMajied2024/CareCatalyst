@@ -11,7 +11,8 @@ Form texts to copy-paste: [submission/SUBMISSION.md](submission/SUBMISSION.md)
 - [ ] **Working live demo** (challenge requirement, 15 % of the score): [demo/](demo) is a placeholder
 - [ ] **Goal 3 indicator with real public data** (treatment start within target times, THL): [data/](data) is a placeholder
 - [ ] **Source for every number** + limits section: [data/README.md](data/README.md)
-- [ ] **Link the two concept repos** (Concept A / Concept B): `./scripts/link-concepts.sh <A-url> <B-url>`
+- [x] **Link Concept A repo** ([devstar7674-beep/CareCatalyzer](https://github.com/devstar7674-beep/CareCatalyzer) → `concepts/today`)
+- [ ] **Link Concept B repo**: `./scripts/link-concepts.sh vision <B-url>`
 - [ ] **Give judges access to this repo** (make public or add collaborators) and invite Youcef + Hazem
 
 **Optional fields (strongly recommended)**
@@ -80,7 +81,7 @@ CareCatalyst/
 ├── video/               ← demo / pitch video link       [placeholder]
 ├── docs/                ← shared concept, architecture, pitch
 ├── concepts/
-│   ├── today/           ← Concept A repo (git submodule)
+│   ├── today/           ← Concept A repo (submodule: devstar7674-beep/CareCatalyzer)
 │   └── vision/          ← Concept B repo (git submodule)
 └── scripts/
     └── link-concepts.sh ← links the two concept repos as submodules
@@ -94,10 +95,10 @@ git clone --recurse-submodules <this-repo-url>
 git submodule update --init --recursive
 ```
 
-Link the concept repos (one-time, once the URLs are known):
+Link the Concept B repo (one-time, once the URL is known; Concept A is already linked):
 
 ```bash
-./scripts/link-concepts.sh <url-of-concept-A-repo> <url-of-concept-B-repo>
+./scripts/link-concepts.sh vision <url-of-concept-B-repo>
 ```
 
 ## Team
