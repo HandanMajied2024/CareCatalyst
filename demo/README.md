@@ -4,7 +4,7 @@
 
 ## What the demo must show (Concept A)
 
-1. **Synthetic persona** in a Uusimaa county: referral received, diagnostic appointment **cancelled**.
+1. **Synthetic persona** in Helsinki (Apotti/Maisa area), treated at HUS: referral received, diagnostic appointment **cancelled** (FHIR `Appointment.status = cancelled`, simulated in the Apotti sandbox style).
 2. **Agent** reaches out and asks why → "too far, I can't drive".
 3. Agent **offers help**: Kela taxi / travel reimbursement + a slot that fits (or a video visit for the follow-up).
 4. **County dashboard**: drop-outs by pathway step × reason × region. The counter "transport" at "referral → diagnosis" goes up.
