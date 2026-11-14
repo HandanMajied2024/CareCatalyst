@@ -1,0 +1,6 @@
+.env
+.env.*
+.playwright-mcp/
+node_modules/
+__pycache__/
+.DS_Store
