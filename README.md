@@ -1,5 +1,33 @@
 # CareCatalyst
 
+## ⏰ TODO before submission: Sun 15.11. 09:00 (hard deadline 10:00 Finnish time)
+
+Form texts to copy-paste: [submission/SUBMISSION.md](submission/SUBMISSION.md)
+
+**Required by the form / challenge**
+
+- [x] Project name, punchline, challenge: drafted in [submission/SUBMISSION.md](submission/SUBMISSION.md)
+- [ ] **Description**: draft is there, fill the `[TODO]` parts (demo, datasets, tech), keep ≤ 5000 characters
+- [ ] **Working live demo** (challenge requirement, 15 % of the score): [demo/](demo) is a placeholder
+- [ ] **Goal 3 indicator with real public data** (treatment start within target times, THL): [data/](data) is a placeholder
+- [ ] **Source for every number** + limits section: [data/README.md](data/README.md)
+- [ ] **Link the two concept repos** (Concept A / Concept B): `./scripts/link-concepts.sh <A-url> <B-url>`
+- [ ] **Give judges access to this repo** (make public or add collaborators) and invite Youcef + Hazem
+
+**Optional fields (strongly recommended)**
+
+- [ ] Demo URL (live, opens in a private window)
+- [ ] Presentation PDF ≤ 20 MB: [presentation/](presentation) is a placeholder
+- [ ] Video URL: [video/](video) is a placeholder
+- [ ] Tech challenges: tick only what's used and explain how ([list](submission/SUBMISSION.md#tech-challenge-participation-multi-select))
+
+**Sunday on site**
+
+- [ ] Click "Submit Final" (not just "Save Draft")
+- [ ] Save table A115 in the team tab, whole team at peer review by 10:30
+
+---
+
 **Closing gaps. Connecting care.**
 Junction 2026 · AstraZeneca challenge *"Equal Care Across Finland"*
 
@@ -45,6 +73,11 @@ This is the **main repository** of team CareCatalyst. It holds the shared story,
 ```
 CareCatalyst/
 ├── README.md            ← you are here
+├── submission/          ← copy-paste texts for the Junction form
+├── demo/                ← live demo (required)          [placeholder]
+├── data/                ← public datasets + synthetic personas [placeholder]
+├── presentation/        ← pitch deck PDF                [placeholder]
+├── video/               ← demo / pitch video link       [placeholder]
 ├── docs/                ← shared concept, architecture, pitch
 ├── concepts/
 │   ├── today/           ← Concept A repo (git submodule)
