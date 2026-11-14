@@ -27,6 +27,20 @@ Details: [concept-today.md](concept-today.md)
 
 Details: [concept-vision.md](concept-vision.md)
 
+## Late diagnosis: three delays, and which concept fixes which
+
+**1 in 3** cancer patients in Finland feel their diagnosis was delayed ([Syöpäjärjestöt survey](https://www.sttinfo.fi/tiedote/70972938/kyselyselvitys-joka-kolmas-syopapotilas-kokee-diagnoosin-viivastyneen?publisherId=69820264)). A delay can happen at three points:
+
+| Delay | What happens | Who fixes it | How |
+|---|---|---|---|
+| **1. Patient delay** | Symptoms are ignored or not taken seriously ("just my back again") | **B** | The personal agent hears the symptom in daily life and knows it is **recurring** |
+| **2. Connecting the dots** | Several visits to different doctors (orthopedist, health centre), nobody sees the pattern | **B** | The agent knows the **whole history** (health record + daily life), sees "pain again after treatment" and suggests a check-up |
+| **3. Pathway delay** | Referral exists, but the appointment is not booked, cancelled or missed | **A** | Signal from Apotti → agent calls, asks why, helps (Kela taxi, slot, video visit) |
+
+**A** shortens the time from referral to treatment (Goal 3 indicator). **B** shortens the time **before** the referral, where no institution can see anything yet. The Espoo scene is exactly delay 1 + 2: recurring back pain after an orthopedist visit is a known warning sign in older people, and the agent is the first to connect it.
+
+Guardrail: the agent **never diagnoses**. It only says "this should be checked" and books the check-up. The decision stays with the doctor (GDPR Art. 22). A symptom-based risk score would be a medical device (EU MDR) and needs certification before real use.
+
 ## How A and B connect
 
 | | A: today | B: tomorrow |

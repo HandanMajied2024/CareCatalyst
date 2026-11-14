@@ -25,6 +25,8 @@ Character: elderly, visually impaired man with his dog **Jenny**, lives in **Esp
 7. Agent: *"Should I book the appointment for tomorrow at 8 in the morning, before you go to your bingo class?"*
 8. He: *"Yes, thank you very much."* He plays with the dog.
 
+**Why this scene is about late diagnosis:** nobody in the system would notice here. The orthopedist treated the back once, the case is closed. Only the personal agent knows that the pain **came back** and connects it with his age and history. That is the gap before any referral exists (patient delay + nobody connecting the dots). See [overview.md](overview.md#late-diagnosis-three-delays-and-which-concept-fixes-which).
+
 **What the agent knows in the scene:** orthopedist visit (health record), eligibility for cancer-related services, visual impairment, public transport is hard, taxi not affordable, daily routine (bingo).
 
 ## Closing: agent-to-agent
