@@ -86,11 +86,11 @@ Only tick what is really used, and explain **how** in the description.
 
 | Tech challenge | Possible use | Used? |
 |---|---|---|
-| Gemini API | Agent dialogue, reason classification, strategy PDFs with page citations | ⬜ |
+| Gemini API | **Used**: Gemini Live voice agent + Gemini Flash structured output for dialogue and barrier classification (concepts/today) | ✅ |
 | MLH ElevenLabs | Agent's voice for the outreach call / Espoo scene | ⬜ |
 | Oxylabs | Web search for support programs, sources shown | ⬜ |
 | Modal | Hosting the live demo | ⬜ |
-| Codex | Code written with Codex (proof: commits) | ⬜ |
+| Codex | Team coded with Codex; proof needed (README section, screenshots) | ⬜ |
 | MLH DEV | Blog post about the project | ⬜ |
 
 ## Before clicking "Submit Final"

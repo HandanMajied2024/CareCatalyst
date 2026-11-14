@@ -8,8 +8,8 @@ Form texts to copy-paste: [submission/SUBMISSION.md](submission/SUBMISSION.md)
 
 - [x] Project name, punchline, challenge: drafted in [submission/SUBMISSION.md](submission/SUBMISSION.md)
 - [ ] **Description**: draft is there, fill the `[TODO]` parts (demo, datasets, tech), keep ≤ 5000 characters
-- [ ] **Working live demo** (challenge requirement, 15 % of the score): [demo/](demo) is a placeholder
-- [ ] **Goal 3 indicator with real public data** (treatment start within target times, THL): [data/](data) is a placeholder
+- [x] **Working demo exists** in [concepts/today](concepts/today) (Calling Agent, Barrier Map, Simulator). Open: Goal 3 indicator + sources in the UI, live URL ([demo/](demo))
+- [ ] **Goal 3 indicator with real public data** (treatment start within target times, THL): sources listed in [data/](data), CSV still open
 - [ ] **Source for every number** + limits section: [data/README.md](data/README.md)
 - [x] **Link Concept A repo** ([devstar7674-beep/CareCatalyzer](https://github.com/devstar7674-beep/CareCatalyzer) → `concepts/today`)
 - [ ] **Link Concept B repo**: `./scripts/link-concepts.sh vision <B-url>`
@@ -66,6 +66,7 @@ This is the **main repository** of team CareCatalyst. It holds the shared story,
 | [docs/concept-vision.md](docs/concept-vision.md) | Concept B in detail: personal agent, digital health record, the Espoo scene |
 | [docs/architecture.md](docs/architecture.md) | Shared building blocks and data flow of A and B |
 | [docs/pitch.md](docs/pitch.md) | 5-minute pitch arc and demo script |
+| [docs/business-case.md](docs/business-case.md) | **Business case for the AZ jury**: size, money, ROI, pilot offer, every number sourced |
 | [docs/challenge-fit.md](docs/challenge-fit.md) | Requirements, judging criteria, Goal 3 indicator, open gaps |
 | [docs/sources.md](docs/sources.md) | Public data sources and references |
 
@@ -75,13 +76,13 @@ This is the **main repository** of team CareCatalyst. It holds the shared story,
 CareCatalyst/
 ├── README.md            ← you are here
 ├── submission/          ← copy-paste texts for the Junction form
-├── demo/                ← live demo (required)          [placeholder]
-├── data/                ← public datasets + synthetic personas [placeholder]
+├── demo/                ← how to run + demo script (code is in concepts/today)
+├── data/                ← data map, verified public figures, fixes needed
 ├── presentation/        ← pitch deck PDF                [placeholder]
 ├── video/               ← demo / pitch video link       [placeholder]
-├── docs/                ← shared concept, architecture, pitch
+├── docs/                ← concept, architecture, pitch, business case
 ├── concepts/
-│   ├── today/           ← Concept A repo (submodule: devstar7674-beep/CareCatalyzer)
+│   ├── today/           ← Concept A = the demo app (submodule: devstar7674-beep/CareCatalyzer)
 │   └── vision/          ← Concept B repo (git submodule)
 └── scripts/
     └── link-concepts.sh ← links the two concept repos as submodules

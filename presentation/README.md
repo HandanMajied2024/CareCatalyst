@@ -14,5 +14,6 @@ Pitch: 5 minutes + demo at peer review (Sun, table A115, be there by 10:30). Top
 | 4 | Today | Care Pathway Agent on Maisa: signal → ask why → help → aggregate | ⬜ |
 | 5 | Demo | Live demo | ⬜ |
 | 6 | Proposals | 4 concrete proposals for a county pilot | ⬜ |
+| 6b | Business case | €1.4 bn cancer cost, 4 % no-shows, navigator calls −42 % no-shows, Kela €364 m transport, pilot HUS lung 90 days ([docs/business-case.md](../docs/business-case.md)) | ⬜ |
 | 7 | Tomorrow | Personal health agent, Espoo scene, agent-to-agent | ⬜ |
 | 8 | Data & limits | Sources, synthetic personas, legal limits | ⬜ |

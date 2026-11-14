@@ -1,24 +1,41 @@
-# Demo (required: the challenge needs a working live demo, slides are not enough)
+# Demo
 
-> ⬜ **Placeholder.** The demo code goes here, or into the Concept A repo (`concepts/today`) with a link from here.
+The challenge needs a **working live demo** (slides are not enough, 15 % of the score).
+The demo code lives in **[`concepts/today`](../concepts/today)** (submodule → `devstar7674-beep/CareCatalyzer`, internal name POLKU-3). No separate demo code here.
 
-## What the demo must show (Concept A)
+## What is built
 
-1. **Synthetic persona** in Helsinki (Apotti/Maisa area), treated at HUS: referral received, diagnostic appointment **cancelled** (FHIR `Appointment.status = cancelled`, simulated in the Apotti sandbox style).
-2. **Agent** reaches out and asks why → "too far, I can't drive".
-3. Agent **offers help**: Kela taxi / travel reimbursement + a slot that fits (or a video visit for the follow-up).
-4. **County dashboard**: drop-outs by pathway step × reason × region. The counter "transport" at "referral → diagnosis" goes up.
-5. Next to it: the **Goal 3 indicator** (treatment start within target times) for that county, **with source**.
+| Tab | What it shows | Challenge criterion |
+|---|---|---|
+| **1 · Calling Agent** | Agent calls a synthetic patient, asks why the appointment was cancelled, classifies the barrier. Voice via Gemini Live, fallback browser speech | Insight (who + why) |
+| **2 · Regional Barrier Map** | 3 focus regions (Lapland/OYS, North Savo/KYS, Uusimaa/HUS), barriers per region | Gap + where in the pathway |
+| **3 · Intervention Simulator** | Shuttle, Kela vouchers, navigator: effect vs. cost | Actionability (30 %) |
+| **Simulation Lab** | Budget model: chairs, cars, mobile unit | Actionability |
 
-## Optional (Concept B)
+## Run locally
 
-The Espoo scene: personal agent books the appointment and confirms the slot agent-to-agent with the county agent. Can also be a video (see [`../video`](../video)).
+```bash
+cd concepts/today
+npm install
+echo "GEMINI_API_KEY=..." > .env   # never commit
+npm run dev                        # http://localhost:3000
+```
 
-## To fill in
+## Demo script (2 minutes, for the jury)
 
-| | |
-|---|---|
-| Live URL | `[TODO]` |
-| Stack | `[TODO]` |
-| Run locally | `[TODO]` commands |
-| Synthetic personas | `[TODO]` file in [`../data`](../data) |
+1. **Uusimaa/HUS** region: synthetic patient cancelled the diagnostic appointment.
+2. **Calling Agent** asks why → "too far / can't drive" or "scared".
+3. Agent offers help: **Kela taxi**, a fitting slot, video visit.
+4. **Barrier Map** updates: reason × pathway step × region.
+5. **Simulator**: "what if HUS adds navigator calls" → fewer drop-outs, cost per patient (business case: [docs/business-case.md](../docs/business-case.md)).
+6. Point to the **Goal 3 indicator** with source.
+
+## Open
+
+| | | Status |
+|---|---|---|
+| Goal 3 indicator visible in the UI, with source | see [data/README.md](../data/README.md) | ⬜ |
+| Sources shown under every number in the UI | business-case figures | ⬜ |
+| Fix unverified evidence lines | list in [data/README.md](../data/README.md#evidence-lines-in-the-demo-code-that-need-fixing) | ⬜ |
+| Live URL (opens in a private window) | `[TODO]` | ⬜ |
+| Backup: screen recording in case Wi-Fi fails | [video/](../video) | ⬜ |
