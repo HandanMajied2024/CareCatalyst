@@ -12,7 +12,7 @@ Form texts to copy-paste: [submission/SUBMISSION.md](submission/SUBMISSION.md)
 - [ ] **Goal 3 indicator with real public data** (treatment start within target times, THL): sources listed in [data/](data), CSV still open
 - [ ] **Source for every number** + limits section: [data/README.md](data/README.md)
 - [x] **Link Concept A repo** ([devstar7674-beep/CareCatalyzer](https://github.com/devstar7674-beep/CareCatalyzer) → `concepts/today`)
-- [ ] **Link Concept B repo**: `./scripts/link-concepts.sh vision <B-url>`
+- [x] **Link Concept B repo** ([youcefjerbi/mobile_app](https://github.com/youcefjerbi/mobile_app) → `concepts/vision`, CarePulse prototype)
 - [ ] **Give judges access to this repo** (make public or add collaborators) and invite Youcef + Hazem
 
 **Optional fields (strongly recommended)**
@@ -83,7 +83,7 @@ CareCatalyst/
 ├── docs/                ← concept, architecture, pitch, business case
 ├── concepts/
 │   ├── today/           ← Concept A = the demo app (submodule: devstar7674-beep/CareCatalyzer)
-│   └── vision/          ← Concept B repo (git submodule)
+│   └── vision/          ← Concept B = CarePulse personal-agent prototype (submodule: youcefjerbi/mobile_app)
 └── scripts/
     └── link-concepts.sh ← links the two concept repos as submodules
 ```
@@ -96,10 +96,10 @@ git clone --recurse-submodules <this-repo-url>
 git submodule update --init --recursive
 ```
 
-Link the Concept B repo (one-time, once the URL is known; Concept A is already linked):
+Run the Concept B prototype (CarePulse, React + Vite, offline, synthetic data):
 
 ```bash
-./scripts/link-concepts.sh vision <url-of-concept-B-repo>
+cd concepts/vision && npm install && npm run dev   # http://127.0.0.1:4174
 ```
 
 ## Team
