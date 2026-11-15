@@ -7,6 +7,8 @@ Junction 2026 · AstraZeneca challenge *Equal Care Across Finland*
 |---|---|
 | **A · For counties (today)** | **[handan-majied1--carecatalyst-demo-web.modal.run](https://handan-majied1--carecatalyst-demo-web.modal.run)** |
 | **B · For you (tomorrow)** | **[handan-majied1--carepulse-vision-web.modal.run](https://handan-majied1--carepulse-vision-web.modal.run)** |
+| **Start page (both demos)** | **[handanmajied2024.github.io/CareCatalyst](https://handanmajied2024.github.io/CareCatalyst/)** |
+| **Video** | **[handanmajied2024.github.io/CareCatalyst/watch.html](https://handanmajied2024.github.io/CareCatalyst/watch.html)** |
 
 Both open in a private window without a login. All patients and regional values in the demos are synthetic.
 
