@@ -1,122 +1,69 @@
 # CareCatalyst
 
-## ⏰ TODO before submission: Sun 15.11. 09:00 (hard deadline 10:00 Finnish time)
-
-Form texts to copy-paste: [submission/SUBMISSION.md](submission/SUBMISSION.md)
-
-**Required by the form / challenge**
-
-- [x] Project name, punchline, challenge: drafted in [submission/SUBMISSION.md](submission/SUBMISSION.md)
-- [ ] **Description**: draft is there, fill the `[TODO]` parts (demo, datasets, tech), keep ≤ 5000 characters
-- [x] **Working demo exists** in [concepts/today](concepts/today) (Calling Agent, Barrier Map, Simulator). Open: Goal 3 indicator + sources in the UI, live URL ([demo/](demo))
-- [ ] **Goal 3 indicator with real public data** (treatment start within target times, THL): sources listed in [data/](data), CSV still open
-- [ ] **Source for every number** + limits section: [data/README.md](data/README.md)
-- [x] **Link Concept A repo** ([HandanMajied2024/CareCatalyzer](https://github.com/HandanMajied2024/CareCatalyzer) (public mirror of devstar7674-beep/CareCatalyzer) → `concepts/today`)
-- [x] **Link Concept B repo** ([youcefjerbi/mobile_app](https://github.com/youcefjerbi/mobile_app) → `concepts/vision`, CarePulse prototype)
-- [ ] **Give judges access to this repo** (make public or add collaborators) and invite Youcef + Hazem
-
-**Optional fields (strongly recommended)**
-
-- [ ] Demo URL (live, opens in a private window)
-- [ ] Presentation PDF ≤ 20 MB: [presentation/](presentation) is a placeholder
-- [ ] Video URL: [video/](video) is a placeholder
-- [ ] Tech challenges: tick only what's used and explain how ([list](submission/SUBMISSION.md#tech-challenge-participation-multi-select))
-
-**Sunday on site**
-
-- [ ] Click "Submit Final" (not just "Save Draft")
-- [ ] Save table A115 in the team tab, whole team at peer review by 10:30
-
----
-
 **Closing gaps. Connecting care.**
-Junction 2026 · AstraZeneca challenge *"Equal Care Across Finland"*
+Junction 2026 · AstraZeneca challenge *Equal Care Across Finland*
 
-> Nobody should have to explain their life situation again and again to get cancer care.
-
-This is the **main repository** of team CareCatalyst. It holds the shared story, the architecture and the pitch, and links the two concept repositories:
-
-| | Concept | Horizon | Who runs it | Repo |
-|---|---|---|---|---|
-| **A** | **Care Pathway Agent**: the welfare area notices when a patient's pathway stalls and helps | **Today** (buildable now) | Wellbeing services counties (hyvinvointialueet), docked onto existing portals like **Maisa** | [`concepts/today`](concepts/today) |
-| **B** | **Personal Health Agent**: the patient's own agent, linked to their digital health record, reacts in daily life and books care | **Tomorrow** (vision) | The patient (their own agent, consent-based, EHDS) | [`concepts/vision`](concepts/vision) |
-
-```
-   TODAY (A)                                     TOMORROW (B)
-   Institution reaches out to the patient   →    The patient's own agent talks to institutions
-   ┌──────────────────────────┐                  ┌──────────────────────────┐
-   │ Welfare area / Maisa     │                  │ Personal agent           │
-   │ signal: referral not     │   same pathway   │ knows daily life, health │
-   │ booked, cancelled,       │   signals, same  │ record, limits, schedule │
-   │ no-show                  │   help catalog   │                          │
-   │ → agent calls, asks why, │  ─────────────►  │ → books, arranges Kela   │
-   │   offers help            │                  │   taxi, talks agent-to-  │
-   │ → anonymous aggregates   │                  │   agent with A           │
-   └──────────────────────────┘                  └──────────────────────────┘
-```
-
-**A is the product we pitch for the challenge. B is where it goes.** In B, the patient's agent talks to the agent from A. That is the closing scene of the pitch.
-
-## Quick links
-
-| Doc | What's inside |
+| ▶ Live demo | |
 |---|---|
-| [docs/overview.md](docs/overview.md) | Problem, both concepts, how they connect (2-minute read) |
-| [docs/concept-today.md](docs/concept-today.md) | Concept A in detail: operator, signals, help catalog, legal check |
-| [docs/concept-vision.md](docs/concept-vision.md) | Concept B in detail: personal agent, digital health record, the Espoo scene |
-| [docs/architecture.md](docs/architecture.md) | Shared building blocks and data flow of A and B |
-| [docs/pitch.md](docs/pitch.md) | 5-minute pitch arc and demo script |
-| [docs/business-case.md](docs/business-case.md) | **Business case for the AZ jury**: size, money, ROI, pilot offer, every number sourced |
-| [docs/challenge-fit.md](docs/challenge-fit.md) | Requirements, judging criteria, Goal 3 indicator, open gaps |
-| [docs/sources.md](docs/sources.md) | Public data sources and references |
+| **A · For counties (today)** | **[handan-majied1--carecatalyst-demo-web.modal.run](https://handan-majied1--carecatalyst-demo-web.modal.run)** |
+| **B · For you (tomorrow)** | **[handan-majied1--carepulse-vision-web.modal.run](https://handan-majied1--carepulse-vision-web.modal.run)** |
+| 🎬 Video | `[VIDEO LINK]` |
 
-## Repository layout
+Both open in a private window without a login. All patients are synthetic.
 
-```
-CareCatalyst/
-├── README.md            ← you are here
-├── submission/          ← copy-paste texts for the Junction form
-├── demo/                ← how to run + demo script (code is in concepts/today)
-├── data/                ← data map, verified public figures, fixes needed
-├── presentation/        ← pitch deck PDF                [placeholder]
-├── video/               ← demo / pitch video link       [placeholder]
-├── docs/                ← concept, architecture, pitch, business case
-├── concepts/
-│   ├── today/           ← Concept A = the demo app (submodule: HandanMajied2024/CareCatalyzer)
-│   └── vision/          ← Concept B = CarePulse personal-agent prototype (submodule: youcefjerbi/mobile_app)
-└── scripts/
-    └── link-concepts.sh ← links the two concept repos as submodules
-```
+<p>
+  <img src="presentation/screens/A2-04-regional-goal3.png" alt="County view: why pathways stall, per step and region, next to the Goal 3 indicator" width="49%">
+  <img src="presentation/screens/B-22-preview-agent-booking-1920.png" alt="CarePulse: a personal agent books care around daily life" width="49%">
+</p>
 
-## Getting started
+## In 30 seconds
+
+| | |
+|---|---|
+| 🔴 **Problem** | Finland knows *why* people drop out of cancer care (distance, fear, cost) and *how many* drop out. It doesn't know *who*. A cancelled scan or a no-show goes unnoticed, so nobody reaches out. |
+| 🔵 **Solution (A, today)** | Counties dock an agent onto their existing systems (Apotti, Maisa). When a pathway stalls (not booked, cancelled, no-show), the agent calls, asks why and fixes it: a Kela taxi, a new slot, care at home. Only the anonymised *why* leaves, per step and region. |
+| 🟢 **Goal 3 indicator** | **Patients start treatment within target times** (National Cancer Strategy 2026–2035, THL Ohjaus 21/2016). Finland publishes no regional figure for it yet. The agent's pathway events produce it, and the demo shows it per region. |
+| 🟡 **Vision (B, tomorrow)** | Everyone has a personal agent that knows their daily life. It talks agent to agent with the county and Kela, so no one has to explain their life again. |
+
+## Data
+
+**All patients are synthetic.** Every number comes from a public, aggregated source. No real patient data is in any repo.
+
+| Source | Used for | Licence |
+|---|---|---|
+| Finnish Cancer Registry (Syöpärekisteri), Syöpä 2024 and screening report 2024 | Incidence, screening gaps, stage recording | Public statistics, cited |
+| THL: Sotkanet, Ohjaus 21/2016 | Goal 3 indicator definition, regional indicators | CC BY 4.0 |
+| Kela open data 2025 | Travel reimbursements (€364M), Kela taxi | CC BY 4.0 |
+| Statistics Finland | Causes of death | CC BY 4.0 |
+| STM: National Cancer Strategy 2026–2035 and implementation roadmap | Goals and indicators ([PDFs](data/sources)) | Public document |
+| Pirha 2025, Percac-Lima et al. 2015 (RCT), Kim et al. 2018 | No-show baseline, effect of reminder calls, navigator cost | Published reports and papers, cited |
+
+Full list: [docs/sources.md](docs/sources.md). Figures and limits: [data/README.md](data/README.md) and [docs/business-case.md](docs/business-case.md).
+
+**Limits:** The agent never diagnoses. It asks why and books help. No automated decisions (GDPR Art. 22). The call effect comes from US navigator RCTs, and the HUS pilot would be the first Finnish test.
+
+## Repository
+
+| Folder | What's inside |
+|---|---|
+| [`concepts/today`](concepts/today) | **A**: county app (Vite + TypeScript), submodule [CareCatalyzer](https://github.com/HandanMajied2024/CareCatalyzer) |
+| [`concepts/vision`](concepts/vision) | **B**: CarePulse personal agent (React + Vite), submodule [mobile_app](https://github.com/youcefjerbi/mobile_app) |
+| [`docs/`](docs) | Concept, architecture, business case, challenge fit, sources |
+| [`data/`](data) | Data map and source PDFs |
+| [`presentation/`](presentation) | Screenshots and assets |
+| [`video/`](video) | Video sources |
 
 ```bash
-git clone --recurse-submodules <this-repo-url>
-# already cloned without submodules:
-git submodule update --init --recursive
+git clone --recurse-submodules https://github.com/HandanMajied2024/CareCatalyst.git
+cd CareCatalyst/concepts/vision && npm install && npm run dev   # B on http://127.0.0.1:4174
 ```
 
-Run the Concept B prototype (CarePulse, React + Vite, offline, synthetic data):
-
-```bash
-cd concepts/vision && npm install && npm run dev   # http://127.0.0.1:4174
-```
+Team skills for Claude Code (design, deck, video, cut-outs) are in [.claude/skills/](.claude/skills/).
 
 ## Team
 
 Youcef Jerbi (lead) · Handan Majied · Hazem Dhaouadi
 
-## Data rule
+## Licence
 
-The challenge allows **public, aggregate data only**. All demos use public aggregates (with a source for every number) and **synthetic personas**. No real patient data in any repo.
-
-## Claude Code skills for the team
-
-Clone this repo and open it in Claude Code: the skills in [.claude/skills/](.claude/skills/) load automatically.
-
-| Skill | For |
-|---|---|
-| [carecatalyst-design](.claude/skills/carecatalyst-design/SKILL.md) | Brand and look for deck, video, UI (Inter, white, organic airbrush, Part 1 vs Part 2) |
-| [pitch-deck](.claude/skills/pitch-deck/SKILL.md) | Building and exporting the pitch deck |
-| [pitch-video](.claude/skills/pitch-video/SKILL.md) | Demo / pitch video: script, images, voice, HTML animation, render to mp4 |
-| [cutout-images](.claude/skills/cutout-images/SKILL.md) | Realistic images with transparent background, upscaling, realism check |
+[MIT](LICENSE) © 2026 CareCatalyst
