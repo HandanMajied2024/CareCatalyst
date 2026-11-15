@@ -3,7 +3,7 @@
 # The repo is PUBLIC: the deck, its PDFs, pitch drafts and submission texts are never auto-committed.
 set -u
 cd "$(dirname "$0")/.."
-EXCLUDE=(':(exclude)presentation/deck.html' ':(exclude)presentation/*.pdf' ':(exclude,glob)pitch/**'
+EXCLUDE=(':(exclude)presentation/deck.html' ':(exclude,glob)presentation/deck-*.html' ':(exclude)presentation/*.pdf' ':(exclude,glob)pitch/**'
          ':(exclude,glob)**/SUBMISSION*' ':(exclude,glob)**/DEV_BLOGPOST*' ':(exclude,glob)**/RUNBOOK*' ':(exclude,glob)**/.env*')
 git add -A -- . "${EXCLUDE[@]}"
 git diff --cached --quiet || git commit -q -m "Sync: work in progress ($(date '+%H:%M'))"
