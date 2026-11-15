@@ -9,5 +9,4 @@ git add -A -- . "${EXCLUDE[@]}"
 git diff --cached --quiet || git commit -q -m "Sync: work in progress ($(date '+%H:%M'))"
 git pull -q --rebase --autostash || { echo "PULL CONFLICT - resolve manually, never drop someone else's version"; exit 1; }
 git push -q || { echo "PUSH FAILED"; exit 1; }
-git submodule update --init --remote -q 2>/dev/null || true
 git log --oneline -1
