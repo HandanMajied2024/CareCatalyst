@@ -1,102 +1,86 @@
-# Junction submission form: copy-paste source
+# Junction submission – final (mirrors the submitted form)
 
-Form: hackjunction.app → Event 45 → Project. **Deadline: Sun 15.11. 10:00 Finnish time** (the platform partly shows 09:00, so aim for 09:00).
-Fields marked ⬜ are still open.
+Event: Junction 2026, hackjunction.app event 45 · Team: Youcef Jerbi · Handan Majied · Hazem Dhaouadi
 
----
-
-## Project Name (required, ≤ 30 characters)
+## Project name
 
 ```
 CareCatalyst
 ```
 
-## Punchline (required, ≤ 200 characters)
+## Punchline (177/200)
 
 ```
-Finland knows why patients drop out of the cancer pathway, but not who. CareCatalyst finds them at the moment their pathway stalls, asks why and helps, and shows counties where care breaks.
+Finland knows why patients drop out of the cancer pathway, but not who. CareCatalyst calls them when their pathway stalls, asks why, helps, and shows counties where care breaks.
 ```
 
-## Challenge (required, exactly 1 main challenge)
+## Challenge
 
 ```
 Equal Care Across Finland (AstraZeneca)
 ```
 
-## Description (required, ≤ 5000 characters, Markdown)
+## Links
 
-> ⬜ Update the parts marked [TODO] once the demo, data and tech are final. Check the length before pasting (`wc -m`).
+| Field | Value |
+|---|---|
+| Project Demo | https://handan-majied1--carecatalyst-demo-web.modal.run (Part 1, counties) |
+| Other Link | https://handan-majied1--carepulse-vision-web.modal.run (Part 2, CarePulse vision) |
+| Source Code | https://github.com/HandanMajied2024/CareCatalyst |
+| Video | https://handanmajied2024.github.io/CareCatalyst/watch.html |
+| Presentation | [`presentation/CareCatalyst-deck.pdf`](../presentation/CareCatalyst-deck.pdf) (uploaded to the form) |
 
-```markdown
+## Tech challenges selected in the form
+
+How each is used in the project:
+
+| Tech challenge | How it is used |
+|---|---|
+| Gemini API | Gemini Live runs the voice call; Gemini Flash with structured output handles text turns and barrier classification (`concepts/today/server.ts`) |
+| Codex | The app was built with OpenAI Codex as coding agent; `AGENTS.md` in the repo |
+| Modal | Both live demos are hosted on Modal |
+
+Also selected in the form (no dedicated integration in the code): ElevenLabs, Oxylabs, Atech, Cloudinary, CRACI, Aiven, Context.dev, Arduino Uno Q, Gemma, Solana, Entire, Tiger Data, Vultr, MongoDB Atlas, Verda Compute, Nemotron (developer roundtable: yes).
+
+## Description (4473/5000)
+
 ## The problem
-Finland knows **why** people drop out of the cancer pathway (fear, distance, transport, cost, caring for relatives) and roughly **how many** are affected. Nobody knows **who** it is at the moment it happens. Without a person, nobody can reach out and solve the problem together. That is where inequality starts: between referral, diagnosis and treatment start, patients get lost silently, and more often in regions far from the treatment centres.
+Finland roughly knows **why** people drop out of the cancer pathway (distance, transport, weather, scheduling, language, fear, cost), but not **who** it is when it happens. A cancelled diagnostic visit in Lapland looks the same as one in Espoo: nobody calls, nobody asks why, the reason is never recorded. That is where regional inequality starts, between referral, diagnosis and treatment start.
 
-## Our solution today: the Care Pathway Agent
-A layer for the **wellbeing services counties**, built on top of the patient portals they already run (first of all **Maisa / Apotti**: HUS, Helsinki, Vantaa-Kerava). No new app for patients.
+## Solution today: the Care Pathway Agent
+A tool for the **wellbeing services counties**, first pilot **HUS** (cancer care for all of Uusimaa), docked onto the portals they already run (Maisa / Apotti via FHIR). No new patient app.
 
-1. **Signal**: the portal shows that the pathway stalls: referral received but not booked, appointment cancelled, no-show.
-2. **Reach out**: the agent contacts the patient (chat or call) and **asks why**.
-3. **Help**: it offers what already exists: a slot that fits, **Kela travel reimbursement / Kela taxi**, home hospital (**kotisairaala**) or video visits where medically possible, support programs.
-4. **Learn**: the reasons flow back **anonymised and aggregated** into a county dashboard: drop-outs by **pathway step × reason × region**, next to the national Goal 3 indicator.
-
-The county is the right operator: it already holds the appointment data, has the treatment relationship as legal basis and is responsible for the Goal 3 waiting-time targets. Private insurers do not see cancer appointments in Finland (we checked: Data Protection Ombudsman 2022, KHO 2025:86), so they can only join as an opt-in channel. Kela is the partner for transport.
+**Demo flow (live, synthetic patients):**
+1. A synthetic patient on a cancer fast-track cancels or misses an appointment.
+2. An AI care coordinator calls (Gemini Live voice or text), asks for the reason exactly once and classifies the barrier: Transport, Weather, Scheduling, Accessibility, Language, Fear/Anxiety, Financial, Other. Acute symptoms raise a nurse alert.
+3. It proposes a next step, e.g. keep the slot + Kela-subsidised transport, or a human coordinator callback. The patient's risk score updates.
+4. **Regional summary**: reasons are aggregated on a map of Finland's 19 regions.
+5. **Regional support**: planners compare shared transport, travel support and care coordination against a budget, assumptions shown openly.
 
 ## Goal 3 indicator
-We track **"patients start treatment within the target times"** (National Cancer Strategy 2026–2035, Goal 3; THL Ohjaus 21/2016) per county and show which pathway step and which reason drive the delays.
-[TODO: name the counties/years and the exact figure source used in the demo]
+National Cancer Strategy 2026–2035, Goal 3: **"patients start treatment within the target times"** (THL Ohjaus 21/2016). Each cancellation or no-show threatens it; the risk engine flags patients whose target timeframe is at risk, and the dashboard shows which reason and region drive it.
 
-## Concrete proposals
-1. **Pilot in one county (HUS/Uusimaa)**: connect the agent to Maisa signals (not booked, cancelled, no-show) for one cancer type.
-2. **Transport by default**: when the reason is distance or mobility, the agent starts the Kela taxi / travel reimbursement process directly.
-3. **Care to the patient**: route suitable follow-ups to video visits and home hospital; keep surgery, radiotherapy and imaging in the clinic with arranged transport.
-4. **Reason reporting**: add anonymised drop-out reasons per pathway step to the county's cancer monitoring next to the THL waiting-time indicator.
+## Concrete proposals for counties
+1. **Pilot at HUS**: connect the agent to Apotti signals (referral not booked, cancelled, no-show) for one cancer type, e.g. lung cancer fast-track.
+2. **Never cancel silently**: before a fast-track slot is released, one call asks why and offers help; unresolved cases go to a named human coordinator.
+3. **Transport by default, with Kela**: for distance or mobility, start Kela travel reimbursement / Kela taxi during the call, not after a missed visit.
+4. **Care to the patient**: route suitable steps to video visits or home hospital (kotisairaala); surgery, radiotherapy and imaging stay in the clinic with transport.
+5. **Report reasons**: add anonymised, aggregated drop-out reasons per pathway step and region to county cancer monitoring, next to the Goal 3 indicator.
 
-## Demo
-[TODO: one sentence on what the live demo shows + link]
-A synthetic patient cancels a diagnostic appointment → the agent asks why ("too far, can't drive") → offers Kela taxi and a fitting slot → the county dashboard updates the drop-out reason at that pathway step, next to the Goal 3 indicator.
+## Data and privacy
+- All patients, appointments and transcripts are **synthetic**. No real patient data.
+- Public sources: Statistics Finland, Regional division 2026 (boundaries, CC BY 4.0); National Cancer Strategy 2026–2035 and roadmap 2026–2031 (STM).
+- Planner costs are labelled assumptions; map colours are outreach thresholds, not cancer prevalence.
+- Real use needs county integration and purpose-bound consent (GDPR Art. 9). The agent never diagnoses or decides on care (Art. 22).
 
-## Data and limits
-- Public, aggregate data only, with a source for every number: [TODO: list the datasets actually used, e.g. THL/Sotkanet, Finnish Cancer Registry, Kela open data].
-- All people in the demo are **synthetic**. No patient data was used.
-- Real deployment needs per-county integration (Apotti, Lifecare …) and explicit, purpose-bound consent (GDPR Art. 9); no automated decisions about care (Art. 22).
+## Vision: everyone has their own agent
+**CarePulse** (scripted prototype): Eero, visually impaired, in Espoo with his dog Jenny. His personal agent knows his limits, proposes an 08:00 visit in Helsinki before bingo with 07:00 transport, and shares data with clinic, insurer and transport agents only with consent per recipient. Tomorrow it talks **agent-to-agent** with the county's agent. Nobody has to explain their life again.
 
-## The vision: everyone has their own agent
-Tomorrow, the patient's **personal health agent**, linked to their digital health record (MyKanta, European Health Data Space), notices symptoms in daily life, knows their limits and schedule, and books care that fits. It talks **agent-to-agent** with the county's Care Pathway Agent. Nobody has to explain their life situation again.
+## Built with Gemini
+**Problem:** cancellation reasons are lost in free-text calls, so regions cannot see what blocks patients.
+**Integration** (server-side, `@google/genai`): **Gemini Live** runs the voice call; browser audio streams over a WebSocket to the server's Live session, which returns audio and transcriptions with barge-in. **Gemini Flash with structured output** handles text turns and end-of-call classification; a JSON schema forces reply, outcome, barrier category, summary, action and nurse alert. One shared coordinator prompt; no scripted fallback.
+**Novel:** every conversation becomes a typed equity record that updates risk, the regional map and the planner.
+**Why Gemini:** one SDK for low-latency native audio and schema-constrained JSON, so voice and data share one prompt and taxonomy; Flash keeps outreach cheap and fast.
 
-## Tech
-[TODO: stack + which tech challenges and **how** each was used]
-
-## Team
-Youcef Jerbi · Handan Majied · Hazem Dhaouadi
-```
-
-## Links (optional fields)
-
-| Field | Value | Status |
-|---|---|---|
-| Project Demo URL | `[TODO]` (live URL of the demo) | ⬜ |
-| Source Code URL | `https://github.com/HandanMajied2024/CareCatalyst` (**make public or give judges access before submitting**) | ⬜ |
-| Video URL | `[TODO]` (see [`video/`](../video)) | ⬜ |
-| Other Link | `[TODO]` (e.g. dashboard or concept B demo) | ⬜ |
-| Presentation | `presentation/CareCatalyst.pdf` (≤ 20 MB, see [`presentation/`](../presentation)) | ⬜ |
-
-## Tech Challenge Participation (multi-select)
-
-Only tick what is really used, and explain **how** in the description.
-
-| Tech challenge | Possible use | Used? |
-|---|---|---|
-| Gemini API | **Used**: Gemini Live voice agent + Gemini Flash structured output for dialogue and barrier classification (concepts/today) | ✅ |
-| MLH ElevenLabs | Agent's voice for the outreach call / Espoo scene | ⬜ |
-| Oxylabs | Web search for support programs, sources shown | ⬜ |
-| Modal | Hosting the live demo | ⬜ |
-| Codex | Team coded with Codex; proof needed (README section, screenshots) | ⬜ |
-| MLH DEV | Blog post about the project | ⬜ |
-
-## Before clicking "Submit Final"
-
-- [ ] All ⬜ above filled, no `[TODO]` left in the description
-- [ ] Description ≤ 5000 characters, punchline ≤ 200
-- [ ] Repo is accessible for judges
-- [ ] Demo URL opens in a private browser window
-- [ ] Table saved in the team tab on Sunday (A115), whole team at peer review by 10:30
+## Built with Codex
+We built the app with OpenAI Codex as our coding agent (frontend, Express/WebSocket server, risk and simulation models, tests). The repo ships an `AGENTS.md` for coding agents.
