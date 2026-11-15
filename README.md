@@ -11,7 +11,7 @@ Form texts to copy-paste: [submission/SUBMISSION.md](submission/SUBMISSION.md)
 - [x] **Working demo exists** in [concepts/today](concepts/today) (Calling Agent, Barrier Map, Simulator). Open: Goal 3 indicator + sources in the UI, live URL ([demo/](demo))
 - [ ] **Goal 3 indicator with real public data** (treatment start within target times, THL): sources listed in [data/](data), CSV still open
 - [ ] **Source for every number** + limits section: [data/README.md](data/README.md)
-- [x] **Link Concept A repo** ([devstar7674-beep/CareCatalyzer](https://github.com/devstar7674-beep/CareCatalyzer) → `concepts/today`)
+- [x] **Link Concept A repo** ([HandanMajied2024/CareCatalyzer](https://github.com/HandanMajied2024/CareCatalyzer) (public mirror of devstar7674-beep/CareCatalyzer) → `concepts/today`)
 - [x] **Link Concept B repo** ([youcefjerbi/mobile_app](https://github.com/youcefjerbi/mobile_app) → `concepts/vision`, CarePulse prototype)
 - [ ] **Give judges access to this repo** (make public or add collaborators) and invite Youcef + Hazem
 
@@ -82,7 +82,7 @@ CareCatalyst/
 ├── video/               ← demo / pitch video link       [placeholder]
 ├── docs/                ← concept, architecture, pitch, business case
 ├── concepts/
-│   ├── today/           ← Concept A = the demo app (submodule: devstar7674-beep/CareCatalyzer)
+│   ├── today/           ← Concept A = the demo app (submodule: HandanMajied2024/CareCatalyzer)
 │   └── vision/          ← Concept B = CarePulse personal-agent prototype (submodule: youcefjerbi/mobile_app)
 └── scripts/
     └── link-concepts.sh ← links the two concept repos as submodules

@@ -1,6 +1,6 @@
 # Concept A: Care Pathway Agent (today)
 
-Repo: [`concepts/today`](../concepts/today) (submodule → [devstar7674-beep/CareCatalyzer](https://github.com/devstar7674-beep/CareCatalyzer))
+Repo: [`concepts/today`](../concepts/today) (submodule → [HandanMajied2024/CareCatalyzer](https://github.com/HandanMajied2024/CareCatalyzer) (public mirror of devstar7674-beep/CareCatalyzer))
 
 ## Operator
 
