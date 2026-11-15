@@ -86,6 +86,19 @@ per image (pass / regenerated why). Show the passed images to Handan.
 Watch the whole video: length, every number matches the script sources, text readable long enough, no AI artefacts,
 audio in sync. Then open the mp4 for Handan.
 
+## Fast path that worked (CareCatalyst, 2.5 h from zero to mp4)
+- `lines.json` (id, scene, speaker, gap, text) -> `voice.py` generates each line with ElevenLabs (cached by text hash,
+  key from `.env`), measures durations and writes `timeline.js`. **Scene timing comes from the audio**, never the
+  other way round, so re-voicing a line re-times the video automatically.
+- 4 voices worked well: narrator George, agent Sarah, older man Bill, patient Chris (premade, multilingual_v2).
+  SFX via `/v1/sound-generation` (ring, whoosh, pop, tick, chime, 22 s ambient bed looped at volume 0.14).
+  A 145 s video costs ~2.5k characters.
+- `video.html` exposes `__render(t)` (pure function of t, no CSS transitions) + `__cues` (SFX times derived from line
+  times). `record.py all` = mix audio with ffmpeg adelay/amix + frame-exact screenshots at 30 fps + mux.
+  ~4 400 frames take ~15 min on the laptop. Check with `record.py stills ...` and a contact sheet first.
+- Persona images: 4 Codex images in parallel with one shared character/setting block in the prompt keep the person,
+  dog and flat consistent.
+
 ## Practical
 - Windows: always `PYTHONUTF8=1`; `python -m ...` if `uv` is missing.
 - Never commit keys or solution details to public repos.
