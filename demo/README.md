@@ -37,5 +37,5 @@ npm run dev                        # http://localhost:3000
 | Goal 3 indicator visible in the UI, with source | see [data/README.md](../data/README.md) | ⬜ |
 | Sources shown under every number in the UI | business-case figures | ⬜ |
 | Fix unverified evidence lines | list in [data/README.md](../data/README.md#evidence-lines-in-the-demo-code-that-need-fixing) | ⬜ |
-| Live URL (opens in a private window) | `[TODO]` | ⬜ |
+| Live URL (opens in a private window) | A: https://handan-majied1--carecatalyst-demo-web.us-east.modal.run · B: https://handan-majied1--carepulse-vision-web.us-east.modal.run | ✅ |
 | Backup: screen recording in case Wi-Fi fails | [video/](../video) | ⬜ |
