@@ -221,7 +221,7 @@ order = [14, 3, 8, 9, 7, 5, 6, 12, 11, 2, 0, 1, 4]
 app = []
 for k in order:
     s = re.sub(r'data-t="[^"]*"', 'data-t="Q&amp;A"' if k == 14 else 'data-t="Appendix"', secs[k], count=1)
-    s = s.replace("centre", "center")
+    s = s.replace("centre", "center").replace("welfare county", "wellbeing services county")
     app.append(f"<!-- appendix (from v2 slide {k+1}) -->\n" + s)
 
 css = '''
