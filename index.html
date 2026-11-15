@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CareCatalyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--font:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--bg:#fff;--fg:#0a0a0a;--muted:#6b6b6b;--line:#e6e6e6;--blue:#1f5eff;--green:#14a44d;--yellow:#ffc400;--red:#e5262b;--blue-soft:#e8efff;--yellow-soft:#fff6d6;--radius:28px;--gutter:clamp(20px,5vw,72px)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--fg);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.blobs{position:fixed;inset:0;z-index:0;pointer-events:none;filter:blur(90px);opacity:.34}
+.blobs i{position:absolute;display:block}
+.blobs i:nth-child(1){left:-8%;top:-12%;width:52vw;height:44vw;background:var(--blue);border-radius:62% 38% 55% 45%/48% 60% 40% 52%;opacity:.5}
+.blobs i:nth-child(2){right:-10%;top:8%;width:44vw;height:40vw;background:var(--yellow);border-radius:40% 60% 38% 62%/58% 42% 58% 42%;opacity:.6}
+.blobs i:nth-child(3){left:28%;bottom:-22%;width:48vw;height:38vw;background:var(--green);border-radius:55% 45% 62% 38%/42% 56% 44% 58%;opacity:.35}
+main{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(28px,5vh,56px);padding:48px var(--gutter)}
+.mark{display:flex;align-items:center;gap:12px;font-weight:800;font-size:22px;letter-spacing:-.02em}
+.mark svg{width:34px;height:34px}
+h1{margin:0;font-size:clamp(34px,6vw,60px);line-height:1.08;letter-spacing:-.03em;font-weight:800;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.4vw,28px);width:100%;max-width:980px}
+a.card{display:flex;flex-direction:column;gap:18px;padding:clamp(24px,3.4vw,40px);border-radius:var(--radius);text-decoration:none;color:var(--fg);background:rgba(255,255,255,.78);border:1px solid var(--line);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:transform .25s ease,box-shadow .25s ease;min-height:260px}
+a.card:hover,a.card:focus-visible{transform:translateY(-4px);box-shadow:0 18px 50px rgba(10,10,10,.10);outline:none}
+.ic{width:72px;height:72px;border-radius:22px;display:grid;place-items:center}
+.ic svg{width:38px;height:38px}
+.a .ic{background:var(--blue-soft);color:var(--blue)}
+.b{background:rgba(255,246,214,.82) !important}
+.b .ic{background:#fff;color:var(--fg)}
+.card h2{margin:0;font-size:clamp(26px,3.2vw,36px);letter-spacing:-.02em;line-height:1.15;font-weight:800}
+.card p{margin:0;font-size:18px;color:var(--muted)}
+.go{margin-top:auto;display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+.go span{display:grid;place-items:center;width:48px;height:48px;border-radius:999px;background:var(--fg);color:#fff}
+.a .go span{background:var(--blue)}
+.go svg{width:22px;height:22px}
+.video{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:17px;color:var(--fg);text-decoration:none;padding:12px 20px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.8)}
+.video svg{width:20px;height:20px}
+@media (max-width:640px){.grid{grid-template-columns:1fr}a.card{min-height:0}}
+</style>
+</head>
+<body>
+<div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+<main>
+  <div class="mark">
+    <svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><path d="M17 3c7 0 13 5 13 13 0 9-7 15-14 15C8 31 3 25 4 17 5 9 10 3 17 3Z" fill="#0a0a0a"/><path d="M10 18h4l2-5 3 9 2-4h3" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    CareCatalyst
+  </div>
+  <h1>Try it yourself</h1>
+  <div class="grid">
+    <a class="card a" href="https://handan-majied1--carecatalyst-demo-web.modal.run">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/><path d="M9 10h.01M15 10h.01"/></svg></div>
+      <h2>For counties</h2>
+      <p>CareCatalyst · today</p>
+      <div class="go"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>Open demo</div>
+    </a>
+    <a class="card b" href="https://handan-majied1--carepulse-vision-web.modal.run">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div>
+      <h2>For you</h2>
+      <p>Your personal agent · vision</p>
+      <div class="go"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>Open demo</div>
+    </a>
+  </div>
+  <a class="video" href="watch.html"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Watch the video</a>
+</main>
+</body>
+</html>
