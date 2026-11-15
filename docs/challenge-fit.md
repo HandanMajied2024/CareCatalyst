@@ -6,7 +6,7 @@ AstraZeneca, *Equal Care Across Finland* (Healthcare track).
 
 | Requirement | How we meet it | Status |
 |---|---|---|
-| Public, aggregate data only, source for every claim | Dashboard uses THL / Syöpärekisteri / Kela open data; demo uses synthetic personas | ⬜ |
+| Public, aggregate data only, source for every claim | Cited key figures (THL, Syöpärekisteri, Kela) with a source each; region boundaries from Statistics Finland (CC BY 4.0); all patient and regional values in the demo are synthetic | ⬜ |
 | ≥ 1 indicator from Goal 3 of the national cancer strategy | **Treatment starts within target times** (THL Ohjaus 21/2016) per county | ⬜ |
 | Concrete, actionable proposals | County runs the agent on Maisa; Kela taxi; kotisairaala pilot | ⬜ |
 | Working demo (not slides) | Concept A flow + dashboard | ⬜ |

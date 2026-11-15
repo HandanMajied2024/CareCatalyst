@@ -9,7 +9,7 @@ Junction 2026 · AstraZeneca challenge *Equal Care Across Finland*
 | **B · For you (tomorrow)** | **[handan-majied1--carepulse-vision-web.modal.run](https://handan-majied1--carepulse-vision-web.modal.run)** |
 | 🎬 Video | `[VIDEO LINK]` |
 
-Both open in a private window without a login. All patients are synthetic.
+Both open in a private window without a login. All patients and regional values in the demos are synthetic.
 
 <p>
   <img src="presentation/screens/A2-04-regional-goal3.png" alt="County view: why pathways stall, per step and region, next to the Goal 3 indicator" width="49%">
@@ -22,19 +22,19 @@ Both open in a private window without a login. All patients are synthetic.
 |---|---|
 | 🔴 **Problem** | Finland knows *why* people drop out of cancer care (distance, fear, cost) and *how many* drop out. It doesn't know *who*. A cancelled scan or a no-show goes unnoticed, so nobody reaches out. |
 | 🔵 **Solution (A, today)** | Counties dock an agent onto their existing systems (Apotti, Maisa). When a pathway stalls (not booked, cancelled, no-show), the agent calls, asks why and fixes it: a Kela taxi, a new slot, care at home. Only the anonymised *why* leaves, per step and region. |
-| 🟢 **Goal 3 indicator** | **Patients start treatment within target times** (National Cancer Strategy 2026–2035, THL Ohjaus 21/2016). Finland publishes no regional figure for it yet. The agent's pathway events produce it, and the demo shows it per region. |
+| 🟢 **Goal 3 indicator** | **Patients start treatment within target times** (National Cancer Strategy 2026–2035, THL Ohjaus 21/2016). Finland publishes no regional figure for it yet. The agent's pathway events produce it. The demo shows it per region with synthetic values. |
 | 🟡 **Vision (B, tomorrow)** | Everyone has a personal agent that knows their daily life. It talks agent to agent with the county and Kela, so no one has to explain their life again. |
 
 ## Data
 
-**All patients are synthetic.** Every number comes from a public, aggregated source. No real patient data is in any repo.
+**All patients and all regional values in the demos are synthetic.** Only the region boundaries (Statistics Finland, CC BY 4.0) and the cited key figures (strategy, Cancer Registry, Kela, studies) are public, each with a source. No real patient data is in any repo.
 
 | Source | Used for | Licence |
 |---|---|---|
 | Finnish Cancer Registry (Syöpärekisteri), Syöpä 2024 and screening report 2024 | Incidence, screening gaps, stage recording | Public statistics, cited |
 | THL: Sotkanet, Ohjaus 21/2016 | Goal 3 indicator definition, regional indicators | CC BY 4.0 |
 | Kela open data 2025 | Travel reimbursements (€364M), Kela taxi | CC BY 4.0 |
-| Statistics Finland | Causes of death | CC BY 4.0 |
+| Statistics Finland | Region boundaries (demo map), causes of death | CC BY 4.0 |
 | STM: National Cancer Strategy 2026–2035 and implementation roadmap | Goals and indicators ([PDFs](data/sources)) | Public document |
 | Pirha 2025, Percac-Lima et al. 2015 (RCT), Kim et al. 2018 | No-show baseline, effect of reminder calls, navigator cost | Published reports and papers, cited |
 
