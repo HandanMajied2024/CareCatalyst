@@ -35,7 +35,7 @@ They think in **who pays, who gains, how fast it scales, how it makes AZ look**.
 | Unused hospital appointments, Pirkanmaa 2025 | **35 255 of 875 837 = 4.0 %** | Pirha ([PDF](https://pirha.cloudnc.fi/download/noname/{8bb164a0-2811-40d3-95b2-bb0d25866c02}/73484)) |
 | National estimate, all visits | ~2 % | Parliament debate on HE 117/2025 ([bill](https://www.riksdagen.fi/pdf/HE+117/2025)) `[verify exact quote]` |
 | Government is **raising the no-show fee** (from 2026) → no-shows are a political issue | – | Valtioneuvosto ([news](https://valtioneuvosto.fi/-/1271139/kayttamatta-jatetysta-sote-palvelusta-perittava-enimmaismaksu-nousee)) |
-| Targeted navigator phone calls in cancer clinics cut no-shows from **17.5 % → 10.2 %** (RCT) | −42 % relative | Percac-Lima et al. 2015, MGH ([PubMed](https://www.pubmed.gov/25585595/)) |
+| Targeted navigator phone calls in cancer clinics cut no-shows from **17.5 % → 10.2 %** (RCT) | −42 % relative | Percac-Lima et al. 2015, MGH ([PubMed](https://pubmed.ncbi.nlm.nih.gov/25585595/)) |
 | Navigation for colonoscopy: no-shows **15.4 % → 8.2 %**, cost **$148–359 per patient navigated** | – | Kim et al. 2018, *Cancer* ([PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC6263829)) |
 | Staff calls beat automated reminders (13.6 % vs 17.3 % vs 23.1 % no reminder) | – | Parikh et al. 2010 ([QxMD](https://read.qxmd.com/read/20569761/the-effectiveness-of-outpatient-appointment-reminder-systems-in-reducing-no-show-rates)) |
 
