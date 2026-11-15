@@ -6,7 +6,7 @@ Both concepts now share one look. The rules are in [design-system.md](design-sys
 |---|---|---|
 | Design unified | ✅ | ✅ |
 | Branch | `design-unify` | `design-unify` |
-| Pushed | Pitch session merges `origin/main` into it and pushes `origin/design-unify` | ❌ no write access to `youcefjerbi/mobile_app` |
+| Pushed | Pitch session merges `origin/main` into it and pushes `origin/design-unify` | ✅ `origin/design-unify` (4c9f23b) |
 | Patch backup | [design-patches/today](design-patches/today/) | [design-patches/vision](design-patches/vision/) |
 
 ## What changed
@@ -21,7 +21,7 @@ Both concepts now share one look. The rules are in [design-system.md](design-sys
 
 ## How to continue
 
-**Concept B:** apply the patch on top of `main`:
+**Concept B:** `git checkout design-unify` (pushed). Or apply the patch on top of `main`:
 
 ```bash
 cd concepts/vision
