@@ -64,7 +64,7 @@ They think in **who pays, who gains, how fast it scales, how it makes AZ look**.
 ### 3d. Simple ROI story (illustrative, label as estimate)
 
 > For one cancer centre: if 4 % of appointments are missed (Pirha 2025) and targeted calls cut that by ~40 % (Percac-Lima 2015), **1 in 60 slots** comes back. Each recovered diagnostic slot moves a patient earlier in the pathway, where care costs **2–3× less** than at stage IV (NL lung study).
-> Our € estimate for a HUS lung pilot (≈ €300k value per year) and its assumptions are in [kalkulation](kalkulation/kalkulation.html). It is an estimate, not a measured result.
+> Our € estimate for HUS across all cancer types (≈ 11 500 new cases/year, ≈ €300k value per year) and its assumptions are in [kalkulation](kalkulation/kalkulation.html). It is an estimate, not a measured result.
 
 ## 4. Why AstraZeneca cares (marketing + business excellence lens)
 
