@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CareCatalyst Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --bg:#ffffff; --fg:#0a0a0a; --muted:#6b6b6b; --line:#e6e6e6; --surface:#f5f5f5;
+  --red:#e5262b; --blue:#1f5eff; --green:#14a44d; --yellow:#ffc400;
+  --red-soft:#fdeaea; --blue-soft:#e8efff; --green-soft:#e6f6ec; --yellow-soft:#fff6d6;
+  --warm:#fff8ea; /* Part 2 background: the visible switch to "for you" */
+  --radius:20px; --pill:999px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#111;font-family:var(--font);color:var(--fg);overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center}
+.slide{position:absolute;inset:0;background:var(--bg);overflow:hidden;opacity:0;pointer-events:none;transition:opacity .45s ease;padding:110px 140px}
+.slide.active{opacity:1;pointer-events:auto}
+.slide.warm{background:var(--warm)}
+.slide > *{position:relative;z-index:1}
+.air{position:absolute!important;inset:-20%;width:140%;height:140%;pointer-events:none;z-index:0!important}
+h1{font-size:104px;font-weight:800;letter-spacing:-.035em;line-height:1.04}
+h2{font-size:80px;font-weight:800;letter-spacing:-.03em;line-height:1.06}
+.sub{font-size:40px;font-weight:500;color:var(--muted);line-height:1.3;margin-top:28px}
+.src{position:absolute!important;left:140px;right:140px;bottom:56px;font-size:24px;color:var(--muted);line-height:1.35}
+.badge{display:inline-flex;align-items:center;gap:14px;padding:14px 28px;border-radius:var(--pill);font-size:30px;font-weight:600;position:absolute!important;top:56px;left:140px}
+.badge svg{width:32px;height:32px}
+.b-county{background:var(--blue-soft);color:var(--blue)}
+.b-you{background:var(--yellow-soft);color:#7a5a00;border:2px solid #ffe08a}
+.mark{position:absolute!important;top:66px;right:140px;display:flex;align-items:center;gap:16px;font-size:26px;font-weight:600;color:var(--muted)}
+.mark .ln{width:180px;height:4px;background:var(--line);position:relative;border-radius:4px}
+.mark .dot{position:absolute;top:50%;width:26px;height:26px;border-radius:50%;transform:translate(-50%,-50%)}
+.mark .f{background:var(--blue)} .mark .h{background:var(--bg);border:3px solid var(--fg)}
+.warm .mark .h{background:var(--warm)}
+.center{display:flex;flex-direction:column;justify-content:center;height:100%}
+.ic{display:inline-block;vertical-align:middle;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.notes{display:none}
+body.show-notes .slide.active .notes{display:block;position:absolute;z-index:5;left:0;right:0;bottom:0;background:rgba(10,10,10,.92);color:#fff;font-size:28px;line-height:1.4;padding:28px 140px;max-height:45%;overflow:auto}
+#count{position:fixed;right:14px;bottom:10px;color:#888;font:14px var(--font);z-index:9}
+
+/* --- slide specifics --- */
+.call{font-size:64px;font-weight:700;letter-spacing:-.02em;line-height:1.2;max-width:1500px}
+.who{display:flex;gap:110px;align-items:center;justify-content:center;height:100%}
+.who div{font-size:150px;font-weight:800;letter-spacing:-.04em;display:flex;align-items:center;gap:36px}
+.who .ok svg{width:110px;height:110px;color:var(--green)}
+.who .no{color:var(--red)} .who .no svg{width:120px;height:120px}
+.path{display:flex;align-items:center;margin-top:70px}
+.step{display:flex;flex-direction:column;align-items:center;gap:18px;width:250px;font-size:32px;font-weight:600}
+.step .c{width:120px;height:120px;border-radius:32px;background:var(--surface);display:grid;place-items:center}
+.step .c svg{width:56px;height:56px}
+.gap{flex:1;height:8px;border-radius:8px;background:repeating-linear-gradient(90deg,var(--red) 0 22px,transparent 22px 36px);margin-bottom:56px}
+.nums{display:flex;gap:40px;margin-top:70px}
+.num{flex:1;background:var(--surface);border-radius:var(--radius);padding:36px 40px}
+.num b{display:block;font-size:96px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.num span{display:block;font-size:30px;color:var(--fg);margin-top:16px;font-weight:500;line-height:1.3}
+.goal{display:inline-flex;align-items:center;gap:16px;margin-top:40px;background:var(--green-soft);color:#0b6b31;border-radius:var(--pill);padding:16px 30px;font-size:30px;font-weight:600}
+.cog{margin-top:110px;display:flex;align-items:center;gap:40px;font-size:40px;font-weight:700}
+.cog .track{flex:1;height:8px;background:var(--line);border-radius:8px;position:relative}
+.cog .d{position:absolute;top:50%;width:64px;height:64px;border-radius:50%;transform:translate(-50%,-50%);background:var(--blue);box-shadow:0 0 0 14px var(--blue-soft);transition:left 2.6s cubic-bezier(.65,0,.35,1)}
+.cog .h{position:absolute;top:50%;width:54px;height:54px;border-radius:50%;transform:translate(-50%,-50%);border:5px solid var(--fg);background:var(--bg)}
+.flow{display:flex;gap:28px;margin-top:80px}
+.fl{flex:1;border-radius:var(--radius);padding:44px 36px;background:var(--surface)}
+.fl svg{width:64px;height:64px}
+.fl b{display:block;font-size:44px;font-weight:800;margin-top:26px;letter-spacing:-.02em}
+.fl span{display:block;font-size:28px;color:var(--muted);margin-top:12px;line-height:1.35}
+.shot{position:absolute!important;border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.18);overflow:hidden;border:1px solid var(--line)}
+.shot img{display:block;width:100%}
+.live{display:inline-flex;align-items:center;gap:16px;font-size:34px;font-weight:700;color:var(--red);margin-top:36px}
+.live i{width:22px;height:22px;border-radius:50%;background:var(--red);animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:64px}
+.tile{border-radius:var(--radius);padding:40px 44px;background:var(--surface);display:flex;gap:30px;align-items:center}
+.tile .n{flex:none;width:84px;height:84px;border-radius:24px;display:grid;place-items:center;background:#fff}
+.tile .n svg{width:44px;height:44px}
+.tile b{display:block;font-size:44px;font-weight:800;letter-spacing:-.02em}
+.tile span{display:block;font-size:28px;color:var(--muted);margin-top:8px}
+.photo{position:absolute!important;top:0;right:0;bottom:0;width:58%;background-size:cover;background-position:center}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--warm) 0%,rgba(255,248,234,0) 28%)}
+.bubble{background:#fff;border-radius:36px;padding:40px 46px;font-size:44px;font-weight:600;line-height:1.3;box-shadow:0 20px 60px rgba(122,90,0,.12);max-width:820px;margin-top:44px}
+.bubble small{display:flex;align-items:center;gap:12px;font-size:26px;font-weight:600;color:var(--blue);margin-bottom:16px}
+.a2a{display:flex;align-items:center;justify-content:center;gap:0;margin-top:120px}
+.node{width:400px;text-align:center}
+.node .c{width:200px;height:200px;margin:0 auto;border-radius:56px;display:grid;place-items:center}
+.node .c svg{width:96px;height:96px}
+.node b{display:block;font-size:40px;font-weight:800;margin-top:30px}
+.node span{display:block;font-size:28px;color:var(--muted);margin-top:8px}
+.wire{width:220px;height:6px;border-radius:6px;background:linear-gradient(90deg,var(--yellow),var(--blue));margin-bottom:110px;position:relative}
+.wire.k{background:linear-gradient(90deg,var(--blue),var(--green))}
+.wire::after{content:"";position:absolute;top:50%;left:0;width:20px;height:20px;border-radius:50%;background:#fff;border:4px solid var(--blue);transform:translate(-50%,-50%);animation:pulse 2.4s linear infinite}
+@keyframes pulse{to{left:100%}}
+.qrs{display:flex;gap:70px;align-items:flex-end}
+.qr{text-align:center}
+.qr .box{background:#fff;border-radius:28px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.10)}
+.qr .box img{width:300px;height:300px;display:block}
+.qr .lab{display:inline-flex;align-items:center;gap:12px;margin-top:24px;padding:12px 24px;border-radius:999px;font-size:28px;font-weight:600}
+.qr .lab svg{width:28px;height:28px}
+.qr.small .box img{width:220px;height:220px}
+.wordmark{display:flex;align-items:center;gap:22px;font-size:64px;font-weight:800;letter-spacing:-.03em}
+table.lim{width:100%;border-collapse:collapse;margin-top:50px;font-size:28px}
+table.lim td{padding:20px 0;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.35}
+table.lim td:first-child{font-weight:700;width:360px}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- 1 · Cold open: the call -->
+<section class="slide" data-t="0:00">
+  <svg class="air" viewBox="0 0 800 600" aria-hidden="true"><defs><filter id="b1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="70"/></filter></defs>
+    <path filter="url(#b1)" fill="#1f5eff" opacity=".22" d="M620 60C720 70 790 160 770 260 750 360 660 380 600 330 540 280 500 200 520 140 535 95 575 55 620 60Z"/></svg>
+  <div class="center">
+    <div style="display:flex;align-items:center;gap:20px;font-size:32px;font-weight:600;color:var(--blue)">
+      <svg class="ic" viewBox="0 0 24 24" width="40" height="40"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Care team → Matti, Kemi
+    </div>
+    <p class="call" style="margin-top:40px">“Hei Matti, your CT scan is on Thursday. Is everything okay for getting there?”</p>
+    <p class="call" style="margin-top:44px;color:var(--muted)">“I'll cancel. There's no bus that morning.”</p>
+  </div>
+  <aside class="notes">0:00–0:25 · Play the real agent call from the demo laptop (or read it). Then: “This phone call doesn't exist in Finland today. Matti would simply not show up. And nobody would ever know why.”</aside>
+</section>
+
+<!-- 2 · The call doesn't exist -->
+<section class="slide" data-t="0:15">
+  <div class="center">
+    <svg class="ic" viewBox="0 0 24 24" width="120" height="120" style="color:var(--red)"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91"/><line x1="22" y1="2" x2="2" y2="22"/></svg>
+    <h1 style="margin-top:50px">This call doesn't exist today.</h1>
+    <p class="sub">Matti just won't show up. Nobody will know why.</p>
+  </div>
+  <aside class="notes">Pause. Let it land.</aside>
+</section>
+
+<!-- 3 · WHY ✓ HOW MANY ✓ WHO ✗ -->
+<section class="slide" data-t="0:25">
+  <div class="who">
+    <div class="ok">Why<svg class="ic" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <div class="ok">How many<svg class="ic" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <div class="no">Who<svg class="ic" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+  </div>
+  <p class="src">38 853 new cancers per year in Finland · Finnish Cancer Registry, Syöpä 2024</p>
+  <aside class="notes">0:25–1:05 · “Every year almost 39,000 people in Finland hear the word cancer. We know why some get lost on the way to treatment: fear, distance, no car, cost, caring for someone at home. We know roughly how many. What we don't know is WHO. Without a name, nobody can call. Nobody can help. That is where inequality starts.”</aside>
+</section>
+
+<!-- 4 · Where it breaks + Goal 3 -->
+<section class="slide" data-t="1:05">
+  <h2>It breaks between the steps.</h2>
+  <div class="path">
+    <div class="step"><div class="c"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>Detection</div>
+    <div class="gap"></div>
+    <div class="step"><div class="c"><svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>Referral</div>
+    <div class="gap"></div>
+    <div class="step"><div class="c"><svg class="ic" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>Diagnosis</div>
+    <div class="gap"></div>
+    <div class="step"><div class="c" style="background:var(--green-soft);color:var(--green)"><svg class="ic" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>Treatment</div>
+  </div>
+  <div class="nums">
+    <div class="num"><b style="color:var(--red)">1 in 3</b><span>feel their diagnosis came too late</span></div>
+    <div class="num"><b>&lt;68%</b><span>screening in Helsinki area · target 80%</span></div>
+    <div class="num"><b>31%</b><span>believe care is equal across Finland</span></div>
+  </div>
+  <div class="goal"><svg class="ic" viewBox="0 0 24 24" width="34" height="34"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Goal 3 · Treatment starts within target time · no public number yet</div>
+  <p class="src">Cancer organisations' survey (STT) · Cancer Registry screening 2024 · Syöpäpotilaat ry & Roche survey · National Cancer Strategy 2026–2035, THL Ohjaus 21/2016</p>
+  <aside class="notes">1:05–1:30 · “It happens between the steps. Almost one in three patients feel their diagnosis came too late. And it's not only Lapland: screening participation is lowest right here, in Helsinki and Uusimaa. The strategy wants every patient to start treatment within target times. That's Goal 3. But that indicator has no public number yet. Our pathway events produce exactly that data.”</aside>
+</section>
+
+<!-- 5 · Center of gravity today -->
+<section class="slide" data-t="1:30">
+  <svg class="air" viewBox="0 0 800 600" aria-hidden="true"><defs><filter id="b5" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="80"/></filter></defs>
+    <path filter="url(#b5)" fill="#1f5eff" opacity=".22" d="M120 380C180 300 320 320 360 420 400 520 300 600 200 590 100 580 40 460 120 380Z"/>
+    <path filter="url(#b5)" fill="#14a44d" opacity=".16" d="M300 470C360 420 470 450 480 530 490 600 380 640 320 610 260 580 250 510 300 470Z"/></svg>
+  <span class="badge b-county"><svg class="ic" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>For counties · Today</span>
+  <div class="center">
+    <h1>Today, care orbits the institution.</h1>
+    <p class="sub">So we build there first.</p>
+    <div class="cog"><span>Institution</span><div class="track"><i class="d" style="left:0%"></i><i class="h" style="left:100%"></i></div><span style="color:var(--muted)">Person</span></div>
+  </div>
+  <aside class="notes">“Today the centre of gravity of cancer care is the institution. The patient travels, waits, and explains their life again and again. So we built where the centre of gravity is today: at the welfare county. It already has the appointment data and the treatment relationship.”</aside>
+</section>
+
+<!-- 6 · How it works -->
+<section class="slide" data-t="1:45">
+  <span class="badge b-county"><svg class="ic" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>For counties · Today</span>
+  <div class="mark"><div class="ln"><i class="dot f" style="left:0"></i><i class="dot h" style="left:100%"></i></div></div>
+  <h2 style="margin-top:90px">CareCatalyst for counties</h2>
+  <p class="sub">No new app. Docks onto Apotti and Maisa.</p>
+  <div class="flow">
+    <div class="fl"><svg class="ic" viewBox="0 0 24 24" style="color:var(--red)"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><b>Signal</b><span>Cancelled, no-show, not booked</span></div>
+    <div class="fl"><svg class="ic" viewBox="0 0 24 24" style="color:var(--blue)"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><b>Ask why</b><span>The agent calls</span></div>
+    <div class="fl"><svg class="ic" viewBox="0 0 24 24" style="color:var(--green)"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M9 17h6"/></svg><b>Help</b><span>Kela taxi, new slot, care at home</span></div>
+    <div class="fl"><svg class="ic" viewBox="0 0 24 24" style="color:var(--fg)"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><b>Learn</b><span>Why × step × region, anonymised</span></div>
+  </div>
+  <aside class="notes">“Four steps. Signal: a referral not booked, a cancelled scan, a no-show. The agent calls and asks why. It helps with what already exists: a slot that fits, a Kela taxi, a video visit, home hospital. And it learns: the reasons go back, anonymised and aggregated. Patient data never leaves the county.”</aside>
+</section>
+
+<!-- 7 · Live demo -->
+<section class="slide" data-t="2:05">
+  <span class="badge b-county"><svg class="ic" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>For counties · Today</span>
+  <div style="position:absolute;left:140px;top:250px;width:640px">
+    <h2>For the first time: the <span style="color:var(--blue)">why</span>.</h2>
+    <p class="sub">Per step. Per region. Next to Goal 3.</p>
+    <div class="live"><i></i>Live demo</div>
+  </div>
+  <div class="shot" style="left:860px;top:180px;width:940px;transform:rotate(-1.2deg)"><img src="assets/screens/A2-04-regional-goal3.png" alt="County dashboard"></div>
+  <div class="shot" style="left:1060px;top:600px;width:740px;transform:rotate(1.5deg)"><img src="assets/screens/A2-03-gemini-reply-classified.png" alt="Agent call classified"></div>
+  <p class="src" style="right:1100px">Synthetic patients · public aggregate data</p>
+  <aside class="notes">1:45–3:00 · LIVE DEMO (switch to browser). Patients → filter Lapland + Pending call → Matti Heikkinen (Kemi) → Call patient → reason classified: Transport → Kela taxi offered → Regional summary: counter goes up next to the Goal 3 indicator → Plan support → Save. Plan B without Gemini: Classification override → Transport. Close: “Every call makes the map smarter. A county sees not just how many are late, but why, and at which step.”</aside>
+</section>
+
+<!-- 8 · Four proposals -->
+<section class="slide" data-t="3:00">
+  <span class="badge b-county"><svg class="ic" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>For counties · Today</span>
+  <h2 style="margin-top:90px">Start on Monday.</h2>
+  <div class="grid4">
+    <div class="tile"><div class="n" style="color:var(--blue)"><svg class="ic" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg></div><div><b>Pilot at HUS</b><span>Lung cancer · 90 days · FHIR sandbox</span></div></div>
+    <div class="tile"><div class="n" style="color:var(--green)"><svg class="ic" viewBox="0 0 24 24"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg></div><div><b>Transport by default</b><span>Distance → Kela taxi, booked</span></div></div>
+    <div class="tile"><div class="n" style="color:var(--green)"><svg class="ic" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><b>Care comes home</b><span>Video visit · home hospital</span></div></div>
+    <div class="tile"><div class="n" style="color:var(--fg)"><svg class="ic" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div><b>Report the why</b><span>Next to the Goal 3 indicator</span></div></div>
+  </div>
+  <aside class="notes">3:00–3:20 · “Four things a county can start on Monday. One: pilot at HUS, one cancer type, lung, 90 days, Apotti FHIR sandbox first. Two: transport by default: if the reason is distance, the agent starts the Kela taxi. Three: care comes home where medically possible. Four: report the why next to the Goal 3 indicator.”</aside>
+</section>
+
+<!-- 9 · Business case -->
+<section class="slide" data-t="3:20" id="biz">
+  <span class="badge b-county"><svg class="ic" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>For counties · Today</span>
+  <h2 style="margin-top:90px">The money is there. The moment is missing.</h2>
+  <div class="nums" style="margin-top:80px">
+    <div class="num"><b style="color:var(--red)">4%</b><span>appointments lost to no-shows</span></div>
+    <div class="num"><b style="color:var(--green)">−42%</b><span>no-shows with targeted calls</span></div>
+    <div class="num"><b>€364M</b><span>Kela travel budget per year</span></div>
+    <div class="num"><b style="color:var(--red)">2.6×</b><span>monthly cost, stage IV vs I</span></div>
+  </div>
+  <p class="src">Pirha 2025 (35 255 of 875 837 visits) · Percac-Lima et al. 2015, RCT · Kela 2025 · Lung cancer cost study NL 2012–2021</p>
+  <aside class="notes">3:20–3:40 · “Does it pay? Hospitals lose around 4 % of appointments to no-shows. In a randomized trial, targeted navigator calls cut cancer-care no-shows by over 40 %. Kela already spends 364 million euros a year on travel: the money is there, what's missing is the moment someone notices. And a stage-IV lung cancer costs 2.6 times more per month than stage I.” [BUSINESS MODEL from Zain goes here: who pays, price, scale.]</aside>
+</section>
+
+<!-- 10 · The dot moves (bridge) -->
+<section class="slide" data-t="3:40" id="bridge">
+  <svg class="air" viewBox="0 0 800 600" aria-hidden="true"><defs><filter id="b10" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="80"/></filter></defs>
+    <path filter="url(#b10)" fill="#1f5eff" opacity=".18" d="M90 260C150 200 260 220 280 300 300 380 220 430 150 420 80 410 40 320 90 260Z"/>
+    <path filter="url(#b10)" fill="#ffc400" opacity=".28" d="M560 250C630 200 740 230 750 320 760 410 680 450 610 430 540 410 500 300 560 250Z"/></svg>
+  <div class="center">
+    <h1>Tomorrow, the center of gravity moves.</h1>
+    <p class="sub">From the institution to the person.</p>
+    <div class="cog"><span>Institution</span><div class="track"><i class="d" id="movingDot" style="left:0%"></i><i class="h" id="hollowDot" style="left:100%"></i></div><span>Person</span></div>
+  </div>
+  <aside class="notes">“But here's the thing. Today the institution calls the patient. Tomorrow it's the other way around. Ten years ago not everyone had a smartphone. Soon everyone will have a personal agent. And with the European Health Data Space, patients get the right to share their health record with services they choose.”</aside>
+</section>
+
+<!-- 11 · Eero & Jenny (Part 2, warm) -->
+<section class="slide warm" data-t="3:55">
+  <div class="photo" style="background-image:url(assets/eero/eero-armchair-jenny.jpg)"></div>
+  <span class="badge b-you"><svg class="ic" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>For you · Tomorrow</span>
+  <div style="position:absolute;left:140px;top:250px;width:860px">
+    <h2>Eero, 78, Espoo.<br>And Jenny.</h2>
+    <p class="sub">His back hurts. Again.</p>
+    <div class="bubble"><small><svg class="ic" viewBox="0 0 24 24" width="30" height="30"><path d="M12 3l1.9 5.8L20 10l-6.1 1.2L12 17l-1.9-5.8L4 10l6.1-1.2z"/></svg>His agent</small>“Shall I book tomorrow at 8, before bingo? Kela covers the taxi.”</div>
+  </div>
+  <aside class="notes">3:55–4:35 · “Meet Eero. 78, Espoo, visually impaired. And this is Jenny. Eero is making coffee, asking his assistant about dog food. He bends down and groans. His back. Again. His agent remembers: he has already seen an orthopedist for this. Nobody in the system connects those two visits. His agent does. ‘Eero, your back is hurting again. I think you should get it checked. The centre is in Helsinki, but I know you don't like the bus. Kela can cover a taxi. Shall I book tomorrow at 8, before your bingo class?’ ‘Yes. Thank you.’ And he goes back to playing with Jenny.” If asked: the agent never diagnoses, it only books the check-up.</aside>
+</section>
+
+<!-- 12 · CarePulse app (Part 2, warm) -->
+<section class="slide warm" data-t="4:20">
+  <span class="badge b-you"><svg class="ic" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>For you · Tomorrow</span>
+  <div class="mark"><div class="ln"><i class="dot h" style="left:0"></i><i class="dot f" style="left:100%"></i></div></div>
+  <div style="position:absolute;left:140px;top:280px;width:620px">
+    <h2>CarePulse</h2>
+    <p class="sub">Your agent. Your consent. One plan for your day.</p>
+  </div>
+  <div class="shot" style="left:820px;top:170px;width:960px"><img src="assets/screens/B-22-preview-agent-booking-1920.png" alt="CarePulse booking"></div>
+  <aside class="notes">Optional, 10 s: show the CarePulse prototype: symptom noted → booking 8:00 before bingo → Kela taxi → consent per recipient.</aside>
+</section>
+
+<!-- 13 · Agent to agent -->
+<section class="slide" data-t="4:35">
+  <h2 style="text-align:center">Agent to agent.</h2>
+  <p class="sub" style="text-align:center">He never has to explain his life again.</p>
+  <div class="a2a">
+    <div class="node"><div class="c" style="background:var(--yellow-soft);color:#7a5a00"><svg class="ic" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><b>Eero's agent</b><span>CarePulse</span></div>
+    <div class="wire"></div>
+    <div class="node"><div class="c" style="background:var(--blue-soft);color:var(--blue)"><svg class="ic" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg></div><b>County agent</b><span>Built today</span></div>
+    <div class="wire k"></div>
+    <div class="node"><div class="c" style="background:var(--green-soft);color:var(--green)"><svg class="ic" viewBox="0 0 24 24"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg></div><b>Kela</b><span>Taxi booked</span></div>
+  </div>
+  <aside class="notes">4:35–4:50 · “And who does Eero's agent talk to, to book that slot and that taxi? The county agent we built today. Agent to agent. Eero shares only what's needed. He never has to explain his life again.”</aside>
+</section>
+
+<!-- 14 · Claim + QR -->
+<section class="slide" data-t="4:50">
+  <svg class="air" viewBox="0 0 800 600" aria-hidden="true"><defs><filter id="b14" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="80"/></filter></defs>
+    <path filter="url(#b14)" fill="#1f5eff" opacity=".2" d="M40 420C100 360 220 380 250 460 280 540 180 600 110 590 40 580 -10 480 40 420Z"/>
+    <path filter="url(#b14)" fill="#14a44d" opacity=".16" d="M200 520C260 480 350 500 360 560 370 620 280 650 230 630 180 610 160 550 200 520Z"/></svg>
+  <div style="position:absolute;left:140px;top:150px;width:920px">
+    <div class="wordmark"><span style="display:flex;align-items:center;gap:10px"><svg width="150" height="40" viewBox="0 0 150 40"><rect x="18" y="18" width="114" height="4" rx="2" fill="#e6e6e6"/><circle cx="20" cy="20" r="13" fill="#fff" stroke="#0a0a0a" stroke-width="3"/><circle cx="130" cy="20" r="15" fill="#1f5eff"/></svg></span>CareCatalyst</div>
+    <h1 style="margin-top:70px">Closing gaps.<br>Connecting care.</h1>
+    <p class="sub">Today we close the gaps the system can see.<br>Tomorrow, the ones only you can see.</p>
+  </div>
+  <div class="qrs" style="position:absolute;right:140px;top:240px">
+    <div class="qr"><div class="box"><img src="assets/qr-demo-counties.svg" alt="QR live demo for counties"></div><div class="lab" style="background:var(--blue-soft);color:var(--blue)"><svg class="ic" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>Live demo</div></div>
+    <div class="qr small"><div class="box"><img src="assets/qr-demo-you.svg" alt="QR CarePulse vision"></div><div class="lab" style="background:var(--yellow-soft);color:#7a5a00"><svg class="ic" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Vision</div></div>
+  </div>
+  <aside class="notes">4:50–5:00 · “Today, we close the gaps the system can see. Tomorrow, we close the ones only you can see. CareCatalyst. Closing gaps. Connecting care.” Leave this slide up during Q&A: QR opens the live demo, no login, no keys.</aside>
+</section>
+
+<!-- A1 · Data & limits (appendix) -->
+<section class="slide" data-t="Q&A">
+  <h2>Data &amp; limits</h2>
+  <table class="lim">
+    <tr><td>People</td><td>All patients are synthetic. Numbers are public, aggregated, sourced.</td></tr>
+    <tr><td>Privacy</td><td>Runs inside the county's care relationship. Only anonymous aggregates leave (GDPR Art. 9). No automated decisions (Art. 22).</td></tr>
+    <tr><td>Medical</td><td>The agent never diagnoses. It asks why and books help.</td></tr>
+    <tr><td>Evidence</td><td>Call effect from US navigator RCTs. No Finnish AI trial yet: that's the pilot.</td></tr>
+    <tr><td>Goal 3 data</td><td>THL: waiting-time data still needs reliability checks. Pathway events fill that gap.</td></tr>
+  </table>
+  <aside class="notes">Backup slide for questions.</aside>
+</section>
+
+</div>
+<div id="count"></div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const stage=document.getElementById('stage');
+let i=Math.max(0,Math.min(slides.length-1,(parseInt(new URLSearchParams(location.search).get('s'))||1)-1));
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+function show(n){
+  i=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  document.getElementById('count').textContent=(i+1)+' / '+slides.length;
+  const d=document.getElementById('movingDot'),h=document.getElementById('hollowDot');
+  if(slides[i].id==='bridge'){d.style.left='0%';h.style.left='100%';setTimeout(()=>{d.style.left='100%';h.style.left='0%'},700)}
+  else{d.style.left='0%';h.style.left='100%'}
+  const u=new URL(location);u.searchParams.set('s',i+1);history.replaceState(null,'',u);
+}
+addEventListener('resize',fit);fit();show(i);
+addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key))show(i+1);
+  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key))show(i-1);
+  else if(e.key==='n'||e.key==='N')document.body.classList.toggle('show-notes');
+  else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+  else if(e.key==='f'||e.key==='F')document.documentElement.requestFullscreen?.();
+});
+stage.addEventListener('click',e=>{show(e.clientX>innerWidth/2?i+1:i-1)});
+</script>
+</body>
+</html>
