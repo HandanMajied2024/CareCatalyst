@@ -33,7 +33,7 @@ Rule of the challenge: **public, aggregate data only, a source for every number.
 | `patients.ts` (OYS) | ">150–415 km" | plausible, not sourced | Add distance source or say "up to ~400 km" |
 | `policyModel.ts` | cost per hospital slot 4 200 €, car 2 800 €, mobile unit 32 000 € | model assumptions | Label "assumption" in the UI |
 
-## Still to add (`[TODO]`)
+## Still open (not yet in the repo)
 
 | File | What | Source to use | Status |
 |---|---|---|---|

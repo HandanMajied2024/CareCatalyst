@@ -32,8 +32,8 @@ They think in **who pays, who gains, how fast it scales, how it makes AZ look**.
 
 | Fact | Number | Source |
 |---|---|---|
-| Unused hospital appointments, Pirkanmaa 2025 | **35 255 of 875 837 = 4.0 %** | Pirha ([PDF](https://pirha.cloudnc.fi/download/noname/{8bb164a0-2811-40d3-95b2-bb0d25866c02}/73484)) |
-| National estimate, all visits | ~2 % | Parliament debate on HE 117/2025 ([bill](https://www.riksdagen.fi/pdf/HE+117/2025)) `[verify exact quote]` |
+| Unused hospital appointments, Pirkanmaa 2025 | **35 255 of 875 837 = 4.0 %** | Pirkanmaa wellbeing services county (Pirha), response to a council initiative on reducing unused appointments, 2026: hospital services 2025, 875 837 bookings, 35 255 unused (4.03 %), follow-up visits 7.35 % (original PDF offline) |
+| National estimate, all visits | ~2 % (estimate cited in the parliamentary debate, not an official statistic) | Plenary debate on HE 117/2025 ([bill](https://www.riksdagen.fi/pdf/HE+117/2025), [committee report StVM 16/2025](https://www.eduskunta.fi/pdf/StVM+16/2025)) |
 | Government is **raising the no-show fee** (from 2026) → no-shows are a political issue | – | Valtioneuvosto ([news](https://valtioneuvosto.fi/-/1271139/kayttamatta-jatetysta-sote-palvelusta-perittava-enimmaismaksu-nousee)) |
 | Targeted navigator phone calls in cancer clinics cut no-shows from **17.5 % → 10.2 %** (RCT) | −42 % relative | Percac-Lima et al. 2015, MGH ([PubMed](https://pubmed.ncbi.nlm.nih.gov/25585595/)) |
 | Navigation for colonoscopy: no-shows **15.4 % → 8.2 %**, cost **$148–359 per patient navigated** | – | Kim et al. 2018, *Cancer* ([PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC6263829)) |
@@ -64,7 +64,7 @@ They think in **who pays, who gains, how fast it scales, how it makes AZ look**.
 ### 3d. Simple ROI story (illustrative, label as estimate)
 
 > For one cancer centre: if 4 % of appointments are missed (Pirha 2025) and targeted calls cut that by ~40 % (Percac-Lima 2015), **1 in 60 slots** comes back. Each recovered diagnostic slot moves a patient earlier in the pathway, where care costs **2–3× less** than at stage IV (NL lung study).
-> `[TODO]` plug in the HUS cancer-centre visit count to get a € figure. Keep it labelled as an estimate.
+> Our € estimate for a HUS lung pilot (≈ €300k value per year) and its assumptions are in [kalkulation](kalkulation/kalkulation.html). It is an estimate, not a measured result.
 
 ## 4. Why AstraZeneca cares (marketing + business excellence lens)
 
@@ -85,7 +85,7 @@ They think in **who pays, who gains, how fast it scales, how it makes AZ look**.
 | Integration | Apotti FHIR sandbox → live (Apotti recommends FHIR, HUS is "FHIR first") |
 | Partners | Kela (taxi, travel reimbursement), Syöpäjärjestöt (support), AZ (funding/evaluation) |
 | KPIs | no-show rate, days referral → first treatment (Goal 3), share of drop-outs with a known reason, Kela taxi bookings triggered |
-| Cost model | `[TODO]` licence per county or per navigated patient (benchmark: $148–359 human navigator) |
+| Cost model | Licence per county (estimate ≈ €150k per year) or €50–100 per navigated patient; benchmark: human navigator $148–359 per patient (Kim et al. 2018) |
 
 ## 6. Limits we say out loud
 
