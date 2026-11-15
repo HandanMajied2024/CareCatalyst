@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hand Prototype A2</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--fg:#111;--muted:#8a8a8f;--bg:#fff}
+  html,body{margin:0;height:100%;background:var(--bg);font-family:Inter,system-ui,sans-serif;color:var(--fg);overflow:hidden}
+  .blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.55;pointer-events:none}
+  .b1{width:46vw;height:46vw;left:-8vw;top:-10vw;background:#c9dcff}
+  .b2{width:40vw;height:40vw;right:-6vw;bottom:-12vw;background:#ffd9c7}
+  .b3{width:30vw;height:30vw;right:22vw;top:8vh;background:#e6dcff;opacity:.4}
+  .tag{position:fixed;left:24px;top:20px;font-size:13px;color:var(--muted);z-index:5}
+  .tag b{color:var(--fg);font-weight:600}
+  #view{position:fixed;inset:0;perspective:1800px;overflow:hidden}
+  #fit{position:absolute;left:50%;top:50%;width:3308px;height:2400px;transform-origin:0 0}
+  #rig{position:absolute;inset:0;transform-origin:2659px 873px;transform-style:preserve-3d;will-change:transform;backface-visibility:hidden}
+  #hand{position:absolute;left:0;top:0;width:3308px;height:2400px;z-index:2;pointer-events:none}
+  #screen{position:absolute;left:0;top:0;width:390px;height:844px;transform-origin:0 0;z-index:1;overflow:hidden;
+          background:linear-gradient(160deg,#f7f9ff,#ffeee6);border-radius:40px}
+  .ui{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center}
+  .status{width:100%;display:flex;justify-content:space-between;padding:22px 34px 0;box-sizing:border-box;font-weight:600;font-size:17px}
+  .card{margin-top:150px;width:320px;height:300px;border-radius:36px;background:#fff;box-shadow:0 20px 50px rgba(0,0,0,.07);
+        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative}
+  .ico{width:84px;height:84px;border-radius:50%;background:#111;display:grid;place-items:center;margin-bottom:10px}
+  .big{font-size:60px;font-weight:600;letter-spacing:-.02em}
+  .sub{font-size:20px;color:var(--muted)}
+  .btn{margin-top:70px;width:200px;height:72px;border-radius:36px;background:#111;color:#fff;display:grid;place-items:center;font-weight:600;font-size:24px}
+  #done{opacity:0}
+  #done .ico{background:#1fbf6a}
+  .ripple{position:absolute;left:195px;top:637px;width:20px;height:20px;margin:-10px;border-radius:50%;border:3px solid #111;opacity:0}
+  /* flying notification */
+  #note{position:absolute;z-index:3;left:2980px;top:820px;width:640px;padding:38px 44px;border-radius:48px;font-size:150%;
+        background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.14);
+        display:flex;gap:20px;align-items:center;opacity:0;transform-origin:20% 50%}
+  #note .i{width:96px;height:96px;border-radius:26px;background:#111;display:grid;place-items:center;flex:none}
+  #note .i svg{width:48px;height:48px}
+  #note b{font-size:38px;display:block}
+  #note span{font-size:28px;color:var(--muted)}
+  .bar{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);display:flex;gap:12px;align-items:center;z-index:5;
+       background:rgba(255,255,255,.72);backdrop-filter:blur(20px);border-radius:999px;padding:8px 14px;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+  button{all:unset;cursor:pointer;width:34px;height:34px;display:grid;place-items:center;border-radius:50%}
+  button:hover{background:rgba(0,0,0,.06)}
+  button.on{background:#111;color:#fff}
+  input[type=range]{width:min(40vw,320px);accent-color:#111}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="tag"><b>A2</b> · Foto-Freisteller (Unsplash) + Code-Animation · €0</div>
+
+<div id="view"><div id="fit"><div id="rig">
+  <div id="screen">
+    <div class="ui" id="ask">
+      <div class="status"><span>9:41</span><span>●●●</span></div>
+      <div class="card">
+        <div class="ico"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+        <div class="big">08:00</div><div class="sub">HUS · Meilahti</div>
+      </div>
+      <div class="btn">Book</div>
+      <div class="ripple" id="rip"></div>
+    </div>
+    <div class="ui" id="done">
+      <div class="status"><span>9:41</span><span>●●●</span></div>
+      <div class="card">
+        <div class="ico"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <div class="big" style="font-size:44px">Booked</div><div class="sub">Taxi 07:15</div>
+      </div>
+    </div>
+  </div>
+  <img id="hand" src="assets/hand_arm.png" decoding="sync" alt="">
+  <div id="note"><div class="i"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 17h14l-1.5-6.5A2 2 0 0 0 15.6 9H8.4a2 2 0 0 0-1.9 1.5zM7 17v2M17 17v2M9 9l1-3h4l1 3"/></svg></div>
+    <div><b>Kela-Taxi 07:15</b><span>Pickup at home</span></div></div>
+</div></div></div>
+
+<div class="bar">
+  <button id="play" title="Play/Pause"><svg width="16" height="16" viewBox="0 0 16 16"><path id="pi" d="M4 2h3v12H4zM9 2h3v12H9z" fill="currentColor"/></svg></button>
+  <input id="scrub" type="range" min="0" max="1000" value="0">
+  <button id="slow" title="Zeitlupe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg></button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+gsap.config({force3D:true}); gsap.ticker.lagSmoothing(0);
+// ---- perspective-map the 390x844 UI onto the measured screen quad (image px) ----
+const QUAD = [[2745.3,31.9],[3298.2,264.4],[2677.6,1382.5],[2121.9,1096.6]]; // TL,TR,BR,BL of the phone screen
+function homography(w,h,q){
+  const s=[[0,0],[w,0],[w,h],[0,h]], A=[], b=[];
+  for(let i=0;i<4;i++){const [x,y]=s[i],[X,Y]=q[i];
+    A.push([x,y,1,0,0,0,-X*x,-X*y]); b.push(X);
+    A.push([0,0,0,x,y,1,-Y*x,-Y*y]); b.push(Y);}
+  // gaussian elimination
+  for(let c=0;c<8;c++){let p=c;for(let r=c+1;r<8;r++)if(Math.abs(A[r][c])>Math.abs(A[p][c]))p=r;
+    [A[c],A[p]]=[A[p],A[c]];[b[c],b[p]]=[b[p],b[c]];
+    for(let r=0;r<8;r++)if(r!==c){const f=A[r][c]/A[c][c];for(let k=c;k<8;k++)A[r][k]-=f*A[c][k];b[r]-=f*b[c];}}
+  const m=b.map((v,i)=>v/A[i][i]);
+  return `matrix3d(${m[0]},${m[3]},0,${m[6]},${m[1]},${m[4]},0,${m[7]},0,0,1,0,${m[2]},${m[5]},0,1)`;
+}
+document.getElementById('screen').style.transform = homography(390,844,QUAD);
+
+// ---- fit stage to viewport ----
+const fit = document.getElementById('fit');
+function resize(){ const s = Math.min(innerWidth/1708, innerHeight/1588)*0.78;
+  fit.style.transform = `scale(${s}) translate(-2454px,-794px)`; }
+addEventListener('resize', resize); resize();
+
+// ---- timeline ----
+const rig = document.getElementById('rig'), note = document.getElementById('note');
+gsap.set(rig, {x:1300, y:1200, rotation:38, rotationY:-30, rotationX:10, scale:.9});
+const tl = gsap.timeline({repeat:-1, repeatDelay:.3, onUpdate:()=>{scrub.value = tl.progress()*1000|0;}});
+tl
+  // 1. swoop in on an arc: different eases on x / y = curved path, rotation overshoots
+  .to(rig, {x:0, duration:1.1, ease:'power4.out'}, 0)
+  .to(rig, {y:0, duration:1.1, ease:'back.out(1.4)'}, 0)
+  .to(rig, {rotation:-4, rotationY:0, rotationX:0, scale:1, duration:1.25, ease:'back.out(1.7)'}, .02)
+  .fromTo('#ask', {opacity:0, scale:.94}, {opacity:1, scale:1, duration:.4, ease:'power2.out'}, .55)
+  .set('#done', {opacity:0}, 0)
+  // 2. tap: whole hand presses in, ripple, UI springs to "booked"
+  .to(rig, {scale:.975, rotationX:6, duration:.1, ease:'power3.in'}, 1.45)
+  .to(rig, {scale:1, rotationX:0, duration:.6, ease:'elastic.out(1,.4)'}, 1.55)
+  .fromTo('#rip', {opacity:.5, scale:1}, {opacity:0, scale:7, duration:.5, ease:'expo.out'}, 1.55)
+  .to('#ask', {opacity:0, scale:.96, duration:.15}, 1.62)
+  .fromTo('#done', {opacity:0, scale:1.08}, {opacity:1, scale:1, duration:.55, ease:'back.out(3)'}, 1.68)
+  // 3. unexpected: quick turn to "show" the screen + notification flies out of the phone
+  .to(rig, {rotationY:-22, rotation:-11, x:-120, duration:.38, ease:'power2.inOut'}, 2.4)
+  .to(rig, {rotationY:6, rotation:2, x:30, duration:.85, ease:'back.out(1.6)'}, 2.78)
+  .fromTo(note, {opacity:0, x:-560, y:-300, scale:.2, rotation:-28, z:0},
+               {opacity:1, x:0, y:0, scale:1, rotation:-4, z:200, duration:.75, ease:'back.out(1.7)'}, 2.6)
+  .to(note, {y:-14, duration:.6, ease:'sine.inOut', yoyo:true, repeat:1}, 3.35)
+  // 4. whip exit
+  .to(note, {x:-900, y:-300, rotation:-30, opacity:0, duration:.45, ease:'expo.in'}, 4.45)
+  .to(rig, {rotation:14, rotationY:20, duration:.22, ease:'back.in(2.5)'}, 4.5)
+  .to(rig, {x:-2200, y:-500, rotation:-30, duration:.6, ease:'power3.in'}, 4.6)
+  .to({}, {duration:.15});
+
+
+// ---- UI ----
+const scrub = document.getElementById('scrub'), pi = document.getElementById('pi');
+let playing = true;
+function setPlay(p){ playing=p; p?tl.play():tl.pause(); pi.setAttribute('d', p?'M4 2h3v12H4zM9 2h3v12H9z':'M4 2l10 6-10 6z'); }
+document.getElementById('play').onclick = ()=>setPlay(!playing);
+scrub.oninput = ()=>{ setPlay(false); tl.progress(scrub.value/1000); };
+document.getElementById('slow').onclick = e=>{ const on=e.currentTarget.classList.toggle('on'); gsap.globalTimeline.timeScale(on?.25:1); };
+window.__tl = tl;
+</script>
+</body>
+</html>

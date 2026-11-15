@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blender Hand Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #ffffff; --fg: #1d1d1f; --muted: #86868b; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: Inter, system-ui, sans-serif;
+         min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+         gap: 20px; padding: 24px 16px; }
+  h1 { font-weight: 600; font-size: 15px; letter-spacing: .02em; color: var(--muted); }
+  .row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 1340px; }
+  figure { flex: 1 1 420px; max-width: 640px; }
+  video, img { width: 100%; display: block; border-radius: 18px; background: #f5f5f7; }
+  figcaption { font-size: 12px; color: var(--muted); text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <h1>Blender + MPFB · €0</h1>
+  <div class="row">
+    <figure>
+      <video src="out/hand_phone.mp4" autoplay loop muted playsinline></video>
+      <figcaption>EEVEE · 72 frames · 24 fps</figcaption>
+    </figure>
+    <figure>
+      <img src="out/still.png" alt="Cycles still">
+      <figcaption>Cycles still</figcaption>
+    </figure>
+  </div>
+</body>
+</html>

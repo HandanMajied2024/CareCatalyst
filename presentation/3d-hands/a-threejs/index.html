@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hand Prototype A</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--fg:#111;--muted:#8a8a8f;--bg:#fff}
+  html,body{margin:0;height:100%;background:var(--bg);font-family:Inter,system-ui,sans-serif;color:var(--fg);overflow:hidden}
+  .blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.55;pointer-events:none}
+  .b1{width:46vw;height:46vw;left:-8vw;top:-10vw;background:#c9dcff}
+  .b2{width:40vw;height:40vw;right:-6vw;bottom:-12vw;background:#ffd9c7}
+  .b3{width:30vw;height:30vw;right:22vw;top:8vh;background:#e6dcff;opacity:.4}
+  canvas{position:fixed;inset:0;width:100%;height:100%}
+  .tag{position:fixed;left:24px;top:20px;font-size:13px;color:var(--muted);letter-spacing:.02em}
+  .tag b{color:var(--fg);font-weight:600}
+  .bar{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);display:flex;gap:12px;align-items:center;
+       background:rgba(255,255,255,.72);backdrop-filter:blur(20px);border-radius:999px;padding:8px 14px;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+  button{all:unset;cursor:pointer;width:34px;height:34px;display:grid;place-items:center;border-radius:50%}
+  button:hover{background:rgba(0,0,0,.06)}
+  button.on{background:#111;color:#fff}
+  input[type=range]{width:min(40vw,320px);accent-color:#111}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="tag"><b>A</b> · Three.js · WebXR-Hand (MIT) · Echtzeit</div>
+<div class="bar">
+  <button id="play" title="Play/Pause"><svg width="16" height="16" viewBox="0 0 16 16"><path id="pi" d="M4 2h3v12H4zM9 2h3v12H9z" fill="currentColor"/></svg></button>
+  <input id="scrub" type="range" min="0" max="1000" value="0">
+  <button id="slow" title="Zeitlupe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg></button>
+  <button id="orbit" title="Drehen"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/></svg></button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+"three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true, preserveDrawingBuffer:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+const camera = new THREE.PerspectiveCamera(26, innerWidth/innerHeight, 0.01, 10);
+camera.position.set(0, 0.02, 0.62);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enabled = false; controls.target.set(0,0,0);
+
+const key = new THREE.DirectionalLight(0xffffff, 1.6);
+key.position.set(0.4, 0.8, 0.9); key.castShadow = true;
+key.shadow.mapSize.set(2048,2048); key.shadow.radius = 8;
+Object.assign(key.shadow.camera,{left:-.3,right:.3,top:.3,bottom:-.3,near:.1,far:3});
+scene.add(key);
+const rim = new THREE.DirectionalLight(0xdfe8ff, 1.2); rim.position.set(-0.8, 0.3, -0.6); scene.add(rim);
+
+const shadowPlane = new THREE.Mesh(new THREE.PlaneGeometry(3,3), new THREE.ShadowMaterial({opacity:.08}));
+
+
+// ---------- phone ----------
+function screenTex(state){
+  const c = document.createElement('canvas'); c.width=512; c.height=1040;
+  const g = c.getContext('2d');
+  const grd = g.createLinearGradient(0,0,512,1040);
+  grd.addColorStop(0,'#f7f9ff'); grd.addColorStop(1,'#ffeee6');
+  g.fillStyle=grd; g.fillRect(0,0,512,1040);
+  g.fillStyle='#111'; g.font='600 30px Inter, sans-serif'; g.fillText('9:41',48,64);
+  g.beginPath(); g.roundRect(196,30,120,36,18); g.fill();
+  // card
+  g.fillStyle='#fff'; g.shadowColor='rgba(0,0,0,.08)'; g.shadowBlur=30;
+  g.beginPath(); g.roundRect(40,300,432,360,44); g.fill(); g.shadowBlur=0;
+  if(state===0){
+    g.fillStyle='#111'; g.beginPath(); g.arc(256,410,54,0,7); g.fill();
+    g.strokeStyle='#fff'; g.lineWidth=8; g.strokeRect(232,388,48,44); g.beginPath(); g.moveTo(232,402); g.lineTo(280,402); g.stroke();
+    g.fillStyle='#111'; g.font='600 76px Inter, sans-serif'; g.textAlign='center'; g.fillText('08:00',256,560);
+    g.fillStyle='#8a8a8f'; g.font='400 30px Inter, sans-serif'; g.fillText('HUS · Meilahti',256,610);
+    g.fillStyle='#111'; g.beginPath(); g.roundRect(136,760,240,92,46); g.fill();
+    g.fillStyle='#fff'; g.font='600 34px Inter, sans-serif'; g.fillText('Book',256,818);
+  } else {
+    g.fillStyle='#1fbf6a'; g.beginPath(); g.arc(256,430,74,0,7); g.fill();
+    g.strokeStyle='#fff'; g.lineWidth=14; g.lineCap='round'; g.beginPath(); g.moveTo(222,432); g.lineTo(248,458); g.lineTo(294,404); g.stroke();
+    g.fillStyle='#111'; g.font='600 52px Inter, sans-serif'; g.textAlign='center'; g.fillText('Booked',256,580);
+    g.fillStyle='#8a8a8f'; g.font='400 30px Inter, sans-serif'; g.fillText('Taxi 07:15',256,626);
+  }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy=8; return t;
+}
+const tex = [screenTex(0), screenTex(1)];
+const phone = new THREE.Group();
+const W=0.0715, H=0.1476, D=0.0083;
+const body = new THREE.Mesh(new RoundedBoxGeometry(W,H,D,6,0.011),
+  new THREE.MeshPhysicalMaterial({color:0xb9b4ad, metalness:1, roughness:.28, clearcoat:.4}));
+body.castShadow = true; phone.add(body);
+const glass = new THREE.Mesh(new RoundedBoxGeometry(W-0.0012,H-0.0012,0.0006,6,0.0105),
+  new THREE.MeshPhysicalMaterial({color:0x050505, roughness:.05, clearcoat:1}));
+glass.position.z = D/2; phone.add(glass);
+const screenMat = new THREE.MeshBasicMaterial({map:tex[0], toneMapped:false, transparent:true, opacity:0});
+const screen = new THREE.Mesh(new THREE.PlaneGeometry(W-0.0075, H-0.0075), screenMat);
+screen.position.z = D/2+0.00035; phone.add(screen);
+// ripple
+const ripple = new THREE.Mesh(new THREE.RingGeometry(0.004,0.0055,48), new THREE.MeshBasicMaterial({color:0x111111, transparent:true, opacity:0, toneMapped:false}));
+ripple.position.set(0,-0.042,D/2+0.0005); phone.add(ripple);
+
+// ---------- hand rig ----------
+const handRoot = new THREE.Group();   // animated transform
+scene.add(handRoot);
+const handAlign = new THREE.Group();  // static alignment of the glb in handRoot space
+handRoot.add(handAlign);
+
+const FINGERS = {
+  thumb:['thumb-metacarpal','thumb-phalanx-proximal','thumb-phalanx-distal','thumb-tip'],
+  index:['index-finger-metacarpal','index-finger-phalanx-proximal','index-finger-phalanx-intermediate','index-finger-phalanx-distal','index-finger-tip'],
+  middle:['middle-finger-metacarpal','middle-finger-phalanx-proximal','middle-finger-phalanx-intermediate','middle-finger-phalanx-distal','middle-finger-tip'],
+  ring:['ring-finger-metacarpal','ring-finger-phalanx-proximal','ring-finger-phalanx-intermediate','ring-finger-phalanx-distal','ring-finger-tip'],
+  pinky:['pinky-finger-metacarpal','pinky-finger-phalanx-proximal','pinky-finger-phalanx-intermediate','pinky-finger-phalanx-distal','pinky-finger-tip'],
+};
+// animatable pose state: per finger flex (0..1) + thumb extras
+const pose = {spread:0.2, thumbIn:0};
+for(const f of ['thumb','index','middle','ring','pinky']) for(let i=0;i<3;i++) pose[f+i]=0.1;
+window.mk = (mcp,pip,dip,t0,t1,t2,thumbIn,spread)=>{ const o={thumbIn,spread};
+  for(const f of ['index','middle','ring','pinky']){o[f+0]=mcp;o[f+1]=pip;o[f+2]=dip;}
+  o.thumb0=t0;o.thumb1=t1;o.thumb2=t2; return o; };
+const bones = {}, rest = {};
+
+const SIGN = -1; // flexion direction about joint-local X (WebXR: -Z toward tip, +Y dorsal)
+function applyPose(){
+  if(!bones.wrist) return;
+  const X = new THREE.Vector3(1,0,0), Y = new THREE.Vector3(0,1,0);
+  for(const [f,chain] of Object.entries(FINGERS)){
+    const isT = f==='thumb';
+    const ang = isT
+      ? [ pose.thumb0, pose.thumb1, pose.thumb2, 0 ]
+      : [ 0, pose[f+0], pose[f+1], pose[f+2], 0 ];
+    const spreadIdx = {index:-1, middle:-0.3, ring:0.4, pinky:1}[f] ?? 0;
+    let q = new THREE.Quaternion(), t = new THREE.Vector3();
+    chain.forEach((name,i)=>{
+      const b = bones[name], r = rest[name];
+      const p = r.p.clone().applyQuaternion(q).add(t);
+      const rq = q.clone().multiply(r.q);
+      b.position.copy(p); b.quaternion.copy(rq);
+      let a = ang[i]*SIGN;
+      if(a || (i===1 && !isT) || (isT && i===0)){
+        const rot = new THREE.Quaternion().setFromAxisAngle(X.clone().applyQuaternion(rq), a);
+        if(isT && i===0){ // thumb swing toward palm around its local Y
+          rot.multiply(new THREE.Quaternion().setFromAxisAngle(Y.clone().applyQuaternion(rq), -0.6*pose.thumbIn));
+        }
+        if(i===1 && !isT){ // abduction
+          rot.premultiply(new THREE.Quaternion().setFromAxisAngle(Y.clone().applyQuaternion(rq), 0.12*spreadIdx*pose.spread));
+        }
+        q = rot.clone().multiply(q);
+        t = t.clone().sub(p).applyQuaternion(rot).add(p);
+      }
+    });
+  }
+}
+
+const skin = new THREE.MeshPhysicalMaterial({
+  color:0xe2b59d, roughness:.52, sheen:.6, sheenRoughness:.6, sheenColor:new THREE.Color(0xffc4b0),
+  clearcoat:.08, clearcoatRoughness:.6, specularIntensity:.35
+});
+
+new GLTFLoader().load('assets/right.glb', gltf=>{
+  const root = gltf.scene;
+  root.traverse(o=>{
+    if(o.isBone || o.type==='Object3D'){ }
+    if(o.isSkinnedMesh){ o.material = skin; o.castShadow = true; o.frustumCulled=false; o.geometry.computeVertexNormals(); }
+  });
+  for(const name of ['wrist',...Object.values(FINGERS).flat()]){
+    const b = root.getObjectByName(name); bones[name]=b;
+    rest[name] = {p:b.position.clone(), q:b.quaternion.clone()};
+  }
+  handAlign.add(root);
+  // phone in glb space: palm faces -X, fingers -Y, thumb -Z
+  handAlign.add(phone);
+  window.__phoneBase = {p:new THREE.Vector3(-0.012,-0.038,-0.006), r:new THREE.Euler(0, -Math.PI/2, Math.PI/2 + 0.12)};
+  phone.position.copy(window.__phoneBase.p); phone.rotation.copy(window.__phoneBase.r);
+  // put hand so the phone is near origin and screen faces camera
+  handAlign.rotation.set(0, Math.PI/2, 0);
+  handAlign.position.set(0.0, 0.04, 0);
+  buildTimeline();
+});
+
+// ---------- timeline ----------
+let tl;
+function buildTimeline(){
+  const r = handRoot;
+  r.position.set(0.32,-0.34,0.05); r.rotation.set(0.5,-0.9,0.9);
+  tl = gsap.timeline({repeat:-1, repeatDelay:0.25, onUpdate:()=>{ scrub.value = tl.progress()*1000|0; }});
+  const open = {index:0.05,middle:0.05,ring:0.08,pinky:0.1,thumb:0.0,thumbIn:0,spread:1};
+  const grip = {index:0.82,middle:0.86,ring:0.9,pinky:0.95,thumb:0.25,thumbIn:0.35,spread:0.15};
+  tl.set(pose, open, 0)
+    .set(phone.position, {x:window.__phoneBase.p.x, y:window.__phoneBase.p.y, z:window.__phoneBase.p.z}, 0)
+    .set(phone.rotation, {x:window.__phoneBase.r.x, y:window.__phoneBase.r.y, z:window.__phoneBase.r.z}, 0)
+    .set(screenMat, {opacity:0}, 0).call(()=>screenMat.map=tex[0], null, 0)
+    // 1. swoop in on an arc: x and y on different eases = curved, energetic path
+    .to(r.position, {x:0.0, duration:0.85, ease:'expo.out'}, 0)
+    .to(r.position, {y:0.0, duration:0.85, ease:'back.out(2.2)'}, 0)
+    .to(r.position, {z:0.0, duration:0.85, ease:'power3.out'}, 0)
+    .to(r.rotation, {x:-0.12, y:0.22, z:-0.08, duration:1.0, ease:'back.out(2.6)'}, 0.05)
+    .to(pose, {...grip, duration:0.35, ease:'back.out(3)'}, 0.3)
+    // 2. screen wakes
+    .to(screenMat, {opacity:1, duration:0.25, ease:'power2.out'}, 0.75)
+    // 3. thumb tap
+    .to(pose, {thumb:0.75, thumbIn:0.9, duration:0.13, ease:'power4.in'}, 1.35)
+    .call(()=>{ screenMat.map = tex[1]; }, null, 1.48)
+    .fromTo(ripple.material, {opacity:.35}, {opacity:0, duration:0.45, ease:'power2.out'}, 1.48)
+    .fromTo(ripple.scale, {x:1,y:1}, {x:5,y:5, duration:0.45, ease:'expo.out'}, 1.48)
+    .to(pose, {thumb:0.25, thumbIn:0.35, duration:0.5, ease:'elastic.out(1,0.45)'}, 1.48)
+    .to(r.rotation, {x:-0.2, duration:0.12, ease:'power2.in', yoyo:true, repeat:1}, 1.45)
+    // 4. unexpected: toss the phone, it flips 360°, hand opens and catches
+    .to(pose, {...open, duration:0.12, ease:'power2.out'}, 2.25)
+    .to(phone.position, {x:'-=0.09', duration:0.32, ease:'power2.out'}, 2.25)
+    .to(phone.position, {x:window.__phoneBase.p.x, duration:0.3, ease:'power2.in'}, 2.57)
+    .to(phone.rotation, {y:`-=${Math.PI*2}`, duration:0.62, ease:'power1.inOut'}, 2.25)
+    .to(r.position, {y:-0.03, duration:0.18, ease:'power2.in'}, 2.13)
+    .to(r.position, {y:0.0, duration:0.5, ease:'back.out(3)'}, 2.87)
+    .to(pose, {...grip, duration:0.22, ease:'back.out(3)'}, 2.82)
+    // 5. exit with a whip
+    .to(r.rotation, {z:0.25, y:-0.4, duration:0.25, ease:'back.in(2)'}, 3.6)
+    .to(r.position, {x:-0.42, y:0.12, duration:0.4, ease:'expo.in'}, 3.65)
+    .to(r.rotation, {z:-0.9, duration:0.4, ease:'expo.in'}, 3.65)
+    .to({}, {duration:0.1});
+}
+
+// ---------- UI ----------
+const scrub = document.getElementById('scrub'), playBtn = document.getElementById('play'), pi = document.getElementById('pi');
+let playing = true;
+function setPlay(p){ playing=p; if(tl) p?tl.play():tl.pause(); pi.setAttribute('d', p?'M4 2h3v12H4zM9 2h3v12H9z':'M4 2l10 6-10 6z'); }
+playBtn.onclick = ()=>setPlay(!playing);
+scrub.oninput = ()=>{ setPlay(false); tl && tl.progress(scrub.value/1000); };
+document.getElementById('slow').onclick = e=>{ const on = e.currentTarget.classList.toggle('on'); gsap.globalTimeline.timeScale(on?0.25:1); };
+document.getElementById('orbit').onclick = e=>{ controls.enabled = e.currentTarget.classList.toggle('on'); };
+addEventListener('resize', ()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+window.__dbg = {pose, phone, handRoot, handAlign, applyPose, get tl(){return tl}, THREE, bones};
+
+renderer.setAnimationLoop(()=>{ applyPose(); controls.update(); renderer.render(scene,camera); });
+</script>
+</body>
+</html>

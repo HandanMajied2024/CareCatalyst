@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hand Prototype C</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--fg:#111;--muted:#8a8a8f}
+  html,body{margin:0;height:100%;background:#fff;font-family:Inter,system-ui,sans-serif;color:var(--fg);overflow:hidden}
+  .blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.5;pointer-events:none}
+  .b1{width:40vw;height:40vw;left:-8vw;top:-12vw;background:#c9dcff}.b2{width:36vw;height:36vw;right:-6vw;bottom:-14vw;background:#ffd9c7}
+  .wrap{position:relative;height:100%;display:grid;grid-template-columns:2fr 1fr;gap:20px;padding:56px 24px 24px;box-sizing:border-box}
+  .tag{position:fixed;left:24px;top:18px;font-size:13px;color:var(--muted)}.tag b{color:var(--fg)}
+  figure{margin:0;display:flex;flex-direction:column;gap:8px;min-height:0}
+  video{width:100%;border-radius:20px;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.08)}
+  figcaption{font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center}
+  .pill{background:#111;color:#fff;border-radius:999px;padding:3px 10px;font-weight:600;font-size:12px}
+  .pill.g{background:#e9e9ee;color:#111}
+  .side{display:flex;flex-direction:column;gap:20px;min-height:0}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div>
+<div class="tag"><b>C</b> · Codex-Keyframes → Google Flow (Veo 3.1 Fast) → 60 fps</div>
+<div class="wrap">
+  <figure>
+    <video src="clip2_60fps.mp4" autoplay loop muted playsinline></video>
+    <figcaption><span class="pill">60 fps</span> Clip 2 · Pose aus echten Fotos</figcaption>
+  </figure>
+  <div class="side">
+    <figure><video src="clip2.mp4" autoplay loop muted playsinline></video>
+      <figcaption><span class="pill g">24 fps</span> Clip 2 Original</figcaption></figure>
+    <figure><video src="clip1.mp4" autoplay loop muted playsinline></video>
+      <figcaption><span class="pill g">24 fps</span> Clip 1 · verworfen (Schnitt, Logo)</figcaption></figure>
+  </div>
+</div>
+</body>
+</html>
