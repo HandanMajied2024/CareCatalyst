@@ -1,15 +1,20 @@
 # Video
 
-> ⬜ **Placeholder.** Optional field in the form (Video URL). Upload to YouTube (unlisted) or similar and put the link here and in [submission/SUBMISSION.md](../submission/SUBMISSION.md).
-
 | | |
 |---|---|
-| Video URL | `[TODO]` |
-| Length | ≤ 2–3 min |
+| Video URL | `[TODO: YouTube unlisted link]` |
+| Length | 2:25 |
 
-## Plan
+Pitch / demo video, rendered from code: `video.html` is the whole video (open it in a browser to preview,
+`?t=60` jumps to 60 s, `?audio` plays the mixed sound), `record.py all` renders `CareCatalyst-demo.mp4`.
 
-1. Problem in one sentence (we know why, not who)
-2. Screen recording of the Concept A demo
-3. The Espoo scene (Concept B): see [docs/concept-vision.md](../docs/concept-vision.md)
-4. Closing: agent-to-agent, "nobody has to explain their life again"
+- Voice and sound effects: ElevenLabs (`voice.py`, cached mp3s in `voice/` and `sfx/`), timing comes from the audio.
+- Persona images (Eero and Jenny): generated with Codex image generation, checked for realism.
+- App screens: real screenshots of the live demos (Part 1 counties, Part 2 CarePulse).
+- Look: skill `carecatalyst-design`, workflow: skill `pitch-video` (both in `.claude/skills/`).
+
+```bash
+pip install playwright imageio-ffmpeg && python -m playwright install chromium
+PYTHONUTF8=1 python record.py stills 10 60 120   # check frames
+PYTHONUTF8=1 python record.py all                # ~25 min
+```
