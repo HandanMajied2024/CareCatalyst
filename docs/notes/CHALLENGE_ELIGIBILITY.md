@@ -73,7 +73,7 @@ Stand: So 15.11.2026 früh. Geprüft gegen den aktuellen Code beider Teile (read
 |---|---|---|---|---|
 | Haupt-Repo | `HandanMajied2024/CareCatalyst` | öffentlich | MIT | Submodule `concepts/today` + `concepts/vision` |
 | **A · heute** (Anruf-Agent für Bezirke) | `devstar7674-beep/CareCatalyzer` (lokal `./repo`) | **privat** → Owner muss öffentlich machen | MIT | `a534e47` (README, LICENSE, AGENTS.md). Achtung: Submodule-Zeiger im Haupt-Repo steht noch auf `69c2cb2` (vor README/LICENSE) |
-| **B · Vision** (CarePulse, persönlicher Agent) | `youcefjerbi/mobile_app` | öffentlich | **keine** → TODO MIT-`LICENSE` | `0f756a0` „first push“ (1 Commit) |
+| **B · Vision** (CarePulse, persönlicher Agent) | `youcefjerbi/mobile_app_new` | öffentlich | **keine** → TODO MIT-`LICENSE` | `0f756a0` „first push“ (1 Commit) |
 
 **Nachweise pro Teil**
 
@@ -90,6 +90,6 @@ Stand: So 15.11.2026 früh. Geprüft gegen den aktuellen Code beider Teile (read
 1. **Codex-Nachweis** (15 Min, €0): Screenshots + 2 Sätze pro Teil, welche Teile mit Codex gebaut wurden. Größter Hebel ($10k).
 2. **Teil B mit echtem Gemini-Call** (~30–45 Min, €0 im Free Tier): Ein kleiner Vite-Dev-Proxy oder Express-Endpunkt, der beim Menüpunkt „Gemini“ eine Antwort von `gemini-3.8-flash` holt (z. B. Risiko-Hinweis/Terminvorschlag als JSON-Schema), Key nur server-seitig. Alternativ den Agent-Chat von B gegen `/api/call-turn` aus Teil A laufen lassen. Ohne das zählt für Gemini nur Teil A, was reicht.
 3. **Submodule-Zeiger** im Haupt-Repo auf `a534e47` heben, damit die Juroren README/LICENSE von Teil A sehen.
-4. **MIT-`LICENSE`** in `youcefjerbi/mobile_app` (Youcef).
+4. **MIT-`LICENSE`** in `youcefjerbi/mobile_app_new` (Youcef).
 
 Im Formular: Gemini API + MLH Gemini + Codex ankreuzen, je 2–3 Sätze „wie genutzt“. ElevenLabs nur ankreuzen, wenn der Code bis zur Abgabe im Repo ist.

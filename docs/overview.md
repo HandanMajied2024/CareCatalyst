@@ -27,7 +27,7 @@ Details: [concept-today.md](concept-today.md)
 
 Details: [concept-vision.md](concept-vision.md)
 
-**Prototype:** [`concepts/vision`](../concepts/vision) ([youcefjerbi/mobile_app](https://github.com/youcefjerbi/mobile_app)), "CarePulse": a React + Vite mobile app that plays the Espoo scene (Eero, dog Jenny, bingo). Tabs: Today, My agent (scripted chat, optional read-aloud), Care plan (08:00 visit in Helsinki + 07:00 transport, per-recipient consent for clinic, insurer and transport agents, simulated agent-to-agent log), My life, Connections (sample calendar/email). Offline, synthetic data, no risk score. Run: `cd concepts/vision && npm install && npm run dev`. Concept A: [`concepts/today`](../concepts/today).
+**Prototype:** [`concepts/vision`](../concepts/vision) ([youcefjerbi/mobile_app](https://github.com/youcefjerbi/mobile_app_new)), "CarePulse": a React + Vite mobile app that plays the Espoo scene (Eero, dog Jenny, bingo). Tabs: Today, My agent (scripted chat, optional read-aloud), Care plan (08:00 visit in Helsinki + 07:00 transport, per-recipient consent for clinic, insurer and transport agents, simulated agent-to-agent log), My life, Connections (sample calendar/email). Offline, synthetic data, no risk score. Run: `cd concepts/vision && npm install && npm run dev`. Concept A: [`concepts/today`](../concepts/today).
 
 ## Late diagnosis: three delays, and which concept fixes which
 

@@ -12,7 +12,7 @@ Form texts to copy-paste: [submission/SUBMISSION.md](SUBMISSION.md)
 - [ ] **Goal 3 indicator with real public data** (treatment start within target times, THL): sources listed in [data/](../data), CSV still open
 - [ ] **Source for every number** + limits section: [data/README.md](../data/README.md)
 - [x] **Link Concept A repo** ([HandanMajied2024/CareCatalyzer](https://github.com/HandanMajied2024/CareCatalyzer) (public mirror of devstar7674-beep/CareCatalyzer) → `concepts/today`)
-- [x] **Link Concept B repo** ([youcefjerbi/mobile_app](https://github.com/youcefjerbi/mobile_app) → `concepts/vision`, CarePulse prototype)
+- [x] **Link Concept B repo** ([youcefjerbi/mobile_app](https://github.com/youcefjerbi/mobile_app_new) → `concepts/vision`, CarePulse prototype)
 - [ ] **Give judges access to this repo** (make public or add collaborators) and invite Youcef + Hazem
 
 **Optional fields (strongly recommended)**

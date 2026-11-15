@@ -47,7 +47,7 @@ Full list: [docs/sources.md](docs/sources.md). Figures and limits: [data/README.
 | Folder | What's inside |
 |---|---|
 | [`concepts/today`](concepts/today) | **A**: county app (Vite + TypeScript), submodule [CareCatalyzer](https://github.com/HandanMajied2024/CareCatalyzer) |
-| [`concepts/vision`](concepts/vision) | **B**: CarePulse personal agent (React + Vite), submodule [mobile_app](https://github.com/youcefjerbi/mobile_app) |
+| [`concepts/vision`](concepts/vision) | **B**: CarePulse personal agent (React + Vite), submodule [mobile_app_new](https://github.com/youcefjerbi/mobile_app_new) |
 | [`docs/`](docs) | Concept, architecture, business case, challenge fit, sources |
 | [`data/`](data) | Data map and source PDFs |
 | [`presentation/`](presentation) | Screenshots and assets |
