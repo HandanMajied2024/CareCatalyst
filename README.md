@@ -109,3 +109,14 @@ Youcef Jerbi (lead) · Handan Majied · Hazem Dhaouadi
 ## Data rule
 
 The challenge allows **public, aggregate data only**. All demos use public aggregates (with a source for every number) and **synthetic personas**. No real patient data in any repo.
+
+## Claude Code skills for the team
+
+Clone this repo and open it in Claude Code: the skills in [.claude/skills/](.claude/skills/) load automatically.
+
+| Skill | For |
+|---|---|
+| [carecatalyst-design](.claude/skills/carecatalyst-design/SKILL.md) | Brand and look for deck, video, UI (Inter, white, organic airbrush, Part 1 vs Part 2) |
+| [pitch-deck](.claude/skills/pitch-deck/SKILL.md) | Building and exporting the pitch deck |
+| [pitch-video](.claude/skills/pitch-video/SKILL.md) | Demo / pitch video: script, images, voice, HTML animation, render to mp4 |
+| [cutout-images](.claude/skills/cutout-images/SKILL.md) | Realistic images with transparent background, upscaling, realism check |
