@@ -32,11 +32,11 @@ Both open in a private window without a login. All patients and regional values 
 | Source | Used for | Licence |
 |---|---|---|
 | Finnish Cancer Registry (Syöpärekisteri), Syöpä 2024 and screening report 2024 | Incidence, screening gaps, stage recording | Public statistics, cited |
-| THL: Sotkanet, Ohjaus 21/2016 | Goal 3 indicator definition, regional indicators | CC BY 4.0 |
+| THL: Ohjaus 21/2016, Sotkanet | Goal 3 indicator definition (no regional values used) | CC BY 4.0 |
 | Kela open data 2025 | Travel reimbursements (€364M), Kela taxi | CC BY 4.0 |
 | Statistics Finland | Region boundaries (demo map), causes of death | CC BY 4.0 |
 | STM: National Cancer Strategy 2026–2035 and implementation roadmap | Goals and indicators ([PDFs](data/sources)) | Public document |
-| Pirha 2025, Percac-Lima et al. 2015 (RCT), Kim et al. 2018 | No-show baseline, effect of reminder calls, navigator cost | Published reports and papers, cited |
+| Pirha 2025, Percac-Lima et al. 2015 (US RCT), Kim et al. 2018 | 4 % no-shows (Pirkanmaa 2025), −42 % no-shows (US RCT, human navigator), navigator cost | Published reports and papers, cited |
 
 Full list: [docs/sources.md](docs/sources.md). Figures and limits: [data/README.md](data/README.md) and [docs/business-case.md](docs/business-case.md).
 
