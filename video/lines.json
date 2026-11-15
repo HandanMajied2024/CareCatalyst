@@ -1,21 +1,135 @@
 [
- {"id":"c1","scene":"cold","who":"agent","gap":1.2,"text":"Hi Matti, this is your care team. Your CT scan is on Thursday. Is everything okay for getting there?"},
- {"id":"c2","scene":"cold","who":"matti","gap":0.4,"text":"Hmm... I have to cancel. There's no bus from Kemi that morning."},
- {"id":"c3","scene":"cold","who":"agent","gap":0.4,"text":"I understand. Kela can cover a taxi. Shall I book one for you?"},
- {"id":"n1","scene":"nocall","who":"nar","gap":0.9,"text":"This call doesn't exist in Finland today. Matti would simply not show up. And nobody would know why."},
- {"id":"n2","scene":"problem","who":"nar","gap":0.8,"text":"Almost thirty-nine thousand people in Finland are diagnosed with cancer every year."},
- {"id":"n3","scene":"why","who":"nar","gap":0.3,"text":"We know why some of them drop out of care: fear, distance, cost. We know roughly how many. But we don't know who."},
- {"id":"n4","scene":"gaps","who":"nar","gap":0.8,"text":"It happens between the steps. A referral not booked. A scan cancelled. A missed visit. Almost one in three patients feel their diagnosis came too late."},
- {"id":"n5","scene":"p1intro","who":"nar","gap":0.9,"text":"Part one, today: CareCatalyst for the welfare counties. It watches the pathway signals the county already has, starting with HUS."},
- {"id":"n6","scene":"p1call","who":"nar","gap":0.3,"text":"When a pathway stalls, the agent calls, asks why, and helps: a new slot, a Kela taxi, a video visit."},
- {"id":"n7","scene":"p1dash","who":"nar","gap":0.3,"text":"Every reason flows back, anonymised. So the county sees where people drop out, right next to the national Goal 3 indicator: treatment within target times."},
- {"id":"n8","scene":"bridge","who":"nar","gap":0.9,"text":"Today, the institution reaches out to the patient. Tomorrow, it's the other way around. Soon, everyone will have a personal agent."},
- {"id":"n9","scene":"eero1","who":"nar","gap":0.9,"text":"Meet Eero. Seventy-eight, from Espoo, visually impaired. And this is Jenny."},
- {"id":"n10","scene":"eero2","who":"nar","gap":0.5,"text":"He bends down to feed her, and his back hurts. Again."},
- {"id":"n11","scene":"eero3","who":"nar","gap":0.4,"text":"His agent remembers: he saw a doctor for this pain before. Nobody in the system connects those two visits. His agent does."},
- {"id":"a1","scene":"eero4","who":"agent","gap":0.6,"text":"Eero, your back is hurting again. I think you should get it checked. The centre is in Helsinki, but Kela can cover a taxi. Shall I book tomorrow at eight, before your bingo?"},
- {"id":"e1","scene":"eero4","who":"eero","gap":0.4,"text":"Yes. Thank you."},
- {"id":"n12","scene":"eero5","who":"nar","gap":0.6,"text":"The agent never diagnoses. It only books the check-up, and the ride."},
- {"id":"n13","scene":"a2a","who":"nar","gap":0.8,"text":"And who does Eero's agent talk to? The county agent we built today. Agent to agent. Eero shares only what's needed, and never has to explain his life again."},
- {"id":"n14","scene":"end","who":"nar","gap":0.9,"text":"Today, we close the gaps the system can see. Tomorrow, the ones only you can see. CareCatalyst. Closing gaps. Connecting care."}
+ {
+  "id": "c1",
+  "scene": "cold",
+  "who": "agent",
+  "gap": 1.2,
+  "text": "Hi Matti, this is your care team. Your CT and biopsy are in five days. Is everything okay for getting there?"
+ },
+ {
+  "id": "c2",
+  "scene": "cold",
+  "who": "matti",
+  "gap": 0.4,
+  "text": "Hmm... I have to cancel. There's no bus from Kemi that morning."
+ },
+ {
+  "id": "c3",
+  "scene": "cold",
+  "who": "agent",
+  "gap": 0.4,
+  "text": "I understand. Kela can cover a taxi. Shall I book one for you?"
+ },
+ {
+  "id": "n1",
+  "scene": "nocall",
+  "who": "nar",
+  "gap": 0.9,
+  "text": "This call doesn't exist in Finland today. Matti would simply not show up. And nobody would know why."
+ },
+ {
+  "id": "n2",
+  "scene": "problem",
+  "who": "nar",
+  "gap": 0.8,
+  "text": "Almost thirty-nine thousand people in Finland are diagnosed with cancer every year."
+ },
+ {
+  "id": "n3",
+  "scene": "why",
+  "who": "nar",
+  "gap": 0.3,
+  "text": "We know why some of them drop out of care: fear, distance, cost. We know roughly how many. But we don't know who."
+ },
+ {
+  "id": "n4",
+  "scene": "gaps",
+  "who": "nar",
+  "gap": 0.8,
+  "text": "It happens between the steps. A referral not booked. A scan cancelled. A missed visit. Almost one in three patients feel their diagnosis came too late."
+ },
+ {
+  "id": "n5",
+  "scene": "p1intro",
+  "who": "nar",
+  "gap": 0.9,
+  "text": "Part one, today: CareCatalyst for the welfare counties. It watches the pathway signals the county already has, starting with HUS."
+ },
+ {
+  "id": "n6",
+  "scene": "p1call",
+  "who": "nar",
+  "gap": 0.3,
+  "text": "When a pathway stalls, the agent calls, asks why, and helps: a new slot, a Kela taxi, a video visit."
+ },
+ {
+  "id": "n7",
+  "scene": "p1dash",
+  "who": "nar",
+  "gap": 0.3,
+  "text": "Every reason flows back, anonymised. So the county sees where people drop out, right next to the national Goal 3 indicator: treatment within target times."
+ },
+ {
+  "id": "n8",
+  "scene": "bridge",
+  "who": "nar",
+  "gap": 0.9,
+  "text": "Today, the institution reaches out to the patient. Tomorrow, it's the other way around. Soon, everyone will have a personal agent."
+ },
+ {
+  "id": "n9",
+  "scene": "eero1",
+  "who": "nar",
+  "gap": 0.9,
+  "text": "Meet Eero. Seventy-eight, from Espoo, visually impaired. And this is Jenny."
+ },
+ {
+  "id": "n10",
+  "scene": "eero2",
+  "who": "nar",
+  "gap": 0.5,
+  "text": "He bends down to feed her, and his back hurts. Again."
+ },
+ {
+  "id": "n11",
+  "scene": "eero3",
+  "who": "nar",
+  "gap": 0.4,
+  "text": "His agent remembers: he saw a doctor for this pain before. Nobody in the system connects those two visits. His agent does."
+ },
+ {
+  "id": "a1",
+  "scene": "eero4",
+  "who": "agent",
+  "gap": 0.6,
+  "text": "Eero, your back is hurting again. I think you should get it checked. The centre is in Helsinki, but Kela can cover a taxi. Shall I book tomorrow at eight, before your bingo?"
+ },
+ {
+  "id": "e1",
+  "scene": "eero4",
+  "who": "eero",
+  "gap": 0.4,
+  "text": "Yes. Thank you."
+ },
+ {
+  "id": "n12",
+  "scene": "eero5",
+  "who": "nar",
+  "gap": 0.6,
+  "text": "The agent never diagnoses. It only books the check-up, and the ride."
+ },
+ {
+  "id": "n13",
+  "scene": "a2a",
+  "who": "nar",
+  "gap": 0.8,
+  "text": "And who does Eero's agent talk to? The county agent we built today. Agent to agent. Eero shares only what's needed, and never has to explain his life again."
+ },
+ {
+  "id": "n14",
+  "scene": "end",
+  "who": "nar",
+  "gap": 0.9,
+  "text": "Today, we close the gaps the system can see. Tomorrow, the ones only you can see. CareCatalyst. Closing gaps. Connecting care."
+ }
 ]
