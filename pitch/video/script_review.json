@@ -1,0 +1,51 @@
+{
+  "changes": [
+    {
+      "id": "p1n1",
+      "severity": "blocking",
+      "problem": "facts.json names the source as H. Kuitunen, OUH (a hospital clinician's talk), so crediting the research to 'companies like AstraZeneca' contradicts the on-screen source line. The quoted reasons describe delay in seeking care (symptom to doctor, out-of-pocket costs), not only missed appointments.",
+      "new_text": "We know why patients delay or miss cancer care. Research shared with us in this challenge shows it: {R1}, {R2}, {R3}."
+    },
+    {
+      "id": "p1n4",
+      "severity": "blocking",
+      "problem": "'Welfare counties' is not the official English term (it is 'wellbeing services counties'). Also the county only learns the reason by asking, so 'see ... why' before the call is an over-claim.",
+      "new_text": "Meet CareCatalyst, for Finland's wellbeing services counties. They already hold the appointment data. Now they see who is stuck, and can ask why: for example, with a simple phone call to Eero."
+    },
+    {
+      "id": "p1n5",
+      "severity": "blocking",
+      "problem": "'We fund the work by sharing ... with companies like AstraZeneca' states a deal as fact (AstraZeneca is on the jury and is not our customer) and sounds like handing over health data. Must be a proposal, and only anonymised, aggregated patterns leave.",
+      "new_text": "Counties pay once. Updates, once. No subscription. Research partners, companies like AstraZeneca, could fund the rest, and receive only anonymised, aggregated patterns, so research can adapt."
+    },
+    {
+      "id": "p2a1",
+      "severity": "blocking",
+      "problem": "'You are eligible for a cancer check-up' is unsupported (Finland's national screening programmes do not cover a 78-year-old, and back pain does not create an entitlement) and reads as the agent suspecting cancer, i.e. a diagnosis. The agent may notice the pattern and offer to book a check-up. 'Three weeks' matches the on-screen 'Back pain, 3 weeks'.",
+      "new_text": "Eero, your back has hurt for three weeks, and you saw the orthopaedist last week. I can't diagnose, but a doctor should check this. Shall I book a check-up?"
+    },
+    {
+      "id": "p2a2",
+      "severity": "blocking",
+      "problem": "'Kela pays the taxi' is too absolute: Kela reimburses travel to care above a per-trip deductible. 'People like you' sounds patronising.",
+      "new_text": "Don't worry. Finland already has help for this. Some care can come to you, and for the clinic, Kela covers most of the taxi. How about tomorrow at eight, before bingo with your friends?"
+    },
+    {
+      "id": "p2a3",
+      "severity": "minor",
+      "problem": "'Don't worry' is repeated from the agent's previous line.",
+      "new_text": "We've got this, Eero. Together."
+    }
+  ],
+  "ok_lines": [
+    "p1n2",
+    "p1n3",
+    "p1n6",
+    "p2e1",
+    "p2e2",
+    "p2e3",
+    "p2e4",
+    "p2n1"
+  ],
+  "notes": "Reviewed against FACTCHECK.md and KONZEPT.md only; CONTEXT.md and overview.md were not read for lack of time, facts.json was read after it appeared (reasons: Fear, Costs, Health literacy; age_claim, digital_claim and narration_age still empty). All replacements are the same length or shorter in words, except p2a1 (about 2 words longer). p1n1: read the reasons in lower case as 'fear, costs, and health literacy'; if the team insists on naming AstraZeneca, the on-screen source must still read as in facts.json reasons_source. p1n3: only keep 'many of them struggle with smartphones' if facts.json digital_claim has a real source, otherwise say 'many of them are not comfortable with smartphones'. On-screen text: use 'wellbeing services counties' or just 'counties', never 'welfare counties'; the S5 tile 'Anonymised patterns for research partners' is fine, but label it as a proposal if any price is shown; the S9 and S8 slot 'Tomorrow 08:00' is a scripted example. App A figures are synthetic: do not show 'public data' wording next to them. Spelling is mixed (American 'center', British 'anonymised', 'orthopaedist'): harmless in audio, but pick one on screen (American: 'anonymized', 'orthopedist'). Persona is Eero, never Eino."
+}

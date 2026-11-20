@@ -1,0 +1,44 @@
+[
+ {
+  "id": "p1n1",
+  "scene": "why",
+  "who": "nar",
+  "gap": 0.5,
+  "text": "We know why patients delay or miss cancer care. Research shared with us in this challenge shows it: fear, costs, and health literacy."
+ },
+ {
+  "id": "p1n2",
+  "scene": "who",
+  "who": "nar",
+  "gap": 0.7,
+  "text": "But we don't know who."
+ },
+ {
+  "id": "p1n3",
+  "scene": "age",
+  "who": "nar",
+  "gap": 1.3,
+  "text": "Most cancer patients in Finland are around seventy, and one in three people over seventy-five is not online."
+ },
+ {
+  "id": "p1n4",
+  "scene": "tablet",
+  "who": "nar",
+  "gap": 1.0,
+  "text": "Meet CareCatalyst, for Finland's wellbeing services counties. They already hold the appointment data. Now they see who is stuck, and can ask why: for example, with a simple phone call to Eero."
+ },
+ {
+  "id": "p1n5",
+  "scene": "biz",
+  "who": "nar",
+  "gap": 0.9,
+  "text": "Counties pay once. Updates, once. No subscription. Research partners, companies like AstraZeneca, could fund the rest, and receive only anonymised, aggregated patterns, so research can adapt."
+ },
+ {
+  "id": "p1n6",
+  "scene": "shift",
+  "who": "nar",
+  "gap": 0.9,
+  "text": "But we go one step further. The center of gravity is shifting. Just as everyone has a phone today, soon everyone will have a personal agent."
+ }
+]

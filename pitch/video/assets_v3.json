@@ -1,0 +1,19 @@
+[
+ {"path":"img/qr_landing.png","shows":"QR code to https://handanmajied2024.github.io/CareCatalyst/ (black on white, EC level Q, version 5, 4-module quiet zone, decode verified with OpenCV)","size":"1350x1350"},
+ {"path":"img/qr_landing.svg","shows":"same QR as vector","size":"1350x1350 (vector)"},
+ {"path":"../../CareCatalyst/presentation/assets/qr-landing.png","shows":"copy of qr_landing.png for the deck","size":"1350x1350"},
+ {"path":"../../CareCatalyst/presentation/assets/qr-landing.svg","shows":"copy of qr_landing.svg for the deck","size":"vector"},
+ {"path":"img/v3/a_patients.png","shows":"App A default view (patients list), live","size":"2732x2048 (1366x1024 @2x)"},
+ {"path":"img/v3/a_regional.png","shows":"App A tab 'Regional summary'","size":"2732x2048"},
+ {"path":"img/v3/a_support.png","shows":"App A tab 'Regional support'","size":"2732x2048"},
+ {"path":"img/v3/b_today.png","shows":"App B start screen (Today)","size":"1170x2532 (390x844 @3x)"},
+ {"path":"img/v3/b_agent.png","shows":"App B tab 'Agent'","size":"1170x2532"},
+ {"path":"img/v3/b_health.png","shows":"App B tab 'Health'","size":"1170x2532"},
+ {"path":"img/v3/b_me.png","shows":"App B tab 'Me'","size":"1170x2532"},
+ {"path":"sfx/jazz.mp3","shows":"quiet mellow jazz trio from a kitchen radio, loopable bed","duration_s":22.0},
+ {"path":"sfx/drop.mp3","shows":"dog food bowl with kibble falls on tile floor","duration_s":1.48},
+ {"path":"sfx/shimmer.mp3","shows":"soft glassy shimmer swell","duration_s":2.0},
+ {"path":"sfx/dog.mp3","shows":"one soft dog whine","duration_s":1.0},
+ {"path":"shots_v3.py","shows":"playwright screenshot script"},
+ {"path":"sfx_v3.py","shows":"ElevenLabs SFX script (cached)"}
+]

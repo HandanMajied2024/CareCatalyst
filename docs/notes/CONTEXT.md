@@ -33,7 +33,7 @@ Formate: KI-Analyst, Monitoring-Dashboard mit Empfehlungen, Frühwarnsystem, Int
 
 **Preise:** 1000 € / 750 € / 250 €. AZ möchte danach evtl. ein Folgeprojekt mit einem Wohlfahrtsbezirk.
 
-**Mentoren (AZ):** Hanna Rusila (Marketing), Hanna Toivola (Diagnostics), Kaisa Kaitila (Medical Affairs), Laura Aaltonen (Marketing, [removed]), Joanna Tuormaa (Business Excellence, Kontakt)
+**Mentoren (AZ):** Hanna Rusila (Marketing), Hanna Toivola (Diagnostics), Kaisa Kaitila (Medical Affairs), Laura Aaltonen (Marketing), Joanna Tuormaa (Business Excellence, Kontakt)
 
 ### Ziel 3 der Krebsstrategie 2026–2035 – „Varmistetaan yhdenvertainen ja vaikuttava syövänhoito“
 Indikatoren:

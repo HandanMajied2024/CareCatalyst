@@ -1,0 +1,1292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CareCatalyst Wins</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --fg:#000; --bg:#fff; --mute:#555; --line:#000; --us:#0B8A3E; --us-bg:#E4F5EA; }
+  .us-key { display:inline-block; width:14px; height:9px; background:var(--us-bg); border:2px solid var(--us); vertical-align:-1px; margin-right:5px; }
+  .us-txt { color:var(--us) !important; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { height:100%; overflow:hidden; background:var(--bg); color:var(--fg);
+    font-family:Inter, system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+  body { display:flex; flex-direction:column; padding:12px 16px; gap:8px; }
+
+  header { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  h1 { display:flex; align-items:center; }
+  h1 img { height:20px; }
+  .tabs { display:flex; gap:4px; }
+  .tab { border:1px solid var(--line); background:var(--bg); color:var(--fg); font:inherit;
+    font-size:13px; font-weight:500; padding:5px 12px; cursor:pointer; white-space:nowrap; }
+  .tab[aria-selected="true"] { background:var(--fg); color:var(--bg); }
+  .sep { width:1px; height:22px; background:#000; }
+  .meta { margin-left:auto; font-size:12px; color:var(--mute); }
+
+  main { flex:1; min-height:0; position:relative; }
+  .view { position:absolute; inset:0; display:none; flex-direction:column; gap:6px; }
+  .view.on { display:flex; }
+  .inv { filter:brightness(0); }
+
+  /* Treemap */
+  .map { flex:1; min-height:0; position:relative; }
+  .group { position:absolute; }
+  .ghead { position:absolute; left:0; right:0; top:0; height:18px; font-size:11px; font-weight:900;
+    text-transform:uppercase; letter-spacing:.06em; white-space:nowrap; overflow:hidden; }
+  .ghead span { font-weight:500; color:var(--mute); }
+  .box { position:absolute; border:1.5px solid var(--line); padding:8px 10px; overflow:hidden;
+    display:flex; flex-direction:column; justify-content:space-between; }
+  .box.est { border-style:dashed; }
+  .box.ours { border:4px solid var(--us); background:var(--us-bg); }
+  .box.ours .name::before { content:"★ OURS · "; color:var(--us); }
+  .box.ours .price { color:var(--us); }
+  .box.ours.step { border:3px dashed var(--us); background:var(--bg); }
+  .box.ours.step .name::before { content:"☆ ONE STEP · "; }
+  .us-key.step { background:var(--bg); border-style:dashed; }
+  .us-key.could { background:var(--bg); border-style:dotted; }
+  .box.ours.could { border:3px dotted var(--us); background:var(--bg); }
+  .box.ours.could .name::before { content:"◇ COULD · "; }
+  .cell.us { border:2px dashed var(--us); }
+  .cell.us .price { color:var(--us); }
+  .price { font-weight:900; letter-spacing:-.03em; line-height:1; white-space:nowrap; overflow:hidden; flex-shrink:0; }
+  .name { font-weight:700; line-height:1.15; }
+  .sub { color:var(--mute); line-height:1.3; margin-top:2px; }
+  .logos { display:flex; align-items:center; gap:10px; margin-bottom:5px; }
+  .logo { display:block; width:auto; max-width:100%; object-fit:contain; object-position:left center; min-width:0; }
+  .box.multi { justify-content:flex-start; gap:5px; padding:6px; }
+  .mini { flex:1; min-height:0; display:grid; grid-auto-rows:1fr; gap:3px; }
+  .cell { border:1px solid #000; padding:4px 6px; overflow:hidden; min-height:0; min-width:0;
+    display:flex; flex-direction:column; justify-content:space-between; gap:3px; }
+  .legend, .rules { font-size:11px; color:var(--mute); display:flex; gap:4px 14px; flex-wrap:wrap; }
+  .rules b { color:#000; }
+  .legend i { display:inline-block; width:14px; height:9px; border:1.5px solid #000; vertical-align:-1px; margin-right:5px; }
+  .legend i.d { border-style:dashed; }
+
+  /* Tools */
+  .grid { flex:1; min-height:0; display:grid; gap:5px; }
+  #sw { grid-template-columns:repeat(7, 1fr); grid-auto-rows:1fr; }
+  #hw { grid-template-columns:repeat(5, 1fr); grid-auto-rows:1fr; }
+  .card { border:1.5px solid var(--line); padding:8px 10px; overflow:hidden; display:flex; flex-direction:column; gap:3px; min-height:0; min-width:0; }
+  .card .logo { height:clamp(13px, 2.2vh, 22px); margin-bottom:3px; }
+  .card b { font-size:clamp(12px, 1.05vw, 15px); font-weight:900; }
+  .card p { font-size:clamp(10px, .8vw, 12px); line-height:1.3; color:#333; }
+  .card .free { font-size:clamp(12px, 1.1vw, 17px); font-weight:900; letter-spacing:-.01em; line-height:1.15; }
+  .card .tag { margin-top:auto; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--mute); }
+  .card.hot { border-width:3.5px; }
+  .card.us { border-color:var(--us); background:var(--us-bg); }
+  .card.us .free { color:var(--us); }
+  .card.us b::before { content:"★ "; color:var(--us); }
+  .card.us.step { border-style:dashed; background:var(--bg); }
+  .card.us.step b::before { content:"☆ "; }
+  .card.us.could { border-style:dotted; background:var(--bg); }
+  .card.us.could b::before { content:"◇ "; }
+  /* setup status: purple = account/credits set up, red = still to set up */
+  /* inset shadow sits inside the border, so the green .us border stays visible */
+  .card.setup-ok { box-shadow:inset 0 0 0 4px #7C3AED; }
+  .card.setup-todo { box-shadow:inset 0 0 0 4px #DC2626; }
+  .card { position:relative; }
+  .smark { position:absolute; bottom:6px; right:8px; font-size:10px; font-weight:900; letter-spacing:.02em; padding:1px 5px; background:#fff; white-space:nowrap; }
+  .smark.ok { color:#7C3AED; border:1px solid #7C3AED; }
+  .smark.todo { color:#DC2626; border:1px solid #DC2626; }
+  /* usage meter on each tool card: number sits inside the bar */
+  .meter { position:relative; height:17px; border:1.5px solid #000; background:#fff; margin:2px 0 1px; overflow:hidden; flex-shrink:0; }
+  .meter i { position:absolute; left:0; top:0; bottom:0; background:#000; }
+  .meter span { position:relative; display:block; padding:0 6px; font-size:10.5px; font-weight:900; line-height:14px; white-space:nowrap; font-variant-numeric:tabular-nums; color:#fff; mix-blend-mode:difference; }
+  .meter.full { border-color:#DC2626; }
+  .meter.full i { background:#DC2626; }
+  .meter.full span { color:#fff; mix-blend-mode:normal; }
+  .meter.na { border:1.5px dashed #aaa; }
+  .meter.na span { color:#999; font-weight:700; mix-blend-mode:normal; }
+  .setup-key { display:inline-block; width:14px; height:9px; border:3px solid; vertical-align:-1px; margin:0 4px 0 2px; }
+  /* Progress: each box fills from the bottom like a glass */
+  #progress { gap:8px; }
+  .pg { flex:1; min-height:0; display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); grid-auto-rows:1fr; gap:8px; }
+  .gl { position:relative; border:1.5px solid #000; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; padding:8px 10px; min-height:0; }
+  .gl .fill { position:absolute; left:0; right:0; bottom:0; background:#BBF7D0; z-index:0; }
+  .gl.done .fill { background:#86EFAC; }
+  .gl > *:not(.fill) { position:relative; z-index:1; }
+  .gl .pct { font-size:clamp(18px, 2.2vw, 34px); font-weight:900; letter-spacing:-.03em; line-height:1; }
+  .gl b { display:block; font-size:clamp(12px, 1.05vw, 16px); font-weight:900; line-height:1.15; }
+  .gl p { font-size:clamp(10px, .78vw, 12px); line-height:1.3; color:#222; margin-top:3px; }
+  .gl .who { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#444; }
+  .gl.req::after { content:"must"; position:absolute; top:6px; right:8px; font-size:9px; font-weight:900; text-transform:uppercase; letter-spacing:.06em; z-index:1; }
+  .pgsum { display:flex; align-items:center; gap:14px; font-size:12px; color:var(--mute); flex-wrap:wrap; }
+  .pgsum b { color:#000; font-size:16px; }
+  .pgbar { flex:1; min-width:160px; height:10px; border:1.5px solid #000; position:relative; }
+  .pgbar i { position:absolute; left:0; top:0; bottom:0; background:#86EFAC; }
+
+  /* Credits */
+  #cr { flex:1; min-height:0; overflow:hidden; }
+  .crt { width:100%; table-layout:fixed; border-collapse:collapse; font-size:clamp(9px, .74vw, 12px); line-height:1.22; }
+  .crt th, .crt td { text-align:left; padding:2px 6px; border-bottom:1px solid #000; vertical-align:top; }
+  .crt th { font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.06em; color:var(--mute); border-bottom:2px solid #000; }
+  .crt td:first-child { font-weight:900; }
+  .crt td.n { font-variant-numeric:tabular-nums; }
+  .crt td.left { font-weight:900; }
+  .crt td.note { color:#333; }
+  .crt .pp { font-weight:700; }
+  .crt .who-ok { color:#7C3AED; font-weight:700; white-space:nowrap; }
+  .crt .who-no { color:#DC2626; font-weight:700; white-space:nowrap; }
+  .barrow { display:flex; align-items:center; gap:6px; margin:1px 0 2px; }
+  .bar { position:relative; flex:1; height:8px; border:1.5px solid #000; background:#fff; }
+  .bar i { position:absolute; left:0; top:0; bottom:0; background:#000; }
+  .bar.full i { background:#DC2626; }
+  .bar.na { border-style:dashed; border-color:#999; }
+  .mb { display:flex; gap:5px; margin:1px 0 3px; }
+  .mb > span { flex:1; display:flex; flex-direction:column; gap:1px; min-width:0; }
+  .mb b { font-size:9px; font-weight:900; display:flex; justify-content:space-between; }
+  .mb b em { font-style:normal; font-weight:700; color:#555; }
+  .mb .bar { flex:none; height:7px; }
+  .bar.zero { border-color:#DC2626; }
+  .barlbl { font-size:9.5px; font-weight:900; letter-spacing:.03em; white-space:nowrap; min-width:58px; text-align:right; }
+  .crt tr.out td { color:var(--mute); }
+  .crt tr.hit td.n { color:#DC2626; }
+  #hw .card .logo { height:clamp(18px, 3.5vh, 38px); }
+  #hw .card b { font-size:clamp(15px, 1.7vw, 24px); }
+  #hw .card p { font-size:clamp(11px, .95vw, 14px); }
+
+
+  /* Route */
+  .rt { flex:1; min-height:0; display:grid; grid-template-columns:repeat(9, minmax(0,1fr)); grid-template-rows:1fr auto 1fr; column-gap:6px; position:relative; }
+  .rt .lane { grid-column:1 / -1; grid-row:2; align-self:center; height:4px; background:#000; margin:0 2%; }
+  .rt .lab { position:absolute; left:0; font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.08em; color:var(--mute); }
+  .rt .up, .rt .down { display:flex; flex-direction:column; gap:5px; min-height:0; overflow:hidden; }
+  .rt .up { grid-row:1; justify-content:flex-end; }
+  .rt .down { grid-row:3; justify-content:flex-start; }
+  .rt .up::after, .rt .down::before { content:""; align-self:center; width:0; height:14px; border-left:2px dashed #000; flex-shrink:0; }
+  .rt .up:empty::after, .rt .down:empty::before { display:none; }
+  .rt .br { border:1.5px dashed #000; padding:6px 8px; font-size:clamp(10px, .95vw, 14px); line-height:1.25; background:#fff; }
+  .rt .br b { display:block; font-size:clamp(13px, 1.35vw, 20px); font-weight:900; letter-spacing:-.02em; }
+  .rt .st { grid-row:2; position:relative; z-index:1; background:#fff; border:2.5px solid #000; padding:8px; text-align:center; }
+  .rt .st .n { font-size:10px; font-weight:900; color:var(--mute); letter-spacing:.06em; }
+  .rt .st b { display:block; font-size:clamp(13px, 1.35vw, 21px); font-weight:900; line-height:1.1; letter-spacing:-.02em; }
+  .rt .st span { display:block; font-size:clamp(10px, .85vw, 13px); color:var(--mute); margin-top:2px; }
+  .rt .st.warn { border-width:4px; }
+  .rt .st.goal { background:#000; color:#fff; }
+  .rt .st.goal span, .rt .st.goal .n { color:#ddd; }
+  .rt .st.goal b { font-size:clamp(18px, 2.2vw, 34px); }
+  .jack { display:flex; align-items:baseline; gap:6px 14px; flex-wrap:wrap; font-size:12px; color:var(--mute); }
+  .jack b { color:#000; font-size:clamp(14px, 1.4vw, 20px); font-weight:900; }
+  .jack b.us-txt { color:var(--us); }
+  .rt .br.us { border-color:var(--us); }
+  .rt .br.us b { color:var(--us); }
+  .rt .br.us.go { border:3px solid var(--us); background:var(--us-bg); }
+  .rt .br.us.could { border:2px dotted var(--us); }
+  .rt .st.us { border-color:var(--us); background:var(--us-bg); }
+  .rt .st.us .n { color:var(--us); }
+
+  /* Challenge */
+  .ch { flex:1; min-height:0; display:none; gap:6px; overflow:auto; align-content:start; }
+  .ch.on { display:grid; }
+  .k { border:1.5px solid var(--line); padding:8px 10px; display:flex; flex-direction:column; gap:4px; min-width:0; }
+  .k.d { border-style:dashed; }
+  .k.t { border-width:4px; }
+  .k.blk { background:#000; color:#fff; }
+  .k.blk p, .k.blk .lbl { color:#ddd; }
+  .k h3 { font-size:clamp(13px, 1.3vw, 20px); font-weight:900; letter-spacing:-.02em; line-height:1.1; }
+  .k p, .k li { font-size:clamp(11px, .88vw, 14px); line-height:1.35; color:#333; }
+  .k ul { padding-left:16px; display:flex; flex-direction:column; gap:3px; }
+  .k .big { font-size:clamp(26px, 3.2vw, 52px); font-weight:900; letter-spacing:-.03em; line-height:1; }
+  .k .lead { font-size:clamp(15px, 1.6vw, 24px); font-weight:700; letter-spacing:-.01em; line-height:1.2; color:#000; }
+  .lbl { font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.08em; color:var(--mute); }
+  .k code, .k pre { font-family:ui-monospace, Consolas, monospace; }
+  .k code { font-size:.9em; border:1px solid #000; padding:0 4px; }
+  .k pre { font-size:clamp(10px, .8vw, 13px); line-height:1.45; overflow:auto; }
+  .k .logo { height:26px; }
+  .flow { display:grid; grid-template-columns:70px minmax(0,1fr) 18px minmax(0,1fr) 18px minmax(0,1fr); gap:6px; align-items:stretch; }
+  .flow > .lbl { align-self:center; }
+  .flow > .ar { align-self:center; text-align:center; font-weight:900; font-size:18px; }
+  .bars { display:flex; flex-direction:column; gap:5px; }
+  .bars .r { display:grid; grid-template-columns:150px minmax(0,1fr) 92px; gap:8px; align-items:center; font-size:clamp(11px, .88vw, 14px); }
+  .bars .tr { height:14px; border:1.5px solid #000; position:relative; }
+  .bars .fl { position:absolute; inset:0 auto 0 0; background:#000; }
+  .bars .n { text-align:right; font-weight:700; font-variant-numeric:tabular-nums; }
+  .q { font-family:ui-monospace, Consolas, monospace; font-size:clamp(10px, .8vw, 13px) !important; }
+  .q b { font-family:Inter, system-ui, sans-serif; }
+  .k.who { flex-direction:row; gap:10px; align-items:center; }
+  .av { flex:none; width:40px; height:40px; border:2.5px solid #000; display:grid; place-items:center; font-weight:900; }
+  .av.d { border-style:dashed; color:var(--mute); }
+  .node { border:1.5px solid #000; padding:6px 8px; display:flex; flex-direction:column; gap:2px; min-width:0; }
+  .node b { font-size:clamp(12px, 1.05vw, 16px); font-weight:900; }
+  .node span { font-size:clamp(10px, .82vw, 13px); color:#333; line-height:1.3; }
+  .node .lbl { color:var(--mute); }
+  .node.us { border:2.5px solid var(--us); background:var(--us-bg); }
+  .node.us .lbl { color:var(--us); }
+  .node.us.step { border-style:dashed; background:var(--bg); }
+  .node.blk { background:#000; color:#fff; }
+  .node.blk span, .node.blk .lbl { color:#ddd; }
+  .row3 { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:6px; }
+  .dn { text-align:center; font-weight:900; line-height:1; }
+  .pills { display:flex; gap:4px; flex-wrap:wrap; }
+  .pill { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; padding:1px 6px; border:1px dashed #999; color:#999; }
+  .pill.on { border:1px solid #000; background:#000; color:#fff; }
+  .k table { border-collapse:collapse; width:100%; font-size:clamp(11px, .85vw, 13px); }
+  .k th, .k td { text-align:left; padding:4px 6px; border-bottom:1px solid #000; vertical-align:top; }
+  .k th { font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.06em; color:var(--mute); }
+  .k td.mono { font-family:ui-monospace, Consolas, monospace; }
+
+  @media (max-width: 900px) {
+    .ch { grid-template-columns:1fr !important; }
+    .ch > * { grid-column:auto !important; grid-row:auto !important; }
+    .flow { grid-template-columns:1fr; }
+    .flow > .ar { transform:rotate(90deg); }
+    .row3 { grid-template-columns:1fr; }
+    .bars .r { grid-template-columns:110px minmax(0,1fr) 80px; }
+  }
+  @media (max-width: 900px) {
+    #sw { grid-template-columns:repeat(5, 1fr); }
+    #hw { grid-template-columns:repeat(3, 1fr); }
+    .card p { display:none; }
+    .rules { display:none; }
+  }
+  @media (max-width: 560px) {
+    #sw { grid-template-columns:repeat(3, 1fr); }
+    #hw { grid-template-columns:repeat(2, 1fr); }
+    .meta, .legend { display:none; }
+  }
+  /* Gemini overlay (opens from the Google DeepMind card) */
+  .card.open { cursor:pointer; }
+  .card.open:hover, .card.open:focus-visible { outline:2px solid #000; outline-offset:2px; }
+  .card .more { font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.05em; color:var(--us); }
+  .ovl { position:fixed; inset:0; z-index:20; background:var(--bg); display:flex; flex-direction:column; gap:8px;
+    padding:12px max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px)); }
+  .ovl[hidden] { display:none; }
+  .ovl-head { display:flex; align-items:center; gap:8px 14px; flex-wrap:wrap; }
+  .ovl-head h2 { font-size:clamp(16px, 1.6vw, 24px); font-weight:900; letter-spacing:-.02em; }
+  .ovl-head .legend { flex:1; }
+  .ovl .alert { font-size:12px; border:1.5px solid #DC2626; color:#000; padding:5px 8px; }
+  .ovl .alert b { color:#DC2626; }
+  .gcols { flex:1; min-height:0; display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:6px; overflow:auto; }
+  .gcol { display:flex; flex-direction:column; gap:5px; min-width:0; }
+  .gcol > .lbl { padding:2px 0; }
+  .gm { border:1.5px solid #bbb; padding:6px 8px; display:flex; flex-direction:column; gap:2px; min-width:0; cursor:help; color:#555; }
+  .gm b { font-size:clamp(12px, 1vw, 15px); font-weight:900; color:#555; overflow-wrap:anywhere; }
+  .gm .id { font-family:ui-monospace, Consolas, monospace; font-size:10px; color:#888; overflow-wrap:anywhere; }
+  .gm .dt { font-size:11px; line-height:1.3; }
+  .gm .pr { font-size:11px; font-weight:700; color:#000; font-variant-numeric:tabular-nums; }
+  .gm.now { border:3px solid var(--us); background:var(--us-bg); color:#333; }
+  .gm.use { border:2px dashed var(--us); color:#333; }
+  .gm.pitch { border:2px dotted var(--us); color:#333; }
+  .gm.now b, .gm.use b, .gm.pitch b { color:#000; }
+  .gm.now b::before { content:"★ "; color:var(--us); }
+  .gm.use b::before { content:"☆ "; color:var(--us); }
+  .gm.pitch b::before { content:"◇ "; color:var(--us); }
+  .gm:hover, .gm:focus-visible { outline:2px solid #000; outline-offset:1px; }
+  .gkey { display:inline-block; width:14px; height:9px; vertical-align:-1px; margin-right:5px; border:1.5px solid #bbb; }
+  .gkey.now { border:2px solid var(--us); background:var(--us-bg); }
+  .gkey.use { border:2px dashed var(--us); }
+  .gkey.pitch { border:2px dotted var(--us); }
+  .xbtn { border:1.5px solid #000; background:var(--bg); font:inherit; font-size:13px; font-weight:700; padding:4px 12px; cursor:pointer; }
+  .xbtn:hover { background:#000; color:#fff; }
+  #tip { position:fixed; z-index:30; max-width:340px; background:#000; color:#fff; padding:9px 11px; font-size:12px; line-height:1.4; pointer-events:none; }
+  #tip[hidden] { display:none; }
+  #tip b { display:block; font-size:13px; margin-bottom:3px; }
+  #tip .ex { margin-top:6px; padding-top:6px; border-top:1px solid #555; }
+  #tip .ex::before { content:"Example for us: "; font-weight:900; color:#7CE0A3; }
+  #tip .meta { margin-top:6px; color:#bbb; font-size:11px; }
+  /* Tech challenge "how to win" overlay (opens from a Tech Challenges box) */
+  #map.tech .box { cursor:pointer; }
+  #map.tech .box:hover, #map.tech .box:focus-visible { outline:2px solid #000; outline-offset:1px; }
+  .hint { color:#000; font-weight:700; }
+  .tw { position:fixed; inset:0; z-index:15; background:rgba(255,255,255,.55); }
+  .tw[hidden] { display:none; }
+  .twp { position:absolute; background:var(--bg); border:1.5px solid #000; padding:10px 14px 12px; display:flex; flex-direction:column; gap:8px; overflow:hidden; --f:1; }
+  .twh { display:flex; align-items:center; gap:8px 14px; flex-wrap:wrap; flex-shrink:0; }
+  .twh .logo { height:calc(26px * var(--f)); }
+  .twh h2 { font-size:calc(22px * var(--f)); font-weight:900; letter-spacing:-.02em; line-height:1.1; }
+  .twh .pz { font-size:calc(13px * var(--f)); color:var(--mute); flex:1; min-width:0; }
+  .twh .pz b { color:#000; font-size:calc(16px * var(--f)); }
+  .twc { flex:1; min-height:0; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.35fr); gap:8px; }
+  .twc > div { display:flex; flex-direction:column; gap:8px; min-width:0; min-height:0; }
+  .tk { border:1.5px solid #000; padding:calc(8px * var(--f)) 10px; display:flex; flex-direction:column; gap:calc(5px * var(--f)); min-width:0; }
+  .tk.grow { flex:1; }
+  .tk.blk { background:#000; color:#fff; }
+  .tk.blk .lbl { color:#ccc; }
+  .tk .lbl { font-size:calc(10.5px * var(--f)); }
+  .tk ol { list-style:none; counter-reset:s; display:flex; flex-direction:column; gap:calc(6px * var(--f)); }
+  .tk ol li { counter-increment:s; display:grid; grid-template-columns:calc(22px * var(--f)) minmax(0,1fr); gap:8px; font-size:calc(14px * var(--f)); line-height:1.3; }
+  .tk ol li::before { content:counter(s); font-weight:900; font-size:calc(15px * var(--f)); border:1.5px solid #000; height:calc(22px * var(--f)); display:grid; place-items:center; }
+  .tk.blk ol li::before { border-color:#fff; }
+  .tk p, .tk li { font-size:calc(13px * var(--f)); line-height:1.32; }
+  .tk .jr { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:2px 10px; align-items:baseline; font-size:calc(13.5px * var(--f)); line-height:1.3; padding:calc(3px * var(--f)) 0; border-bottom:1px solid #000; }
+  .tk .jr:last-child { border-bottom:0; }
+  .tk .jr b { font-size:calc(17px * var(--f)); font-weight:900; font-variant-numeric:tabular-nums; }
+  .tk .na { font-size:calc(13.5px * var(--f)); color:var(--mute); }
+  .tk .uu { display:flex; flex-direction:column; gap:calc(4px * var(--f)); }
+  .tk .u { font-size:calc(12.5px * var(--f)); line-height:1.3; padding-left:10px; border-left:2px solid #000; }
+  .tk .u b { font-weight:900; }
+  .tk .u.dim { border-left-color:#bbb; color:#444; }
+  .tk .big { font-size:calc(28px * var(--f)); font-weight:900; letter-spacing:-.03em; line-height:1; }
+  .twf { font-size:calc(10.5px * var(--f)); color:var(--mute); flex-shrink:0; }
+  @media (max-width: 900px) { .twc { grid-template-columns:1fr; overflow:auto; } }
+  @media (max-width: 1000px) { .gcols { grid-template-columns:repeat(2, minmax(0,1fr)); } }
+  @media (max-width: 560px) { .gcols { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1><img class="inv" src="logos/junction_wordmark_logo_-_white_no_background.webp" alt="Junction 2026"></h1>
+  <div class="tabs">
+    <button class="tab" data-view="wins" aria-selected="true">Wins</button>
+    <button class="tab" data-view="tools" aria-selected="false">Tools</button>
+    <button class="tab" data-view="route" aria-selected="false">Route</button>
+    <button class="tab" data-view="challenge" aria-selected="false">Challenge</button>
+    <button class="tab" data-view="progress" aria-selected="false">Progress</button>
+  </div>
+  <span class="sep"></span>
+  <div class="tabs" id="subWins">
+    <button class="tab" data-sub="main" aria-selected="true">Main Challenges · pick ≥1</button>
+    <button class="tab" data-sub="tech" aria-selected="false">Tech Challenges · stack on top</button>
+  </div>
+  <div class="tabs" id="subTools" style="display:none">
+    <button class="tab" data-sub="sw" aria-selected="true">Software · free credits</button>
+    <button class="tab" data-sub="hw" aria-selected="false">Hardware</button>
+    <button class="tab" data-sub="cr" aria-selected="false">Credits</button>
+  </div>
+  <div class="tabs" id="subCh" style="display:none">
+    <button class="tab" data-sub="problem" aria-selected="true">Problem</button>
+    <button class="tab" data-sub="data" aria-selected="false">Data</button>
+    <button class="tab" data-sub="az" aria-selected="false">AstraZeneca</button>
+    <button class="tab" data-sub="solution" aria-selected="false">Solution</button>
+    <button class="tab" data-sub="repo" aria-selected="false">Repo</button>
+  </div>
+  <span class="meta">CareCatalyst · table A115 · AstraZeneca “Equal Care Across Finland” · Nov 13–15, 2026 · Hype Areena, Espoo · €100,000 pool</span>
+</header>
+
+<main>
+  <section class="view on" id="wins">
+    <div class="map" id="map"></div>
+    <div class="legend">
+      <span>Area = total prize value of the challenge (1st+2nd+3rd) · big = 1st place</span>
+      <span><i></i>Cash / credits as published</span>
+      <span><span class="us-key"></span><b class="us-txt">★ picked (submission)</b></span>
+      <span><span class="us-key step"></span><b class="us-txt">☆ one step away</b></span>
+      <span><span class="us-key could"></span><b class="us-txt">◇ could have</b></span>
+      <span><i class="d"></i>Contains items – € value estimated (team of 4)</span>
+      <span>$ → € at 0.86 for sizing · tiny prizes raised to a minimum size</span>
+      <span class="hint" id="techHint" hidden>☞ Click a box for how to win</span>
+    </div>
+    <div class="rules">
+      <span><b>To win:</b> no code written before the event</span><span>team 1–4 (we are 3)</span><span>1 Main Challenge in the form</span>
+      <span>pitch video ≤2 min</span><span>source link, MIT licence</span><span><b>DRAFT → FINAL before Sun 10:00 (platform shows 09:00 → aim 09:00)</b></span>
+      <span><b>AZ: public aggregate data only · source for every claim · ≥1 Goal 3 indicator · working demo</b></span>
+      <span><b>Overall prize: whole team at peer review Sun, at table A115 by 10:30</b></span>
+    </div>
+  </section>
+
+  <section class="view" id="route">
+    <div class="rt">
+      <span class="lab" style="top:0">↑ Tech prizes · <span class="us-txt">★ ours (Gemini = Part A code, Codex = team-built, proof TODO) · ☆ one step · ◇ could have</span></span>
+      <span class="lab" style="bottom:0">↓ AstraZeneca · Equal Care Across Finland · judging weights</span>
+      <div class="lane"></div>
+
+      <div class="up" style="grid-column:1"><div class="br us go"><b>★ Gemini API</b>€4,000 · Part A: Live voice + JSON classify · Part B: menu only</div></div>
+      <div class="up" style="grid-column:2"><div class="br us"><b>☆ ElevenLabs</b>Earbuds · not in repo yet (Sun) · tick only if code lands</div></div>
+      <div class="up" style="grid-column:3"><div class="br us could"><b>◇ Oxylabs</b>€1,000 · web search for help programs</div></div>
+      <div class="up" style="grid-column:4"><div class="br us could"><b>◇ Modal</b>$2,000 · live demo URL</div></div>
+      <div class="up" style="grid-column:5"><div class="br us go"><b>★ Codex</b>$10,000 · AGENTS.md + README · TODO session screenshots</div></div>
+      <div class="up" style="grid-column:6"><div class="br us"><b>☆ DEV</b>$100 · post planned after submission (by 30.11.)</div></div>
+
+      <div class="st" style="grid-column:1"><div class="n">SAT ~19:00</div><b>Joined</b><span>CareCatalyst · AZ</span></div>
+      <div class="st us" style="grid-column:2"><div class="n">SAT</div><b>Public data</b><span>+ Goal 3 indicator</span></div>
+      <div class="st us" style="grid-column:3"><div class="n">SAT</div><b>Pathway gaps</b><span>where + why</span></div>
+      <div class="st us" style="grid-column:4"><div class="n">SAT night</div><b>Live demo</b><span>agent + dashboard</span></div>
+      <div class="st warn" style="grid-column:5"><div class="n">SUN ~05:00 · TODO</div><b>Feature stop</b><span>only fix bugs</span></div>
+      <div class="st" style="grid-column:6"><div class="n">SUN 07:00</div><b>Video</b><span>≤ 2 min · deck PDF</span></div>
+      <div class="st warn" style="grid-column:7"><div class="n">SUN 09:00</div><b>FINAL</b><span>platform 09:00 · rules 10:00</span></div>
+      <div class="st warn" style="grid-column:8"><div class="n">SUN 10:15–12:45</div><b>Peer review</b><span>A115 · all 3 there!</span></div>
+      <div class="st goal" style="grid-column:9"><div class="n">SUN 14:00 · AZ judging</div><b>€1,000</b><span>AZ 1st</span></div>
+
+      <div class="down" style="grid-column:2"><div class="br"><b>Data 20%</b>source for every claim, limits stated</div></div>
+      <div class="down" style="grid-column:3"><div class="br"><b>Insight 25%</b>real gap + where in the pathway</div></div>
+      <div class="down" style="grid-column:4"><div class="br"><b>Actionability 30%</b>a county can implement it<br><b>Execution 15%</b>live demo works</div></div>
+      <div class="down" style="grid-column:6"><div class="br"><b>Clarity 10%</b>decision-maker gets it in 2 min</div></div>
+      <div class="down" style="grid-column:7"><div class="br us go"><b>★ AZ 1st</b>€1,000<br>2nd €750 · 3rd €250<br>+ possible follow-up with a wellbeing county</div></div>
+      <div class="down" style="grid-column:9"><div class="br"><b>Top 5 overall?</b>€10,000 Overall · AZ + tech wins stay either way</div></div>
+    </div>
+    <div class="jack">
+      <span><span class="us-key"></span>Main:</span><b class="us-txt">AZ 1st €1,000</b>
+      <span>· Overall winner:</span><b>€10,000</b>
+      <span>· Tech prizes:</span><b>Gemini API + MLH Gemini + Codex</b>
+      <span>· Finland time</span>
+    </div>
+  </section>
+
+  <section class="view" id="challenge">
+
+    <!-- PROBLEM -->
+    <div class="ch" id="ch-problem" style="grid-template-columns:repeat(4, minmax(0,1fr))">
+      <div class="k t" style="grid-column:1 / -1">
+        <span class="lbl">AstraZeneca · Equal Care Across Finland</span>
+        <p class="lead">Cancer care in Finland should be equal and effective wherever people live. Build an AI-powered system that finds the gap, shows where in the pathway it emerges, and says what to do about it.</p>
+      </div>
+      <div class="k" style="grid-column:1 / -1">
+        <div class="flow">
+          <span class="lbl">Pathway</span>
+          <div class="node"><b>Detection</b><span>Late detection: cancer may not be found early enough.</span></div>
+          <span class="ar">→</span>
+          <div class="node" style="border-style:dashed"><b>Referral</b><span>Primary → specialist care: referrals may be delayed or not progress smoothly.</span></div>
+          <span class="ar">→</span>
+          <div class="node" style="border-style:dashed"><b>Diagnosis → treatment</b><span>Patients may not start treatment within the target timeframes.</span></div>
+        </div>
+        <div class="flow" style="margin-top:6px">
+          <span class="lbl">Wanted</span>
+          <div class="node"><b>1 · Identify the gap</b><span>differences in access or outcomes</span></div>
+          <span class="ar">→</span>
+          <div class="node" style="border-width:3.5px"><b>2 · Locate it</b><span>detection, referral, diagnosis or treatment start</span></div>
+          <span class="ar">→</span>
+          <div class="node blk"><b>3 · Recommend (most important)</b><span>concrete, evidence-based proposals for national or wellbeing-county level</span></div>
+        </div>
+      </div>
+      <div class="k"><span class="big">30%</span><h3>Actionability</h3><p>Concrete enough for a health centre or wellbeing services county to implement?</p></div>
+      <div class="k"><span class="big">25%</span><h3>Insight</h3><p>A real, meaningful gap, and where it emerges in the care pathway.</p></div>
+      <div class="k"><span class="big">20%</span><h3>Data quality &amp; transparency</h3><p>Clear sources, limits acknowledged, no unsupported assumptions.</p></div>
+      <div class="k"><span class="big">15% · 10%</span><h3>Execution · Clarity</h3><p>Live demo works in front of the judges · key message understood in 2 minutes.</p></div>
+      <div class="k"><span class="lbl">Minimum requirements</span><ul>
+        <li>Public data and/or AZ mentor insights, <b>source for every claim</b></li>
+        <li>≥1 indicator from <b>Goal 3</b> of the national cancer strategy</li>
+        <li>Concrete proposals, not just analysis</li>
+        <li><b>Working demo</b>, slides alone are not enough</li></ul></div>
+      <div class="k"><span class="lbl">Possible formats</span><p>AI analyst explaining indicator trends · monitoring dashboard with recommendations · early-warning system for delays · intervention simulation.</p></div>
+      <div class="k t" style="grid-column:span 2"><span class="lbl">The catch AZ stresses</span><p>Data on cancer care in Finland is limited and closing that data gap is part of the challenge. Public, aggregate data only, no patient-level data provided or required. Combine public sources with interviews of AZ experts.</p></div>
+    </div>
+
+    <!-- DATA -->
+    <div class="ch" id="ch-data" style="grid-template-columns:repeat(4, minmax(0,1fr))">
+      <div class="k" style="grid-column:span 2">
+        <span class="lbl">Goal 3 · 5-yr survival gap to Nordic level (target, percentage points)</span>
+        <div class="bars">
+          <div class="r"><span>Lung cancer</span><span class="tr"><span class="fl" style="width:100%"></span></span><span class="n">+14 pp</span></div>
+          <div class="r"><span>Liver cancer</span><span class="tr"><span class="fl" style="width:100%"></span></span><span class="n">+14 pp</span></div>
+          <div class="r"><span>Pancreatic cancer</span><span class="tr"><span class="fl" style="width:42.9%"></span></span><span class="n">+6 pp</span></div>
+        </div>
+        <p style="color:var(--mute)">Base: NORDCAN 2023 level, Nordic = mean of Sweden and Norway. Source: Kansallinen syöpästrategia 2026–2035, Kuva 1.</p>
+      </div>
+      <div class="k" style="grid-column:span 2">
+        <span class="lbl">Goal 3 indicators (pick ≥1)</span>
+        <ul>
+          <li><b>Patients start treatment within target times</b> (THL Ohjaus 21/2016, Hoitoonpääsyn seuranta syövän hoidossa) ← fits our pathway agent best</li>
+          <li>Cancer mortality −10 % (today 13,300 deaths / year)</li>
+          <li>5-yr survival of poor-prognosis cancers to Nordic level</li>
+          <li>Cross-cutting equality: regional and socio-economic differences in incidence, treatment and mortality used to steer services</li>
+        </ul>
+      </div>
+      <div class="k t"><span class="big">13,300</span><h3>cancer deaths / year</h3><p>Goal 3 target: −10 %. Source: national cancer strategy 2026–2035.</p></div>
+      <div class="k"><span class="big">≥ 80 %</span><h3>screening in every county</h3><p>Goal 2 (early detection), per wellbeing services county.</p></div>
+      <div class="k"><span class="big">≥ 70 %</span><h3>diagnosed at stage I–II</h3><p>Goal 2 target.</p></div>
+      <div class="k d"><span class="big">?</span><h3>Data we actually load</h3><p>TODO: which public dataset the demo reads (and the exact table / URL). Not decided yet.</p></div>
+      <div class="k" style="grid-column:span 2"><span class="lbl">Public sources (AZ source list)</span><ul>
+        <li>Finnish Cancer Registry (Syöpärekisteri): statistics app, screening statistics</li>
+        <li>THL data &amp; statistics, Sotkanet indicator bank (regional indicators)</li>
+        <li>Statistics Finland: causes of death (StatFin)</li>
+        <li>Kela open data (e.g. reimbursements) · Kela &amp; Fimea medicine statistics</li>
+        <li>NORDCAN 2.0 (Nordic comparison) · FICAN</li></ul></div>
+      <div class="k" style="grid-column:span 2"><span class="lbl">Not usable for us</span><ul>
+        <li>Patient-level data of any kind (AZ data note)</li>
+        <li>Findata permits: research/statistics only, never for contacting people</li>
+        <li>Biobanks: research use with permit only</li>
+        <li>→ demo uses aggregate public data + <b>synthetic personas</b></li></ul></div>
+    </div>
+
+    <!-- ASTRAZENECA -->
+    <div class="ch" id="ch-az" style="grid-template-columns:repeat(4, minmax(0,1fr))">
+      <div class="k t" style="grid-column:1 / -1">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><img class="logo inv" src="logos/astrazeneca.png" alt="AstraZeneca"><span class="lbl">Healthcare Track · Loft</span></div>
+        <p class="lead">AstraZeneca wants to explore promising solutions beyond Junction, ideally as a follow-up project with a Finnish wellbeing services county.</p>
+      </div>
+      <div class="k"><span class="big">€1,000</span><h3>Best Overall</h3><p>2nd €750 · 3rd €250.</p></div>
+      <div class="k"><span class="big">14:00</span><h3>Judging Sun</h3><p>Hanna Rusila, Laura Aaltonen, Joanna Tuormaa.</p></div>
+      <div class="k"><span class="big">5</span><h3>Mentors</h3><p>Oncology, medical affairs, diagnostics.</p></div>
+      <div class="k"><span class="big">3</span><h3>Resources</h3><p>Strategy 2026–2035, implementation roadmap 2026–2031, source list (all in <code>resources/</code>).</p></div>
+      <div class="k who"><span class="av">JT</span><div><h3>Joanna Tuormaa</h3><p>Innovation &amp; Business Excellence Director, Nordics · main contact</p></div></div>
+      <div class="k who"><span class="av">LA</span><div><h3>Laura Aaltonen</h3><p>Marketing · contact for questions</p></div></div>
+      <div class="k who"><span class="av">KK</span><div><h3>Kaisa Kaitila</h3><p>Medical Affairs · on site Sat during the day</p></div></div>
+      <div class="k who"><span class="av">HT</span><div><h3>Hanna Toivola · Hanna Rusila</h3><p>Diagnostics · Marketing</p></div></div>
+      <div class="k t" style="grid-column:span 2"><span class="lbl">What AZ cares about</span><ul>
+        <li><b>Proposals a county can implement.</b> 30 % of the score, the biggest block.</li>
+        <li><b>A source behind every claim</b> and honest limits.</li>
+        <li><b>Where</b> in the pathway the gap emerges, not just that it exists.</li>
+        <li>Clear in 2 minutes for a non-technical decision-maker.</li></ul></div>
+      <div class="k" style="grid-column:span 2"><span class="lbl">Ask a mentor (TODO)</span><ul>
+        <li>Is there public data on <b>why</b> patients drop out (fear, distance, transport)? Any number we may quote as “AZ insight”?</li>
+        <li>Which Goal 3 indicator do they want to see first: treatment within target times?</li>
+        <li>Who would run our agent in a follow-up: the county, a health centre or an insurer?</li>
+        <li>Is an opt-in patient app OK inside “public aggregate data only”, if the demo uses synthetic personas?</li></ul></div>
+    </div>
+
+    <!-- SOLUTION -->
+    <div class="ch" id="ch-solution" style="grid-template-columns:minmax(0,3fr) minmax(0,2fr)">
+      <div class="k t" style="grid-column:1 / -1"><span class="lbl">Our idea · CareCatalyst</span><p class="lead">AZ knows the reasons why people don't start cancer treatment and how many are affected, but not who. An opt-in agent follows the pathway, asks why when it stalls, helps, and sends the reasons back aggregated.</p></div>
+      <div class="k" style="gap:6px">
+        <span class="lbl">Architecture (concept · TODO: confirm what the demo really builds)</span>
+        <div class="node us step" style="text-align:center"><span class="lbl">☆ Opt-in app · patient shares own status</span><b>Booked · cancelled · no-show · treatment started</b><span>Patient input, reminders, calendar, later own data from MyKanta. No secret access to Kanta.</span></div>
+        <div class="dn">↓ stalls?</div>
+        <div class="row3">
+          <div class="node"><span class="lbl">Agent · ask</span><b>Call / chat: why?</b><span>Fear, distance, transport, costs, caring for relatives …</span></div>
+          <div class="node"><span class="lbl">Agent · help</span><b>Next step</b><span>Bookable appointments, Kela travel reimbursement / Kela taxi, help programs found on the web.</span></div>
+          <div class="node us step"><span class="lbl">☆ Goal 3 indicator</span><b>Treatment within target times</b><span>Show it per county from public data. TODO: dataset.</span></div>
+        </div>
+        <div class="dn">↓</div>
+        <div class="node blk" style="text-align:center"><span class="lbl">Anonymised + aggregated only</span><b>reason · pathway step · county · count</b></div>
+        <div class="dn">↓</div>
+        <div class="row3" style="grid-template-columns:repeat(2, minmax(0,1fr))">
+          <div class="node us step"><span class="lbl">☆ Dashboard for the county</span><b>Where + why people are lost</b><span>+ concrete proposals per reason</span></div>
+          <div class="node"><span class="lbl">Pitch vision</span><b>Personal agent ↔ institution agents</b><span>Alexa scene: Espoo → Helsinki, transport help, booked before bingo class.</span></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+        <div class="k t"><span class="lbl">★ Must for AZ</span><h3>Proposal cards</h3><p>Each reason gets a concrete action a county can run, e.g. “transport” → proactive Kela travel reimbursement / Kela taxi info at referral. TODO: back each with a source.</p>
+          <div class="pills"><span class="pill on">Actionability</span><span class="pill on">Insight</span><span class="pill">Data</span><span class="pill">Clarity</span></div></div>
+        <div class="k"><h3>Gap view</h3><p>One map / chart: the Goal 3 indicator per wellbeing county from public data, with the source under it.</p>
+          <div class="pills"><span class="pill">Actionability</span><span class="pill on">Insight</span><span class="pill on">Data</span><span class="pill on">Clarity</span></div></div>
+        <div class="k"><h3>Live agent call</h3><p>Synthetic persona cancels an appointment → agent asks why → offers help → aggregate counter goes up. This is the working demo.</p>
+          <div class="pills"><span class="pill">Actionability</span><span class="pill">Insight</span><span class="pill">Data</span><span class="pill on">Execution</span></div></div>
+        <div class="k d"><h3>Who runs it?</h3><p>Concept says “any insurer”. But private insurers in Finland don't see cancer appointments and treatment is public. For Actionability, a wellbeing county / health centre as operator scores better. TODO: decide with the team.</p></div>
+      </div>
+    </div>
+
+    <!-- REPO -->
+    <div class="ch" id="ch-repo" style="grid-template-columns:repeat(3, minmax(0,1fr))">
+      <div class="k t" style="grid-column:1 / -1"><span class="lbl">Status · Sun 15.11.</span><p class="lead">Main repo <a href="https://github.com/HandanMajied2024/CareCatalyst"><code>HandanMajied2024/CareCatalyst</code></a> (public, MIT) holds the shared concept and links both parts as submodules. <b>A · today</b> = <a href="https://github.com/devstar7674-beep/CareCatalyzer"><code>concepts/today</code> → CareCatalyzer</a>: calling agent for counties, Gemini 3.8 Live voice + Flash JSON schema, barrier map, simulators (private · MIT · README · AGENTS.md). <b>B · vision</b> = <a href="https://github.com/youcefjerbi/mobile_app"><code>concepts/vision</code> → mobile_app</a>: “CarePulse” personal agent (Eero, dog Jenny, bingo scene), scripted chat, no live AI call (public · no licence).</p></div>
+      <div class="k">
+        <span class="lbl">Submission needs</span>
+        <table>
+          <tr><th>Field</th><th>Status</th></tr>
+          <tr><td>Punchline, description</td><td>Empty · TODO</td></tr>
+          <tr><td>Challenge picker</td><td>Empty · TODO: Equal Care Across Finland</td></tr>
+          <tr><td>Table number</td><td>Not set · TODO: A115</td></tr>
+          <tr><td>Source URL</td><td>Main repo public ✓ · A private → owner devstar7674 must make public · TODO</td></tr>
+          <tr><td>Licence</td><td>Main + A: MIT ✓ · B: none · TODO Youcef</td></tr>
+          <tr><td>Demo URL · video ≤ 2 min</td><td>TODO</td></tr>
+          <tr><td>Tech challenges + how we used them</td><td>Gemini API + MLH Gemini + Codex (eligible) · ElevenLabs: no code yet · DEV: after submission · text TODO</td></tr>
+        </table>
+      </div>
+      <div class="k">
+        <span class="lbl">Structure (real repos, Sun)</span>
+<pre>CareCatalyst              public · MIT
+├─ README · docs/overview.md · LICENSE
+├─ concepts/today  → CareCatalyzer  A
+│  ├─ server.ts    Express + @google/genai
+│  │               Flash JSON · Live WS
+│  ├─ src/components/  CallingAgent · Map
+│  │               Simulator · SimLab
+│  ├─ src/data/patients.ts  synthetic
+│  └─ README · LICENSE · AGENTS.md
+│     (pointer still 69c2cb2 · TODO bump)
+└─ concepts/vision → mobile_app     B
+   ├─ frontend/    React “CarePulse”
+   ├─ preview/     pitch journey
+   ├─ app/         old Android (unbuilt)
+   └─ TODO: LICENSE (MIT)</pre>
+      </div>
+      <div class="k t">
+        <span class="lbl">Shared contract · aggregated reason</span>
+        <p>The agent only ever sends this upward, never a person:</p>
+<pre>{
+  "county": "TODO",
+  "pathway_step": "referral",
+  "reason": "transport",
+  "count": 12,
+  "period": "2026-11",
+  "action_offered": "kela_travel"
+}</pre>
+        <p>Every number on the dashboard links to its source.</p>
+      </div>
+      <div class="k" style="grid-column:span 2">
+        <span class="lbl">Who builds what (TODO: agree with the team)</span>
+        <table>
+          <tr><th>Person</th><th>Role</th><th>First milestone</th></tr>
+          <tr><td>Youcef Jerbi</td><td>Team lead · TODO</td><td>TODO</td></tr>
+          <tr><td>Handan Majied</td><td>Concept, pitch, video · TODO</td><td>Pitch script + Alexa scene</td></tr>
+          <tr><td>Hazem Dhaouadi</td><td>TODO</td><td>TODO</td></tr>
+        </table>
+      </div>
+      <div class="k">
+        <span class="lbl">Open TODOs</span>
+        <ul>
+          <li>CareCatalyzer public (owner devstar7674)</li>
+          <li>Part B MIT <code>LICENSE</code> (Youcef)</li>
+          <li>Form: punchline, description, challenge, table A115</li>
+          <li>Codex screenshots · demo video</li>
+        </ul>
+        <span class="lbl">Rules</span>
+        <ul>
+          <li>Others' repos: push to own fork or branch only</li>
+          <li>Keys only in <code>.env</code>, never on GitHub or Discord</li>
+          <li>No real patient data, synthetic personas only</li>
+          <li>Never tell people outside the team about the approach</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="progress">
+    <div class="pgsum" id="pgsum"></div>
+    <div class="pg" id="pg"></div>
+  </section>
+
+  <section class="view" id="tools">
+    <div class="grid" id="sw"></div>
+    <div class="grid" id="hw" style="display:none"></div>
+    <div id="cr" style="display:none"></div>
+    <div class="legend" id="toolfoot"></div>
+  </section>
+</main>
+
+<div class="ovl" id="gem" hidden role="dialog" aria-label="Gemini API tools">
+  <div class="ovl-head">
+    <h2>Gemini API · everything our key unlocks</h2>
+    <div class="legend">
+      <span><i class="gkey now"></i>★ in use now</span>
+      <span><i class="gkey use"></i>☆ makes sense for us</span>
+      <span><i class="gkey pitch"></i>◇ for the pitch video / deck</span>
+      <span><i class="gkey"></i>grey = not for us</span>
+      <span>Hover a tile for an example · prices USD, paid tier, per 1M tokens in / out</span>
+    </div>
+    <button class="xbtn" id="gemClose" type="button">Close ✕</button>
+  </div>
+  <div class="alert"><b>Status from the old project (Sat morning):</b> Handan's free tier reset at 10:00 Finland and was at 1/500 Flash Lite requests. TODO: recheck before using it for CareCatalyst. Each teammate's own free key adds +500/day.</div>
+  <div class="gcols" id="gemCols"></div>
+  <div class="legend">Source: aistudio.google.com/docs/models + /pricing + /rate-limits, read Sat 14.11. Context windows only stated for Gemini 4 (1M). Gemini Omni video price was unclear on the page ($0.07–0.10/s).</div>
+</div>
+<div id="tip" hidden></div>
+<div class="tw" id="tw" hidden><div class="twp" id="twp" role="dialog" aria-modal="true" aria-labelledby="twTitle"></div></div>
+
+<script>
+/* ---------- LOGOS ---------- [file, invert white→black] */
+const L = {
+  junction:["junction_wordmark_logo_-_white_no_background.webp",1], deepmind:["google-deepmind-white.png",1],
+  arduino:["arduino.png",1], verda:["verda.png",1], cala:["cala.png",1], exa:["exa.png",1],
+  hostinger:["hostinger.png",1], intel:["intel.png",1], ignitenext:["ignite-next.png",1], mariadb:["mariadb.png",1],
+  rokoko:["rokoko.png",1], contextdev:["context-dev.png",1], aiven:["aiven.png",1], cloudinary:["cloudinary.png",1],
+  featherless:["featherless.png",1], modal:["modal.png",1], nvidia:["nvidia.png",1], codex:["openai-codex.svg",1],
+  oxylabs:["oxylabs.png",1], tieto:["tieto.png",1], bahn:["bahn.png",1], afterquery:["afterquery.png",1],
+  valioaimo:["valio-aimo.png",1], astrazeneca:["astrazeneca.png",1], aalto:["aalto-university.png",1],
+  stoa:["stoa.png",1], spankki:["s-pankki.png",1], espoo:["espoo.png",1], meta:["meta.png",1],
+  craci:["craci.png",1], atech:["atech.png",1], ironshard:["ironshard.png",1], wendy:["wendy.png",1],
+  qualia:["qualia.png",1], scailab:["scailab.png",1],
+  mlh:["mlh-color.svg",0], gemini:["gemini.png",0], elevenlabs:["elevenlabs.png",0], entire:["entire.png",0],
+  solana:["solana.png",0], tigerdata:["tigerdata.png",0], vultr:["vultr.png",0], dev:["dev.png",0], mongodb:["mongodb.png",0],
+};
+const img = (k, alt = k) => L[k] ? `<img class="logo${L[k][1] ? " inv" : ""}" src="logos/${L[k][0]}" alt="${alt}">` : "";
+
+/* ---------- DATA (Junction Platform, 13.11.2026) ----------
+   v = total € value (1st+2nd+3rd) for area · est = item values estimated */
+const MAIN = [
+  { track:"Agentic AI Track", items:[
+    { v:12400, est:1, first:"$2,500", logos:["exa"], name:"The Internet Butler", rest:"+ $5k Exa credits, hoodies, TRMNL · 2nd $1,500 + $3k cr · 3rd $500 + $1k cr" },
+    { v:7000,  first:"€4,000", logos:["valioaimo"], name:"Trusted Trade Agents", rest:"2nd €2,000 · 3rd €1,000" },
+    { v:6500,  est:1, first:"~€5,000", logos:["cala"], name:"Make Unicorns Real", rest:"3 months of hackathons per member (travel + hotel) + €1k credits + merch · 2nd €500 credits" },
+    { v:5000,  first:"€3,000", logos:["afterquery"], name:"Break the Agent", rest:"+ work trial + merch · 2nd €1,500 · 3rd €500" },
+    { v:3500,  first:"€2,000", logos:["tieto"], name:"Earned Trust in AI Code", rest:"2nd €1,000 · 3rd €500" },
+    { v:3500,  first:"€2,000", logos:["bahn"], name:"Spread", rest:"2nd €1,000 · 3rd €500" },
+    { v:3000,  first:"€2,000", logos:["hostinger"], name:"Decode the Noise", rest:"2nd €1,000 · all winners: 1 yr hosting + domain + swag" },
+  ]},
+  { track:"Hardware Track", items:[
+    { v:10000, first:"€5,000", logos:["ignitenext","intel"], name:"Intel Physical AI Challenge", rest:"2nd €3,000 · 3rd €2,000" },
+    { v:8380,  first:"€4,990", logos:["rokoko"], name:"Robot Teleoperation", rest:"Smartgloves II + SDK · 2nd Smartsuit Pro II (€2,295) · 3rd Smartgloves I (€1,095)" },
+    { v:2000,  first:"€2,000", logos:["aalto"], name:"Aaltonomous Humanoid", rest:"+ robotics lab visit · top ~5 run live on a real Unitree G1" },
+    { v:1960,  est:1, first:"Ventuno Q ×4", logos:["arduino"], name:"Green European Renaissance", rest:"per member · 2nd UNO Q 4G + kit · 3rd Plug and Make kit" },
+    { v:1320,  est:1, first:"Ray-Ban Meta ×4", logos:["meta"], name:"AI Glasses for Everyone", rest:"one pair per member" },
+  ]},
+  { track:"Data Track", items:[
+    { v:5330, est:1, first:"€1,000", logos:["mariadb"], name:"Wikipedia Through Time", rest:"+ €1k UpCloud + certification/member ($750) · 2nd €500 · 3rd €250" },
+    { v:3000, first:"€1,500", logos:["espoo"], name:"Rethinking Recruitment", rest:"2nd €1,000 · 3rd €500" },
+    { v:2500, first:"€2,000", logos:["contextdev"], name:"The Web Is Your Real-Time Database", rest:"+ swag · 2nd €500 · 3rd swag" },
+  ]},
+  { track:"Overall", items:[
+    { v:10000, first:"€10,000", logos:["junction"], name:"Junction 2026 Overall Winner", rest:"Top 5 by peer review Sun → 3 min pitch + 3 min Q&A → 7 judges · whole team must be at peer review" },
+  ]},
+  { track:"Healthcare Track", items:[
+    { v:2000, first:"€2,000", logos:["aalto"], name:"Beyond the Clinic", rest:"+ brain stimulation lab visit · best idea developed with researchers" },
+    { v:2000, first:"€1,000", logos:["astrazeneca"], name:"Equal Care Across Finland", rest:"2nd €750 · 3rd €250" },
+  ]},
+  { track:"FinTech Track", items:[
+    { v:3500, first:"€2,000", logos:["spankki"], name:"Personal Economic Trainer", rest:"Airbnb vouchers · 2nd €1,000 · 3rd €500" },
+  ]},
+  { track:"AI Infra Track", items:[
+    { v:2000, first:"€1,000", logos:["stoa"], name:"Make Blueprints Talk", rest:"+ work trial · 2nd €750 · 3rd €250" },
+  ]},
+];
+const TECH = [
+  { track:"", items:[
+    { v:15050, first:"$10,000", logos:["codex"], name:"Best Use of Codex", rest:"API credits · 2nd $5,000 · 3rd $2,500" },
+    { v:12900, first:"$10,000", logos:["verda"], name:"Verda Compute Track", rest:"cloud credits + hoodies · 2nd $2,500 · 3rd $2,500" },
+    { v:10440, first:"€4,000", logos:["deepmind"], name:"Best Use of Gemini API", rest:"+ $1k Google Cloud credits/member · 2nd €2,000 · 3rd €1,000" },
+    { v:4300,  first:"$2,000", logos:["modal"], name:"Best Use of Modal", rest:"+ $3,000 Modal credits" },
+    { v:3000,  first:"€1,000 ×3", logos:["deepmind"], name:"Best Use of Gemma", rest:"€1,000 to each of the top 3 teams, no ranking" },
+    { v:2720,  first:"€1,000", logos:["oxylabs"], name:"Agentic use of Oxylabs Web API", rest:"Apple voucher + $500 credits per member" },
+    { v:2300,  est:1, first:"RTX 5080", logos:["nvidia"], name:"Best Use of Nemotron", rest:"one each for the top 2 teams" },
+    { v:2250,  first:"€1,000", logos:["aiven"], name:"Best Use of Aiven", rest:"2nd €750 · 3rd €500" },
+    { v:1720,  first:"$500 ×4", logos:["cloudinary"], name:"Best Use of Cloudinary", rest:"Amazon vouchers, per member" },
+    { v:1100,  est:1, first:"MLH", logos:["mlh"], name:"MLH · 8 item prizes", list:[
+        ["IoT Kit ×4", "mongodb"], ["HW Wallet ×4", "solana"], ["Mini Projector", "entire"], ["Stream Deck Mini", "tigerdata"],
+        ["Earbuds", "elevenlabs"], ["Mini Monitor", "vultr"], ["$100", "dev"], ["Swag Kits", "gemini"] ] },
+    { v:1000,  first:"€750", logos:["contextdev"], name:"Best Use of Context.dev", rest:"+ swag · 2nd €250 · 3rd swag" },
+    { v:600,   est:1, first:"UNO Q + kit ×4", logos:["arduino"], name:"Best use of Arduino UNO Q", rest:"per member" },
+    { v:500,   est:1, first:"Pro Atech Kit", logos:["atech"], name:"Atech Real World Challenge", rest:"2nd/3rd kits + swag · invite to Copenhagen" },
+    { v:340,   est:1, first:"LEGO ×4", logos:["craci"], name:"Best use of CRACI", rest:"2nd Red Bull 24-pack/member · 3rd CRACI × OpenAI lunch at Slush" },
+  ]},
+];
+
+/* ---------- HOW TO WIN each tech challenge (public challenge info only) ----------
+   steps = plain "to win" steps · judge = [criterion, weight] or null (not published) · use = [part, what it is] (dim = optional) */
+const ENTER = "Name it in the tech-challenge field of the Project Submission form and say in 1–2 lines how you used it.";
+const HOW = {
+  "Best Use of Codex": {
+    steps: ["Build a real part of the project with Codex, not one tiny prompt.", "Keep proof: commits, PRs or tasks made with Codex.",
+      "Show in the demo or video what Codex built or fixed.", ENTER],
+    judge: null, judgeNote: "Meaningful use of Codex in the development process.",
+    use: [["Codex CLI", "agent in the terminal, edits and runs code in your repo"], ["IDE extension", "VS Code / JetBrains side panel, same agent as the CLI"],
+      ["Codex cloud tasks", "hand off a task, it runs in a sandbox on your GitHub repo"], ["@codex on GitHub", "tag it in an issue or PR to start a task"],
+      ["Code review", "Codex reviews pull requests"], ["AGENTS.md", "repo rules file Codex reads first"],
+      ["Sponsor credits", "$100 / person, used through ChatGPT / Codex, not API credits", 1]],
+  },
+  "Verda Compute Track": {
+    steps: ["Build something that would not run on a laptop: big model, GPU, many jobs.", "Run it on Verda for real, not just sign up.",
+      "Show the Verda part working in the demo.", ENTER],
+    judge: null, judgeNote: "Use Verda compute for something a laptop can't do.",
+    use: [["Inference API", "hosted models behind an API"], ["NVIDIA Nemotron endpoint", "hosted with NVIDIA, also counts toward Nemotron"],
+      ["GPU instances / Instant Clusters", "rent GPUs for training or big models"], ["CPU instances", "plain servers"],
+      ["Auto-scaling containers", "serve your own model as an endpoint"], ["Batch jobs", "run many jobs at once"],
+      ["Credits", "€200 per account, card on file (not charged); QR on the tables", 1]],
+  },
+  "Best Use of Gemini API": {
+    steps: ["Make Gemini a core part of the product, not an LLM glued on the side.", "Use what Gemini is good at: images, PDFs, long context, structured output.",
+      "Show it live in the demo: input → Gemini → result.", "Explain the problem, how you use Gemini and why Gemini (not just any model).", ENTER],
+    judge: null, judgeNote: "More than “LLM glued on”: explain the problem, how and why Gemini.",
+    use: [["Gemini API key", "free key from Google AI Studio (aistudio.google.com); team credits via the Junction form (18+)"],
+      ["Models", "Flash-Lite = cheapest and fastest · Flash = best price/quality · Pro / newest generation = hardest reasoning"],
+      ["Multimodal input", "images, PDFs, audio, video in the same request as text"],
+      ["Object detection", "asks for boxes → returns [ymin, xmin, ymax, xmax] on a 0–1000 grid; segmentation as polygons"],
+      ["Structured output", "force JSON that matches your schema (Pydantic / Zod / JSON Schema)"],
+      ["Function calling", "the model calls your own functions / tools"],
+      ["Long context", "up to ~1M tokens: many pages or a whole document set at once"],
+      ["Thinking", "built-in reasoning, budget can be set or turned off"],
+      ["Code execution", "the model writes and runs Python for exact math"],
+      ["Context caching · Batch mode", "reuse a big input cheaply · async jobs at half price"],
+      ["Embeddings", "vectors for search and matching", 1], ["Google Cloud credits", "$1k / member are part of the prize, not needed to enter", 1]],
+  },
+  "Best Use of Modal": {
+    steps: ["Run a real part of the project on Modal: model, GPU job or backend.", "Deploy it so judges can open a live URL.",
+      "Show the Modal part in the demo.", ENTER],
+    judge: [["Effective use of Modal", "40%"], ["Ambition", "25%"], ["Impact", "20%"], ["Live demo with a URL", "15%"]],
+    use: [["Functions", "Python functions that run in the cloud with one decorator"], ["GPUs", "T4 up to H100 / B200, billed per second"],
+      ["Web endpoints", "turn a function into a public URL (the live demo)"], ["Model serving", "host an open model, e.g. Gemma, behind an API"],
+      ["Volumes", "store model weights and data"], ["Batch / .map()", "fan out over many inputs in parallel"],
+      ["Sandboxes", "run untrusted or generated code safely", 1], ["Credits", "$100 / person", 1]],
+  },
+  "Best Use of Gemma": {
+    steps: ["Use an open Gemma model as a core part, not a side call.", "Say where it runs (AI Studio, Hugging Face, Featherless, Modal, Verda, own GPU).",
+      "Show why an open / small model fits: cost, speed, privacy, on-device.", "Show it working in the demo.", ENTER],
+    judge: null, judgeNote: "Best use of the open Gemma models.",
+    use: [["Gemma ≠ Gemini", "Gemma = open-weight models you can download, fine-tune and run yourself; Gemini = Google's hosted API models"],
+      ["Gemma 4 sizes", "E2B / E4B (phone, edge) · 26B A4B mixture-of-experts · 31B dense (one big GPU)"],
+      ["Multimodal", "text + image input on all sizes; audio on the small ones"],
+      ["Licence", "Apache 2.0: free to use and ship"],
+      ["Run it via", "AI Studio / Gemini API (no setup) · Hugging Face · Featherless (serverless API) · Modal or Verda (own GPU) · Ollama locally"],
+      ["Fine-tune", "LoRA on your own data, e.g. with Hugging Face or Unsloth"],
+      ["Function calling + JSON", "works with structured prompts / tool use", 1],
+      ["Family", "e.g. EmbeddingGemma for search, specialised variants", 1]],
+  },
+  "Agentic use of Oxylabs Web API": {
+    steps: ["Let an agent use the Oxylabs Web API to get live web data.", "Make the web data matter for the result.",
+      "Show it in the demo and say why the answers can be trusted.", ENTER],
+    judge: [["Use of Oxylabs", "30%"], ["Value", "25%"], ["Trust", "20%"], ["Execution", "15%"], ["Originality", "10%"]],
+    use: [["Web Scraper API", "fetch any page, rendered and unblocked"], ["SERP / e-commerce targets", "ready-made parsers for search and shops"],
+      ["MCP server / agent tools", "plug it into an agent"], ["Plan", "1st month of the $500 plan free, card needed, cancel after", 1]],
+  },
+  "Best Use of Nemotron": {
+    steps: ["Make an NVIDIA Nemotron model central to the project.", "Get good, checkable output from it.",
+      "Show it in the demo.", ENTER],
+    judge: [["Nemotron is central", "25%"], ["Technical execution", "25%"], ["Quality of AI output", "25%"], ["Creativity", "25%"]],
+    use: [["Nemotron 3.5 Super VL", "120B, 12B active, reads text, images and documents"], ["NVIDIA API key", "ask NVIDIA on Discord"],
+      ["Verda endpoint", "Nemotron hosted on Verda"], ["Open weights", "run on Hugging Face / own GPU", 1]],
+  },
+  "Best Use of Aiven": {
+    steps: ["Use at least one Aiven service as a real part of the project.", "One clean service is enough, no need for many.",
+      "Show what it enables in the demo.", ENTER],
+    judge: [["Meaningful use", "40%"], ["Technical", "30%"], ["Impact", "20%"], ["Creativity", "10%"]],
+    use: [["Aiven Runtime", "host your app or agent"], ["PostgreSQL", "store data"], ["Valkey", "caching"], ["Kafka", "events and streams"],
+      ["ClickHouse", "observe / analyse your agent"], ["OpenSearch", "search"], ["Credits", "$50 free on sign-up · mentors on the 5th floor", 1]],
+  },
+  "Best Use of Cloudinary": {
+    steps: ["Use one of the 4 Cloudinary hackathon tools in the project.", "Fill in the required Cloudinary hackathon survey form.",
+      "Show the media part in the demo.", ENTER],
+    judge: [["Innovation", "30%"], ["UX", "30%"], ["Technical", "20%"], ["Impact", "20%"]],
+    use: [["Image & video API", "upload, store, deliver"], ["Transformations", "resize, crop, convert by URL"],
+      ["AI features", "background removal, generative fill, tagging"], ["Required", "hackathon survey form (link on the challenge page)", 1]],
+  },
+  "MLH · 8 item prizes": {
+    steps: ["Pick one MLH sponsor: MongoDB Atlas, Solana, Entire, Tiger Data, ElevenLabs, Vultr, DEV or Gemini.", "Use it in a real way in the project.",
+      "Show it in the demo.", "Name it in the tech-challenge field (each is its own MLH entry)."],
+    judge: null, judgeNote: "Each MLH prize = best use of that one tool.",
+    use: [["MongoDB Atlas", "database · M5Stack IoT kit / member"], ["ElevenLabs", "voice, text to speech · earbuds"], ["Solana", "blockchain · HW wallet / member"],
+      ["Tiger Data", "Postgres for time series · Stream Deck Mini"], ["Vultr", "cloud servers · mini monitor"], ["Entire", "sessions / graph / brain · mini projector"],
+      ["DEV", "write a post about the project · $100"], ["Gemini (MLH)", "Gemini API · swag kits"]],
+  },
+  "Best Use of Context.dev": {
+    steps: ["Put a Context.dev endpoint in the core flow of the app.", "Turn the web into structured data you actually use.",
+      "Show it in the demo.", ENTER],
+    judge: [["Creativity", "40%"], ["Centrality", "30%"], ["Execution", "30%"]],
+    use: [["Structured web endpoints", "pages, brands, products as clean JSON"], ["API credits", "50,000 per team, no expiry", 1]],
+  },
+  "Best use of Arduino UNO Q": {
+    steps: ["Build a working hardware prototype on the UNO Q.", "Run edge AI on the board, not only in the cloud.",
+      "Show the physical demo.", ENTER],
+    judge: [["Hardware & edge AI", "50%"], ["Prototype / demo", "30%"], ["Creativity", "20%"]],
+    use: [["UNO Q", "Linux + real-time microcontroller on one board"], ["Edge AI", "run a small model on the board"],
+      ["Modulino sensors", "plug-in sensors"], ["Hardware Lab", "borrow for free, 5th floor", 1]],
+  },
+  "Atech Real World Challenge": {
+    steps: ["Build a physical device with Atech modules (ESP32).", "Flash firmware in the browser (Chrome / Edge, WebSerial).",
+      "Show it working for real.", ENTER],
+    judge: null, judgeNote: "Physical device with Atech modules; kits are limited.",
+    use: [["Atech modules", "ESP32-based building blocks"], ["Browser firmware", "flash via WebSerial in Chrome / Edge"], ["Kits", "limited, ask at the booth", 1]],
+  },
+  "Best use of CRACI": {
+    steps: ["Run the project's CI on CRACI runners (runs-on: craci).", "Use CRACI features in a creative way.",
+      "Show a green pipeline in the demo or README.", ENTER],
+    judge: [["Technical depth", "50%"], ["Creative use of features", "50%"]],
+    use: [["CI runners", "GitHub Actions compatible, 1–32 vCPU"], ["SBOM", "software bill of materials"], ["AI fixes", "suggested fixes for failing builds"],
+      ["Provenance", "build provenance"], ["Network traces", "see what the build talks to"], ["Credits", "€1,000 per team, invite code at the booth", 1]],
+  },
+};
+
+/* CareCatalyst (Sat 14.11. evening): ours = our main challenge · step = needs only the FINAL submission + peer review ·
+   could = tech challenges that fit the concept, nothing built yet (updated Sun 15.11.: Gemini = real API calls in Part A, Codex = team says built with it, proof TODO; ElevenLabs not in repo yet; DEV after submission) */
+const OURS = new Set(["Equal Care Across Finland","Best Use of Gemini API","Best Use of Codex"]);
+const STEP = new Set(["Junction 2026 Overall Winner"]);
+const COULD = new Set(["Agentic use of Oxylabs Web API","Best Use of Modal"]);
+const STEP_CELLS = new Set(["elevenlabs","dev","gemini"]);   // single items inside the MLH box (MLH Gemini: eligible via Part A · ElevenLabs: no code yet · DEV: post after submission)
+
+/* ---------- TREEMAP ---------- */
+function worst(row, side, scale) {
+  const s = row.reduce((a, b) => a + b.a, 0) * scale;
+  let mx = 0, mn = Infinity;
+  for (const r of row) { const x = r.a * scale; mx = Math.max(mx, x); mn = Math.min(mn, x); }
+  return Math.max(side * side * mx / (s * s), (s * s) / (side * side * mn));
+}
+function squarify(items, x, y, w, h, out = []) {
+  if (!items.length) return out;
+  if (items.length === 1) { out.push({ it: items[0], x, y, w, h }); return out; }
+  const total = items.reduce((s, i) => s + i.a, 0), scale = (w * h) / total, side = Math.min(w, h);
+  let row = [], best = Infinity, i = 0;
+  while (i < items.length) {
+    const cand = [...row, items[i]], r = worst(cand, side, scale);
+    if (r <= best) { row = cand; best = r; i++; } else break;
+  }
+  const ra = row.reduce((s, a) => s + a.a, 0) * scale;
+  if (w >= h) {
+    const cw = ra / h; let cy = y;
+    for (const it of row) { const ih = it.a * scale / cw; out.push({ it, x, y: cy, w: cw, h: ih }); cy += ih; }
+    return squarify(items.slice(i), x + cw, y, w - cw, h, out);
+  }
+  const rh = ra / w; let cx = x;
+  for (const it of row) { const iw = it.a * scale / rh; out.push({ it, x: cx, y, w: iw, h: rh }); cx += iw; }
+  return squarify(items.slice(i), x, y + rh, w, h - rh, out);
+}
+
+function fit(d, pf, nf, sf, lh) {
+  const price = d.querySelector(".price"), name = d.querySelector(".name");
+  const small = d.querySelectorAll(".sub"), logos = d.querySelectorAll(".logo");
+  for (let k = 1, i = 0; i < 45; i++, k *= 0.92) {
+    if (price) price.style.fontSize = Math.max(9, pf * k) + "px";
+    if (name) name.style.fontSize = Math.max(9, nf * Math.min(1, k * 1.4)) + "px";
+    small.forEach(e => e.style.fontSize = Math.max(8, sf * Math.min(1, k * 1.6)) + "px");
+    logos.forEach(e => e.style.height = Math.max(9, lh * Math.min(1, k * 1.2)) + "px");
+    if ((!price || price.scrollWidth <= price.clientWidth + 1) && d.scrollHeight <= d.clientHeight + 1) break;
+  }
+}
+const eur = n => "€" + Math.round(n).toLocaleString("en-US");
+
+function renderBox(parent, it, x, y, w, h) {
+  const d = document.createElement("div");
+  d.className = "box" + (it.est ? " est" : "") + (OURS.has(it.name) ? " ours" : STEP.has(it.name) ? " ours step" : COULD.has(it.name) ? " ours could" : "");
+  Object.assign(d.style, { left: x + "px", top: y + "px", width: w + "px", height: h + "px" });
+  d.dataset.name = it.name;
+  if (HOW[it.name] && parent.classList.contains("tech")) { d.tabIndex = 0; d.setAttribute("role", "button"); d.setAttribute("aria-label", it.name + ": how to win"); }
+  const s = Math.sqrt(w * h);
+  if (it.list) {
+    const cols = w > h * 1.3 ? 4 : 2;
+    d.classList.add("multi");
+    d.innerHTML = `<div style="display:flex;align-items:center;gap:6px">${img("mlh")}<div class="name">${it.name}</div></div>` +
+      `<div class="mini" style="grid-template-columns:repeat(${cols},1fr)">` +
+      it.list.map(([p, k]) => `<div class="cell${STEP_CELLS.has(k) ? " us" : ""}"><div class="price">${p}</div><div>${img(k)}</div></div>`).join("") + `</div>`;
+    parent.appendChild(d);
+    const hd = d.firstElementChild;
+    hd.querySelector(".logo").style.height = Math.max(12, Math.min(22, s / 16)) + "px";
+    hd.querySelector(".name").style.fontSize = Math.max(10, Math.min(14, s / 20)) + "px";
+    d.querySelectorAll(".cell").forEach(c => {
+      const cs = Math.sqrt(c.clientWidth * c.clientHeight);
+      fit(c, Math.min(40, cs / 2.6), 0, 0, Math.min(30, cs / 5));
+    });
+    return;
+  }
+  d.innerHTML = `<div class="price">${it.first}</div><div><div class="logos">${it.logos.map(k => img(k)).join("")}</div>` +
+    `<div class="name">${it.name}</div>` + (it.rest ? `<div class="sub">${it.rest}</div>` : "") + `</div>`;
+  parent.appendChild(d);
+  fit(d, Math.min(100, s / 3.4), Math.min(22, s / 12), Math.min(14, s / 20), Math.min(48, s / 7));
+}
+
+function draw(groups) {
+  const el = document.getElementById("map"), W = el.clientWidth, H = el.clientHeight, G = 4, HD = 20;
+  if (!W || !H) return;
+  el.innerHTML = "";
+  el.classList.toggle("tech", groups === TECH);
+  document.getElementById("techHint").hidden = groups !== TECH;
+  const grand = groups.reduce((s, g) => s + g.items.reduce((a, i) => a + i.v, 0), 0);
+  const floor = grand * 0.022;                                  // min area so small prizes stay readable
+  const gs = groups.map(g => {
+    const items = g.items.map(i => ({ ...i, a: Math.max(i.v, floor) })).sort((a, b) => b.a - a.a);
+    return { ...g, items, sum: g.items.reduce((a, i) => a + i.v, 0), a: items.reduce((s, i) => s + i.a, 0) };
+  }).sort((a, b) => b.a - a.a);
+  const nested = gs.length > 1;
+  for (const gr of squarify(gs, 0, 0, W + G, H + G)) {
+    const g = gr.it, gx = gr.x, gy = gr.y, gw = gr.w - G, gh = gr.h - G;
+    const top = nested ? HD : 0;
+    if (nested) {
+      const hd = document.createElement("div");
+      hd.className = "ghead";
+      Object.assign(hd.style, { left: gx + "px", top: gy + "px", width: gw + "px" });
+      hd.innerHTML = `${g.track} <span>· ${eur(g.sum)}</span>`;
+      el.appendChild(hd);
+    }
+    for (const b of squarify(g.items, gx, gy + top, gw + G, gh - top + G))
+      renderBox(el, b.it, b.x, b.y, b.w - G, b.h - G);
+  }
+}
+
+/* ---------- TOOLS ---------- [logo, name, FREE for everyone, prize/notes, prize-tied] */
+const SW = [
+  ["contextdev", "Context.dev", "50,000 API credits / team", "No expiry · prizes in Data Track + tech challenge", 1],
+  ["craci", "CRACI", "€1,000 credits / team", "Platform credits · tech challenge (LEGO, Red Bull)", 1],
+  ["verda", "Verda", "€200 credits", "AI compute + Inference API · $15k tech challenge", 1],
+  ["codex", "OpenAI Codex", "$100 / person", "Codex credits · $17.5k tech challenge", 1],
+  ["modal", "Modal", "$100 / person", "CPUs + GPUs · $2k + $3k credits prize", 1],
+  ["exa", "Exa", "$50 / person", "AI search API · Internet Butler challenge", 1],
+  ["aiven", "Aiven", "$50 credits", "Managed Postgres, Kafka … · €2,250 prizes", 1],
+  ["featherless", "Featherless", "$50 API voucher", "Open-source LLMs · selected teams get GPU credits", 0],
+  ["", "Anthropic · Claude", "$20 / person", "Claude API credits", 0],
+  ["deepmind", "Google DeepMind", "Gemini API credits", "For eligible participants · Gemini + Gemma prizes", 1],
+  ["oxylabs", "Oxylabs", "1st month free", "$500 plan, code JUNCTION2026 · card needed, cancel after!", 1],
+  ["cloudinary", "Cloudinary", "Free access", "Image & video API · $500/member Amazon vouchers", 1],
+  ["mariadb", "MariaDB", "Free access", "Database · Wikipedia Through Time challenge", 1],
+  ["nvidia", "NVIDIA Nemotron", "—", "Open models · RTX 5080 for top 2", 1],
+  ["ironshard", "IronShard", "Free access", "Free tier", 0],
+  ["wendy", "Wendy", "Free access", "Free tier", 0],
+  ["qualia", "Qualia", "Free access", "Free tier", 0],
+  ["scailab", "Scailab", "Free access", "Free tier", 0],
+  ["cala", "Cala", "API", "Public data for AI agents · Make Unicorns Real", 1],
+  ["hostinger", "Hostinger", "—", "Hosting · winners get 1 yr hosting + domain", 1],
+  ["mongodb", "MongoDB Atlas", "Free tier", "MLH prize · M5Stack IoT kit/member", 1],
+  ["solana", "Solana", "—", "MLH prize · HW wallet/member", 1],
+  ["tigerdata", "Tiger Data", "Free tier", "MLH prize · Stream Deck Mini", 1],
+  ["elevenlabs", "ElevenLabs", "—", "Voice API · MLH prize earbuds", 1],
+  ["vultr", "Vultr", "—", "Cloud · MLH prize mini monitor", 1],
+  ["entire", "Entire", "—", "MLH prize · mini projector", 1],
+  ["dev", "DEV", "—", "Write about your project · $100", 1],
+  ["junction", "Junction Platform", "Hackerpacks", "Redeem all credits here · submit DRAFT → FINAL", 0],
+];
+const HW = [
+  ["arduino", "Arduino UNO Q", "Linux + real-time control on one board, run edge AI locally · borrow at the Hardware Lab", "Hardware Lab · 5th floor", 1],
+  ["aalto", "Unitree G1 humanoid", "Top ~5 teams of the Aaltonomous Humanoid sim challenge run live on the real robot", "Aalto challenge", 1],
+  ["rokoko", "Rokoko Smartgloves / Smartsuit", "Robot Teleoperation challenge · prizes up to €4,990", "Rokoko challenge", 1],
+  ["meta", "Ray-Ban Meta glasses", "AI Glasses for Everyone, Everyday · winners get a pair each", "Meta challenge", 1],
+  ["intel", "Intel Core Ultra · OpenVINO", "Physical AI / robotics · €5k / €3k / €2k challenge", "Intel × Ignite Next", 1],
+  ["arduino", "LeRobot arms", "Open-source robot arms for robotics & embodied AI", "Hardware Lab", 0],
+  ["arduino", "Modulino sensors", "Plug-in sensors for the UNO Q", "Hardware Lab", 0],
+  ["arduino", "3D printers", "Print enclosures, mounts, custom parts on site", "Hardware Lab", 0],
+  ["nvidia", "RTX 5080", "Prize for top 2 Nemotron teams", "NVIDIA prize", 0],
+  ["atech", "Atech kits", "Atech Real World Challenge · best teams invited to Copenhagen", "Atech challenge", 0],
+];
+const US_TOOLS = new Set(["Google DeepMind","OpenAI Codex"]);                              // in use now for CareCatalyst (repo CareCatalyzer: @google/genai; code written with Codex)
+const STEP_TOOLS = new Set(["ElevenLabs","Oxylabs","Modal"]); // fit the concept (agent, voice call, web search, live URL)
+const COULD_HW = new Set([]);                                                              // no hardware in our concept
+// Setup status (Handan's accounts, from the old project, Sat 14.11. ~03:30): purple = set up, red = still to set up. Per-team credits were claimed for the OLD team.
+const SETUP_OK = new Set(["Google DeepMind","Modal","Exa","Context.dev","Featherless","Aiven","Cloudinary","MongoDB Atlas","ElevenLabs","OpenAI Codex","Anthropic · Claude","IronShard","Verda","Entire","Scailab","NVIDIA Nemotron","Tiger Data","Vultr"]);
+const SETUP_TODO = new Set(["CRACI","Oxylabs"]);
+/* usage per tool card: [% used or null if unknown, label shown inside the bar] · same data as the Credits tab */
+const CARD_USE = {
+  "Google DeepMind": [100, "503 / 500 today · limit"],
+  "Featherless": [0.018, "$0.01 / $50 used"],
+  "Modal": [0, "$0 / $100 used"],
+  "Exa": [0, "$0 / $70 used"],
+  "Context.dev": [0, "0 / 51k used"],
+  "Aiven": [0, "$0 / $50 used"],
+  "ElevenLabs": [0, "0 / 10k used"],
+  "OpenAI Codex": [null, "? / $100 · check dashboard"],
+  "Anthropic · Claude": [null, "not claimed"],
+  "Verda": [null, "not claimed"],
+  "CRACI": [null, "not claimed"],
+};
+const meter = n => {
+  const u = CARD_USE[n]; if (!u) return "";
+  const [pct, lbl] = u;
+  if (pct == null) return `<div class="meter na"><span>${lbl}</span></div>`;
+  const w = pct > 0 ? Math.max(2, Math.min(100, pct)) : 0;
+  return `<div class="meter${pct >= 100 ? " full" : ""}"><i style="width:${w}%"></i><span>${lbl}</span></div>`;
+};
+const mark = n => SETUP_OK.has(n) ? `<span class="smark ok">✓ set up</span>` : SETUP_TODO.has(n) ? `<span class="smark todo">⏳ open</span>` : "";
+document.getElementById("sw").innerHTML = SW.map(([l, n, free, p, hot]) =>
+  `<div class="card${hot ? " hot" : ""}${US_TOOLS.has(n) ? " us" : STEP_TOOLS.has(n) ? " us step" : ""}${SETUP_OK.has(n) ? " setup-ok" : SETUP_TODO.has(n) ? " setup-todo" : ""}">${mark(n)}${l ? img(l, n) : ""}<b>${n}</b><div class="free">${free}</div>${meter(n)}<p>${p}</p></div>`).join("");
+/* ---------- GEMINI OVERLAY ----------
+   [column, model id, name, what it does, price, free tier, fit (now|use|pitch|""), example for us] */
+const GEM = [
+  ["Read & reason", "gemini-3.1-flash-lite", "Flash Lite 3.1", "Cheapest multimodal model.", "$0.25 / $1.50", "free: 500 req/day", "use",
+    "Classify a free-text answer “the hospital is too far and I can't drive” into the reason “transport” for the aggregate counter."],
+  ["Read & reason", "gemini-3.8-flash", "Flash 3.8", "Smartest Flash. Better at long tasks.", "$0.75 / $3.75 (until 31.12.)", "free tier: yes", "use",
+    "The agent's brain in the chat: asks why the appointment was cancelled, then picks the right help (Kela travel, rebooking)."],
+  ["Read & reason", "gemini-robotics-er-2-preview", "Robotics-ER 2", "Spatial reasoning. Points at objects in an image.", "$1.00 / $5.00", "free tier: yes", "",
+    "Nothing to point at in our project."],
+  ["Read & reason", "gemini-4-hydrogen", "Gemini 4 Hydrogen", "Fast Gemini 4, 1M token context.", "$1.50 / $7.50", "free tier: yes (data used for training)", "use",
+    "Load the whole cancer strategy + roadmap (Finnish PDFs) and ask “which Goal 3 measure fits this gap?”, with page citations. Free tier trains on data: public PDFs only."],
+  ["Read & reason", "gemini-4-argon · gemini-4-carbon", "Gemini 4 Argon / Carbon", "Frontier reasoning. Strongest models.", "$2 / $10 (to 30.11.), then $4 / $20", "no free tier", "",
+    "Too expensive for a one-night demo."],
+  ["Read & reason", "gemini-3.1-pro-preview", "Pro 3.1", "Older Pro model.", "$2 / $12", "no free tier", "",
+    "Nothing Flash can't do for us here."],
+  ["Read & reason", "gemini-3.6-flash", "Flash 3.6", "Previous Flash.", "$0.75 / $3.75", "free: 20 req/day", "",
+    "Same price as 3.8 Flash but older. No reason to pick it."],
+  ["Read & reason", "gemini-2.5-flash-lite", "Flash Lite 2.5", "Cheapest per token, older generation.", "$0.10 / $0.40", "free tier: yes", "",
+    "Fallback if the newer free tier runs out."],
+
+  ["Cheap helpers", "gemini-decision-1", "Decision-1", "Yes/no, pick-one and score answers. Zero output tokens.", "$0.10 input only", "free: 10,000 req/day", "use",
+    "Pick one reason (fear, distance, transport, cost, care duties, other) from the patient's answer for a fraction of a cent."],
+  ["Cheap helpers", "gemma-4-31B-it (via Featherless)", "Gemma 4 31B", "Open model, runs on Featherless.", "flat · voucher", "Featherless voucher", "",
+    "Could run the reason classifier as an open model (privacy story + Gemma prize). TODO: only if the team wants it."],
+  ["Cheap helpers", "gemini-embedding-2", "Embedding 2", "Turns text, images, audio or PDF into vectors.", "text $0.20 · image $0.45", "free tier: yes", "use",
+    "Match a patient's problem to the closest help program or strategy measure."],
+
+  ["Voice", "gemini-3.8-flash-lite-tts", "TTS Flash Lite 3.8", "Text to speech, 101 languages.", "$0.50 in / $6 out (audio)", "free tier: yes", "",
+    "Agent speaks Finnish/Swedish/English on the call. ElevenLabs does this too (MLH prize)."],
+  ["Voice", "gemini-3.5-transcribe", "Transcribe 3.5", "Speech to text with speaker labels and timestamps.", "≈ $0.003 / min", "free tier: yes", "",
+    "Turn the patient's spoken answer into text for the reason classifier."],
+  ["Voice", "gemini-3.8-live", "Live 3.8", "Real-time voice conversation agent.", "≈ $0.005 in / $0.018 out per min", "free tier: yes", "use",
+    "The live “agent calls the patient” demo, and the Alexa-style scene. Big build for one night: keep a text-chat fallback."],
+  ["Voice", "gemini-3.5-live-translate-preview", "Live Translate", "Real-time speech translation, 70+ languages.", "≈ $0.005 / $0.03 per min", "free tier: yes", "",
+    "Equality angle: patients who speak neither Finnish nor Swedish. Nice to mention, not to build tonight."],
+
+  ["Pitch: image · video · music", "gemini-omni-1.2-flash", "Omni Flash (video)", "Up to 15 s video with sound, keyframes, extension.", "≈ $0.07–0.10 / s (720p)", "paid only", "pitch",
+    "B-roll for the 2-min video: the man with his dog Jenny in an Espoo kitchen. 15 s ≈ $1–1.50."],
+  ["Pitch: image · video · music", "gemini-3-pro-image", "Nano Banana Pro", "Studio-quality images, renders readable text.", "≈ $0.13 per image", "paid only", "pitch",
+    "Title slide: “CareCatalyst · Closing gaps. Connecting care.” with a clean pathway graphic."],
+  ["Pitch: image · video · music", "gemini-3.1-flash-image", "Nano Banana 2", "Fast image generation and editing.", "≈ $0.07 per 1K image", "paid only", "pitch",
+    "Quick deck visuals: before/after of a stalled pathway."],
+  ["Pitch: image · video · music", "lyria-3-clip-preview", "Lyria 3 Clip", "Music clips and loops up to 30 s.", "$0.04 per clip", "paid only", "pitch",
+    "Calm background loop for the pitch video, 30 s for 4 cents."],
+  ["Pitch: image · video · music", "gemini-nano-banana-2.1", "Nano Banana 2.1", "Image editing with multi-turn consistency.", "≈ $0.03 per 1K image", "paid only", "",
+    "Keep the same character across scenes. Nano Banana Pro is enough for a deck."],
+
+  ["API features", "context caching", "Context caching", "Upload once, reuse the same input cheaply.", "cached input ≈ 5–10 % of price", "with any model", "use",
+    "Cache the strategy PDFs once, ask many questions about Goal 3 for little."],
+  ["API features", "batch mode", "Batch mode", "Async jobs at half price.", "−50 %", "with any model", "",
+    "Not needed: our volumes are tiny."],
+  ["API features", "code execution", "Code execution", "The model writes and runs Python.", "free · tokens only", "with any model", "use",
+    "AI analyst: compute the indicator per county from a downloaded public table instead of guessing numbers."],
+  ["API features", "file search", "File Search", "Managed search over your own files.", "free · embeddings billed", "with any model", "use",
+    "Search strategy, roadmap and source list, answer with the page as source (AZ: source for every claim)."],
+  ["API features", "google search · maps · url context", "Search / Maps / URL grounding", "Answers from the web or maps.", "5,000 free/month, then $14 / 1,000", "with Gemini 3+", "use",
+    "Find help programs and the nearest treatment centre (Espoo → Helsinki), with links as sources."],
+  ["API features", "deep-research · antigravity", "Deep Research / Antigravity", "Autonomous research and sandbox agents.", "model token prices", "preview", "",
+    "Could draft a cited background report, but every claim still needs a checked source."],
+];
+const GCOLS = [...new Set(GEM.map(g => g[0]))];
+document.getElementById("gemCols").innerHTML = GCOLS.map(c =>
+  `<div class="gcol"><span class="lbl">${c}</span>` + GEM.map((g, i) => g[0] !== c ? "" :
+    `<div class="gm ${g[6]}" tabindex="0" data-i="${i}"><b>${g[2]}</b><span class="id">${g[1]}</span><span class="dt">${g[3]}</span><span class="pr">${g[4]}</span></div>`).join("") + `</div>`).join("");
+const gem = document.getElementById("gem"), tip = document.getElementById("tip");
+function showTip(el, x, y) {
+  const g = GEM[el.dataset.i];
+  tip.innerHTML = `<b>${g[2]}</b>${g[3]}<div class="ex">${g[7]}</div><div class="meta">${g[4]} · ${g[5]}</div>`;
+  tip.hidden = false;
+  const r = tip.getBoundingClientRect();
+  tip.style.left = Math.max(8, Math.min(innerWidth - r.width - 8, x + 14)) + "px";
+  tip.style.top = (y + r.height + 24 > innerHeight ? y - r.height - 12 : y + 18) + "px";
+}
+document.querySelectorAll(".gm").forEach(el => {
+  el.addEventListener("mousemove", e => showTip(el, e.clientX, e.clientY));
+  el.addEventListener("mouseleave", () => tip.hidden = true);
+  el.addEventListener("focus", () => { const r = el.getBoundingClientRect(); showTip(el, r.left, r.bottom - 10); });
+  el.addEventListener("blur", () => tip.hidden = true);
+});
+const openGem = () => { gem.hidden = false; document.getElementById("gemClose").focus(); };
+const closeGem = () => { gem.hidden = true; tip.hidden = true; };
+document.getElementById("gemClose").onclick = closeGem;
+addEventListener("keydown", e => { if (e.key === "Escape" && !gem.hidden) closeGem(); });
+document.querySelectorAll("#sw .card").forEach(c => {
+  if (c.querySelector("b")?.textContent !== "Google DeepMind") return;
+  c.classList.add("open"); c.tabIndex = 0; c.setAttribute("role", "button");
+  c.insertAdjacentHTML("beforeend", `<span class="more">Click: all Gemini tools →</span>`);
+  c.onclick = openGem;
+  c.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openGem(); } };
+});
+
+/* ---------- TECH CHALLENGE "HOW TO WIN" OVERLAY ---------- */
+const tw = document.getElementById("tw"), twp = document.getElementById("twp");
+let twName = null, twBack = null;
+const techItem = n => TECH.flatMap(g => g.items).find(i => i.name === n);
+function placeTw() {
+  const r = document.querySelector("main").getBoundingClientRect();
+  Object.assign(twp.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+  for (let f = 1.4; f >= 0.6; f -= 0.04) {          // largest type that still fits without overflow
+    twp.style.setProperty("--f", f.toFixed(2));
+    const over = [twp, ...twp.querySelectorAll(".tk")].some(e => e.scrollHeight > e.clientHeight + 1);
+    if (!over) break;
+  }
+}
+function openTw(name) {
+  const h = HOW[name], it = techItem(name); if (!h || !it) return;
+  twName = name; twBack = document.activeElement;
+  const logos = it.list ? img("mlh") : it.logos.map(k => img(k)).join("");
+  const prize = it.list ? it.list.map(([p, k]) => `${p} <span style="color:var(--mute)">(${k})</span>`).join(" · ") : `<b>${it.first}</b> · ${it.rest || ""}`;
+  const judge = h.judge
+    ? h.judge.map(([c, w]) => `<div class="jr"><span>${c}</span><b>${w}</b></div>`).join("")
+    : `<p class="na"><b style="color:#000">Weights not published — ask at the booth.</b></p>` + (h.judgeNote ? `<p>Page says: ${h.judgeNote}</p>` : "");
+  twp.innerHTML = `
+    <div class="twh">${logos}<h2 id="twTitle">${name}</h2><span class="pz">${it.est ? "items, value estimated · " : ""}${it.list ? "8 separate item prizes" : "1st " + it.first}</span>
+      <button class="xbtn" id="twClose" type="button">Close ✕</button></div>
+    <div class="twc">
+      <div><div class="tk blk grow"><span class="lbl">1 · To win</span><ol>${h.steps.map(s => `<li><span>${s}</span></li>`).join("")}</ol></div>
+        <div class="tk"><span class="lbl">5 · Deadline / how to enter</span>
+          <p>Tick <b>${name}</b> in the <b>Project Submission</b> form under <b>tech challenge participation</b>.</p>
+          <p>Before <b>Sun 15.11. 10:00 Finland time</b> (set FINAL). Any number of tech challenges can be stacked on top of a main challenge.</p></div></div>
+      <div><div class="tk grow"><span class="lbl">2 · Judging</span>${judge}</div>
+        <div class="tk"><span class="lbl">4 · Prize</span><p style="font-size:calc(15px * var(--f))">${prize}</p></div></div>
+      <div><div class="tk grow"><span class="lbl">3 · Use these parts of the tool</span><div class="uu">${h.use.map(([a, b, dim]) => `<div class="u${dim ? " dim" : ""}"><b>${a}</b> · ${b}</div>`).join("")}</div></div></div>
+    </div>
+    <div class="twf">Source: Junction platform tech-challenge pages + sponsor docs, read Sat 14.11. · Esc, ✕ or click outside to close</div>`;
+  tw.hidden = false;
+  placeTw();
+  document.getElementById("twClose").onclick = closeTw;
+  document.getElementById("twClose").focus();
+}
+function closeTw() { if (tw.hidden) return; tw.hidden = true; twName = null; twBack?.focus?.(); }
+tw.addEventListener("click", e => { if (!twp.contains(e.target)) closeTw(); });
+addEventListener("keydown", e => { if (e.key === "Escape") closeTw(); });
+addEventListener("resize", () => { if (!tw.hidden) placeTw(); });
+const mapEl = document.getElementById("map");
+mapEl.addEventListener("click", e => { const b = e.target.closest(".box"); if (b && mapEl.classList.contains("tech")) openTw(b.dataset.name); });
+mapEl.addEventListener("keydown", e => {
+  const b = e.target.closest(".box");
+  if (b && mapEl.classList.contains("tech") && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openTw(b.dataset.name); }
+});
+
+document.getElementById("hw").innerHTML = HW.map(([l, n, p, t, hot]) =>
+  `<div class="card${hot ? " hot" : ""}${COULD_HW.has(n) ? " us could" : ""}">${img(l, n)}<b>${n}</b><p>${p}</p><span class="tag">${t}</span></div>`).join("");
+/* ---------- CREDITS (checked on the dashboards, Sat 14.11. ~09:15 Finland time) ----------
+   [tool, credit, per person/team, claimed (1 = Handan), used, left, notes, row class] · no codes/links here, repo is public */
+const CR = [
+  ["Google Gemini · AI Studio", "Free tier: Flash Lite 500 req/day, 3.6 Flash 20/day · + team credits (form)", "free tier per Google account · credits per team", 1, "Reset ✓ · 1/500 Flash Lite used today (11:08) · €0 billed", "~499 req today · resets daily ~10:00 Finland", "Limit was hit overnight, reset worked. Teammates can make their own free-tier key = +500/day each. Team-credit key requested, not arrived yet", "ok"],
+  ["Featherless", "$50 API voucher", "per account", 1, "$0.009 · 46 requests (Gemma 4 31B)", "$49.99", "Both $25 halves arrived. ~5,000 Gemma calls left at this rate"],
+  ["Modal", "$100 / person, 1 year", "per person", 1, "$0.00", "$100.00", "Nothing deployed yet (demo URL = Modal prize)"],
+  ["Exa", "$50 / person (+$10/mo free)", "per person", 1, "$0.00", "$70.00", "Not in our code"],
+  ["Context.dev", "50,000 API credits", "per team", 1, "0 calls", "51,000", "Incl. 1k free/month. Don't claim again"],
+  ["Aiven", "$50 trial, 30 days", "per account", 1, "$0.00 · no service", "$50.00 · 30 days", "Only counts for the Aiven prize if a service runs"],
+  ["ElevenLabs", "Free plan 10,000 credits / month · MLH code: Creator plan (121k/mo) or $22 off", "per person · own account + own MLH code", 1, "0 / 10,000", "10,000", "10k credits ≈ 10k characters ≈ 1,500–1,700 words of speech (Flash model: half price ≈ 3,000+ words). Each teammate gets their own 10k + own MLH code. Handan's code saved, not activated"],
+  ["OpenAI Codex", "$100 / person (2,500 credits, 30 days)", "per person · personal link", 1, "Sponsor credits: 0 · our 3 tasks + 6 images ran on another ChatGPT plan", "unknown – check dashboard", "Link received, redeem in ChatGPT"],
+  ["Anthropic · Claude", "$20 API credits", "per person", 0, "—", "$20 × 4", "Offer link on the Junction platform"],
+  ["Verda", "€200 compute + inference", "per account", 0, "—", "€200 each", "Card needed (not charged)"],
+  ["CRACI", "€1,000 CI credits", "per team", 0, "—", "€1,000", "Invite code at the booth"],
+  ["NVIDIA Nemotron", "API key", "per team", 0, "—", "—", "Asked via Discord DM, waiting"],
+  ["IronShard", "S3 storage, free", "per team", 0, "—", "—", "Only for files > 100 MB"],
+  ["Oxylabs", "1st month of $500 plan free", "per account", 0, "—", "—", "Card needed, cancel after!", "out"],
+  ["Cloudinary · MongoDB", "Free tiers", "per account", 1, "0", "free tier", "Cloudinary prize needs the survey form", "out"],
+  ["Google Flow (not sponsor)", "Own Google AI PLUS plan", "Handan's own", 1, "unknown – check dashboard", "250 credits · reset 29.11.", "Video/images for the pitch", "out"],
+];
+const MEMBERS = ["Handan", "Youcef", "Hazem"];
+const LEFT_PCT = {};   // e.g. LEFT_PCT["ElevenLabs"] = { Youcef: 100 } once a teammate reports their balance
+const USED_PCT = {
+  "Google Gemini · AI Studio": 0.2,   // 1/500 after the daily reset (checked 11:08 Finland)
+  "Featherless": 0.018,               // $0.009 of $50
+  "Modal": 0, "Exa": 0, "Context.dev": 0, "Aiven": 0,
+  "ElevenLabs": 0,                    // 0 of 10,000 credits
+  "Cloudinary · MongoDB": 0,
+  // unknown: OpenAI Codex (not redeemed yet), Google Flow (check dashboard)
+};
+document.getElementById("cr").innerHTML = `<table class="crt"><colgroup><col style="width:11%"><col style="width:17%"><col style="width:13%"><col style="width:7%"><col style="width:16%"><col style="width:11%"><col></colgroup><tr><th>Tool</th><th>Credit</th><th>Per person / team</th><th>Claimed by</th><th>Left · per member</th><th>Left</th><th>Notes</th></tr>` +
+  CR.map(([t, c, pp, who, used, left, note, cls]) => `<tr${cls ? ` class="${cls}"` : ""}><td>${t}</td><td>${c}</td><td class="pp">${pp}</td>` +
+    `<td>${who ? '<span class="who-ok">✓ Handan</span>' : '<span class="who-no">not yet</span>'}</td><td class="n">${bars(t, pp, who)}${used === "—" ? "" : used}</td><td class="n left">${left}</td><td class="note">${note}</td></tr>`).join("") + `</table>`;
+/* Remaining credit per member as bars (full black = all left). Per person/account tools get one bar per teammate,
+   per team tools one bar. Only Handan's accounts are known; teammates show a dashed "?" until they report. */
+function one(pct, name) {
+  const lbl = `<b>${name}<em>${pct == null ? "?" : Math.round(pct) + "%"}</em></b>`;
+  if (pct == null) return `<span>${lbl}<div class="bar na"></div></span>`;
+  const w = pct > 0 ? Math.max(3, Math.min(100, pct)) : 0;
+  return `<span>${lbl}<div class="bar${pct <= 0 ? " zero" : ""}"><i style="width:${w}%"></i></div></span>`;
+}
+function leftFor(tool, member, claimedByHandan) {
+  const own = (LEFT_PCT[tool] || {})[member];
+  if (own != null) return own;
+  if (member === "Handan" && claimedByHandan && USED_PCT[tool] != null) return Math.max(0, 100 - USED_PCT[tool]);
+  return null;
+}
+function bars(tool, pp, claimed) {
+  if (/person|account/.test(pp) && !/Handan's own/.test(pp))
+    return `<div class="mb">${MEMBERS.map(m => one(leftFor(tool, m, claimed), m[0])).join("")}</div>`;
+  return `<div class="mb">${one(leftFor(tool, "Handan", claimed), /own/.test(pp) ? "Handan" : "Team")}</div>`;
+}
+const FOOT = {
+  sw: "<span class='setup-key' style='border-color:#7C3AED'></span>Purple frame / ✓ set up = account/credits done (Handan, from the old project) · <span class='setup-key' style='border-color:#DC2626'></span>red frame / ⏳ open = still to set up · dashed ☆ = fits the CareCatalyst concept (Gemini agent, ElevenLabs voice call, Oxylabs web search for help programs, Modal live URL, Codex) · ★ = in our stack (Gemini, Codex) · big text = free for every participant · thick border = there's also a prize for using it · redeem on the Junction Platform → Hackerpacks.",
+  cr: "<span><b style='color:#000'>Per person</b> = all 3 (Handan, Youcef, Hazem) can claim it · <b style='color:#000'>per account</b> = everyone with their own sign-up · <b style='color:#000'>per team</b> = claim once only · <b style='color:#DC2626'>per-team credits (Context.dev, Gemini team key) were claimed for the old team</b>: TODO ask Youcef what CareCatalyst already claimed · ✓ Handan = Handan's own accounts · balances read Sat 14.11. ~09:15, TODO recheck.</span>",
+  hw: "No hardware in the CareCatalyst concept (voice agent runs in the app / on a smart speaker in the pitch only) · Hardware Lab by Arduino · 5th floor, Hype Areena · borrow hardware for free · thick border = linked to a challenge.",
+};
+
+/* ---------- TABS ---------- */
+/* ---------- PROGRESS · CareCatalyst (Sat 14.11. evening, from CONTEXT.md / KONZEPT.md) · edit pct when something moves ----------
+   [title, pct done, what's done / what's missing, owner, required for the submission?] */
+const PG = [
+  ["Concept", 80, "KONZEPT.md: problem (AZ knows reasons, not people), opt-in agent today, Alexa scene, agent-to-agent vision, legal check done. Missing: operator decision (county vs insurer)", "Handan · team", 1],
+  ["Goal 3 indicator", 10, "Picked candidate: treatment within target times (THL Ohjaus 21/2016). Missing: shown in the demo with a public number + source", "TODO", 1],
+  ["Public data + sources", 10, "AZ source list + strategy PDFs in resources/. Missing: actual dataset loaded, a source under every number", "TODO", 1],
+  ["Concrete proposals", 20, "Ideas: Kela travel reimbursement / Kela taxi at referral, ask-why call when an appointment stalls. Missing: 3–5 county-ready actions with sources", "TODO", 1],
+  ["Working demo", 60, "A: calling agent (Gemini Live + Flash), barrier map, simulators, synthetic patients. B: CarePulse pitch app (scripted). Missing: live URL / run check before the video", "devstar7674 · Youcef · Hazem", 1],
+  ["Pitch video ≤ 2 min", 0, "Alexa scene scripted in KONZEPT.md. Missing: script in English, images, voice, render", "Handan", 1],
+  ["Pitch deck (PDF)", 0, "Pitch arc in KONZEPT.md (5 parts). Missing: slides", "TODO", 0],
+  ["Source code link", 60, "Main repo CareCatalyst public + MIT, both parts as submodules. Missing: CareCatalyzer public (owner), MIT LICENSE in mobile_app, bump submodule pointer of A", "devstar7674 · Youcef", 1],
+  ["Form texts", 0, "Punchline, description, challenge are empty, table number A115 not set. Missing: texts with sources + limits, tech used", "TODO", 1],
+  ["Tech challenges", 50, "Ours: Gemini API + MLH Gemini (Part A code), Codex (team-built, AGENTS.md + README). Missing: Codex screenshots, form text. ElevenLabs: no code yet. DEV: post after submission", "Handan", 0],
+  ["Questions to AZ", 0, "Ask a mentor (Kaisa Kaitila on Sat): data on drop-out reasons? preferred Goal 3 indicator? operator?", "TODO", 0],
+  ["Set FINAL", 0, "Switch DRAFT → FINAL before Sun 09:00 (platform) / 10:00 (rules)", "1 person", 1],
+  ["Peer review", 0, "Sun: at table A115 by 10:30, rounds 10:45 + 11:45, all 3 there. Save the table in the team tab on Sunday", "everyone", 1],
+];
+function renderProgress() {
+  document.getElementById("pg").innerHTML = PG.map(([t, p, d, who, req]) =>
+    `<div class="gl${p >= 100 ? " done" : ""}${req ? " req" : ""}"><div class="fill" style="height:${p}%"></div>` +
+    `<div><div class="pct">${p}%</div><b>${t}</b><p>${d}</p></div><div class="who">${who}</div></div>`).join("");
+  const must = PG.filter(x => x[4]), avg = Math.round(must.reduce((a, x) => a + x[1], 0) / must.length);
+  document.getElementById("pgsum").innerHTML = `<span><b>${avg}%</b> of the required deliverables done</span>` +
+    `<div class="pgbar"><i style="width:${avg}%"></i></div><span>Final submission <b style="font-size:13px">Sun 10:00 Finland</b> (laptop 09:00) · "must" = required for the AZ prize / submission</span>`;
+}
+renderProgress();
+
+const state = { view: "wins", wins: "main", tools: "sw", ch: "problem" };
+function render() {
+  document.querySelectorAll("[data-view]").forEach(b => b.setAttribute("aria-selected", b.dataset.view === state.view));
+  document.querySelectorAll(".view").forEach(v => v.classList.toggle("on", v.id === state.view));
+  document.getElementById("subWins").style.display = state.view === "wins" ? "flex" : "none";
+  document.getElementById("subTools").style.display = state.view === "tools" ? "flex" : "none";
+  document.querySelectorAll("#subWins [data-sub]").forEach(b => b.setAttribute("aria-selected", b.dataset.sub === state.wins));
+  document.querySelectorAll("#subTools [data-sub]").forEach(b => b.setAttribute("aria-selected", b.dataset.sub === state.tools));
+  ["sw", "hw", "cr"].forEach(k => document.getElementById(k).style.display = k === state.tools ? (k === "cr" ? "block" : "grid") : "none");
+  document.getElementById("subCh").style.display = state.view === "challenge" ? "flex" : "none";
+  document.querySelectorAll("#subCh [data-sub]").forEach(b => b.setAttribute("aria-selected", b.dataset.sub === state.ch));
+  document.querySelectorAll(".ch").forEach(c => c.classList.toggle("on", c.id === "ch-" + state.ch));
+  document.querySelector(".sep").style.display = state.view === "route" ? "none" : "";
+  document.getElementById("toolfoot").innerHTML = FOOT[state.tools];
+  if (state.view === "wins") draw(state.wins === "main" ? MAIN : TECH);
+}
+document.querySelectorAll("[data-view]").forEach(b => b.onclick = () => { state.view = b.dataset.view; render(); });
+document.querySelectorAll("#subWins [data-sub]").forEach(b => b.onclick = () => { state.wins = b.dataset.sub; render(); });
+document.querySelectorAll("#subTools [data-sub]").forEach(b => b.onclick = () => { state.tools = b.dataset.sub; render(); });
+document.querySelectorAll("#subCh [data-sub]").forEach(b => b.onclick = () => { state.ch = b.dataset.sub; render(); });
+
+addEventListener("resize", render);
+addEventListener("load", render);
+if (document.fonts) document.fonts.ready.then(render);
+render();
+</script>
+</body>
+</html>

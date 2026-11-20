@@ -1,0 +1,10 @@
+[
+ {"id":"p2e1","scene":"kitchen","who":"eero","gap":0.5,"text":"…and the usual dog food for Jenny, please."},
+ {"id":"p2e2","scene":"kitchen","who":"eero","gap":0.9,"text":"Ah… my back."},
+ {"id":"p2a1","scene":"kitchen","who":"agent","gap":0.5,"text":"Eero, your back has hurt for three weeks, and you saw the orthopaedist last week. I can't diagnose, but a doctor should check this. Shall I book a check-up?"},
+ {"id":"p2e3","scene":"kitchen","who":"eero","gap":0.4,"text":"Getting there is hard for me. I can't walk far. And honestly… I'm a bit scared."},
+ {"id":"p2a2","scene":"help","who":"agent","gap":0.4,"text":"Don't worry. Finland already has help for this. Some care can come to you, and for the clinic, Kela covers most of the taxi. How about tomorrow at eight, before bingo with your friends?"},
+ {"id":"p2e4","scene":"help","who":"eero","gap":0.35,"text":"That sounds good."},
+ {"id":"p2a3","scene":"help","who":"agent","gap":0.35,"text":"We've got this, Eero. Together."},
+ {"id":"p2n1","scene":"end","who":"nar","gap":0.7,"text":"The center of gravity is moving: towards a future where everyone gets equal care, with the help of technology."}
+]

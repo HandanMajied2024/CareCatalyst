@@ -1,0 +1,38 @@
+{
+  "reasons": [
+    {
+      "label": "Fear",
+      "slide": "10",
+      "quote": "Patient-related delay: From symptom recognition to seeking medical attention - Fear and anxiety"
+    },
+    {
+      "label": "Costs",
+      "slide": "5",
+      "quote": "Patient out-of-pocket costs: Fees, medicines and travel costs are more expensive and can delay investigations, reduce medication use and discourage screening."
+    },
+    {
+      "label": "Health literacy",
+      "slide": "10",
+      "quote": "Patient-related delay: Limited health literacy (also slide 7: Health literacy - Understanding symptoms and care; Access to care - Barriers, delays and navigation)"
+    }
+  ],
+  "reasons_source": "H. Kuitunen, OUH: Equitable Cancer Care, 30.10.2026",
+  "age_claim": {
+    "text": "Half of cancers in Finland are diagnosed after about 70",
+    "number": "median age at diagnosis 70.1 (men), 68.4 (women)",
+    "source": "Tanskanen et al., Am J Epidemiol (Finnish Cancer Registry data)",
+    "year": "2013-2017",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8096474",
+    "confidence": "confirmed"
+  },
+  "digital_claim": {
+    "text": "1 in 3 Finns aged 75 to 89 are not online",
+    "number": "64% of 75-89 year olds used the internet (36% did not)",
+    "source": "Statistics Finland, Use of ICT by individuals 2024",
+    "year": "2024",
+    "url": "https://stat.fi/en/publication/clmukhkph0zpz0aunma2iqvxr",
+    "confidence": "confirmed"
+  },
+  "narration_age": "Most cancer patients in Finland are around seventy, and one in three people over seventy-five is not online.",
+  "notes": "Slides do not name distance as such; travel appears only as travel costs (slide 5). Navigation appears on slides 6 and 7. Age: median is from a registry-based paper (period 2013-2017), no 65+ share found. Digital: 36% is derived as 100 minus 64; no current smartphone figure for 75-89 found, so the claim is about internet use, not smartphones. Slide image: img/az_reasons_slide.png (slide 10, 1600x900)."
+}
